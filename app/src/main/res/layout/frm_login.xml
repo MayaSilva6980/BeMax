@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="24dp"
+    tools:context=".FrmLogin">
+
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/img_logo"
+        android:contentDescription="@string/app_name"
+        android:layout_marginBottom="16dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutLoginEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:hint="@string/email"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:endIconMode="none"
+        app:boxBackgroundColor="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditTextLoginEmail"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tamanho_formulario"
+            android:inputType="textEmailAddress"
+            android:textSize="18sp"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@id/textInputEditTextLoginSenha"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutLoginSenha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:hint="@string/senha"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:endIconMode="none"
+        app:boxBackgroundColor="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditTextLoginSenha"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tamanho_formulario"
+            android:textSize="18sp"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@id/textInputEditTextLoginSenha"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!-- Botão continuar -->
+    <Button
+        android:id="@+id/btnContinue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Continue"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp" >
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/gray"
+            android:layout_weight="20"/>
+
+        <!-- Divider -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="30"
+            android:layout_height="wrap_content"
+            android:text="Other login options"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/gray"
+            android:layout_weight="20"/>
+
+    </LinearLayout>
+
+    <!-- Login Google -->
+    <Button
+        android:id="@+id/btnGoogle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Continue with Google"
+        android:drawableStart="@drawable/ic_launcher_background"
+        android:backgroundTint="@android:color/darker_gray"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Login Apple -->
+    <Button
+        android:id="@+id/btnApple"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Continue with Apple"
+        android:drawableStart="@drawable/ic_launcher_background"
+        android:backgroundTint="@android:color/darker_gray"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Criar conta -->
+    <TextView
+        android:id="@+id/txtSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Don’t have account? Sign Up"
+        android:textColor="@android:color/holo_red_dark"
+        android:layout_gravity="center" />
+
+</LinearLayout>
