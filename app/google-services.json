@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1037514636295",
+    "project_id": "bemax-60828",
+    "storage_bucket": "bemax-60828.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037514636295:android:52a1c7d1d2759ce0ba7ea2",
+        "android_client_info": {
+          "package_name": "com.example.bemax"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037514636295-81feb0gh7t05ertci8t5ob17aardfdjg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bemax",
+            "certificate_hash": "67ff25d3f55b8884dd85b71da1b1b0efc34699f2"
+          }
+        },
+        {
+          "client_id": "1037514636295-pl4iudcs1n8oin3b4gnfv0574vgevp3i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEipTk0imX5-9JWA9tpV4SAIAEAKNzQPY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037514636295-pl4iudcs1n8oin3b4gnfv0574vgevp3i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
