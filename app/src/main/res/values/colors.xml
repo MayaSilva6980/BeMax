@@ -16,4 +16,26 @@
     <color name="cor_whatsapp">#25D366</color>
     <color name="cor_verde">#00b759</color>
     <color name="cor_cinza_fundo">#F9F9F9</color>
+
+
+    <!-- Cores principais da identidade BeMax -->
+    <color name="bemax_red">#DB3A34</color>         <!-- Vermelho -->
+    <color name="bemax_offwhite">#FFF8EB</color>    <!-- Off-white -->
+    <color name="bemax_gray">#D6D6D6</color>        <!-- Cinza -->
+    <color name="bemax_blue">#411DBA</color>        <!-- Azul -->
+    <color name="bemax_black">#040212</color>       <!-- Preto -->
+
+    <!-- Cores auxiliares (para estados, fundos e textos secundários) -->
+    <color name="bemax_white">#FFFFFFFF</color>     <!-- Branco puro -->
+    <color name="bemax_gray_dark">#8A8A8A</color>   <!-- Cinza escuro para texto secundário -->
+    <color name="bemax_gray_light">#F2F2F2</color>  <!-- Fundo claro / separadores -->
+    <color name="bemax_transparent">#00000000</color> <!-- Transparente -->
+
+    <!-- Estados -->
+    <color name="bemax_success">#00B759</color>     <!-- Verde sucesso -->
+    <color name="bemax_warning">#FFB300</color>     <!-- Amarelo alerta -->
+    <color name="bemax_error">#C80605</color>       <!-- Vermelho erro (variação mais forte) -->
+
+    <!-- Social (se precisar integração futura) -->
+    <color name="bemax_whatsapp">#25D366</color>
 </resources>
