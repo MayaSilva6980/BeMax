@@ -39,17 +39,23 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.frm_login);
-
-        iniciaControles();
 
     }
 
-    private void iniciaControles()
+    @Override
+    public void obtemParametros() throws Exception
+    {
+    }
+
+    @Override
+    public void iniciaControles() throws Exception
     {
         btnGoogle = findViewById(R.id.btnGoogle);
         btnContinue = findViewById(R.id.btnContinue);
+
+        btnGoogle.setOnClickListener(this);
+        btnContinue.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -61,21 +67,12 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        btnGoogle.setOnClickListener(this);
-        btnContinue.setOnClickListener(this);
     }
 
     @Override
-    public void onClick(View view)
+    public void carregaDados() throws Exception
     {
-        if (view.getId() == R.id.btnGoogle)
-        {
-            signIn();
-        }
-        else if (view.getId() == R.id.btnContinue)
-        {
-            startActivity(new Intent(this, FrmPrincipal.class));
-        }
+
     }
 
     private void signIn()
@@ -123,5 +120,18 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener
                 Toast.makeText(this, "Erro ao autenticar no Firebase.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        if (view.getId() == R.id.btnGoogle)
+        {
+            signIn();
+        }
+        else if (view.getId() == R.id.btnContinue)
+        {
+            startActivity(new Intent(this, FrmPrincipal.class));
+        }
     }
 }

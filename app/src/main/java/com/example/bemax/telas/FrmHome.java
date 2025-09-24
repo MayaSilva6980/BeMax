@@ -9,15 +9,13 @@ import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bemax.R;
 import com.example.bemax.adapters.LembreteAdapter;
-import com.example.bemax.modelos.Lembrete;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.bemax.model.Lembrete;
 
 import java.util.ArrayList;
 

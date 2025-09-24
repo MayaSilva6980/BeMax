@@ -52,4 +52,19 @@ public class FrmPrincipal extends BaseActivity {
 
     }
 
+    @Override
+    public void obtemParametros() throws Exception {
+
+    }
+
+    @Override
+    public void iniciaControles() throws Exception {
+
+    }
+
+    @Override
+    public void carregaDados() throws Exception {
+
+    }
+
 }

@@ -7,6 +7,18 @@
     android:id="@+id/root_layout"
     android:layout_height="match_parent">
 
+    <!-- Toolbar -->
+    <Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/bemax_offwhite"
+        android:elevation="0dp"
+        android:title="BeMax"
+        android:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"
+        android:titleTextColor="@color/bemax_red"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <!-- Onde os fragments vão aparecer -->
     <FrameLayout
         android:id="@+id/fragment_container"

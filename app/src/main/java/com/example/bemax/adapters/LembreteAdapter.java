@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bemax.R;
-import com.example.bemax.modelos.Lembrete;
+import com.example.bemax.model.Lembrete;
 import com.example.bemax.util.Const;
 
 import java.util.List;

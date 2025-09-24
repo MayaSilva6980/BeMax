@@ -6,24 +6,12 @@
     android:layout_height="match_parent"
     android:background="@color/cor_cinza_fundo">
 
-    <!-- Toolbar -->
-    <Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/bemax_offwhite"
-        android:elevation="0dp"
-        android:title="BeMax"
-        android:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"
-        android:titleTextColor="@color/bemax_red"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Conteúdo scrollável -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -216,27 +204,33 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="12dp" >
 
                 <!-- Seção de Lembretes -->
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="90"
+                    android:layout_weight="80"
                     android:text="Próximos Lembretes"
                     android:textColor="@color/bemax_black"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="12dp" />
+                    android:textStyle="bold"/>
 
-                <ImageView
-                    android:id="@+id/imgMais"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/ic_mais"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_weight="20">
 
+                    <ImageView
+                        android:id="@+id/imgMais"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/ic_mais"/>
 
+                </LinearLayout>
 
             </LinearLayout>
 

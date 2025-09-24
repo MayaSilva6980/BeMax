@@ -1,4 +1,4 @@
-package com.example.bemax.modelos;
+package com.example.bemax.model;
 public class Lembrete
 {
     public Lembrete(String dsTitulo, String dsHorario, int flTipo)
