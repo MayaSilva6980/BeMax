@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/cor_cinza_fundo">
+    android:background="@color/cor_cinza_fundo"
+    android:paddingTop="10dp"
+    android:paddingHorizontal="5dp">
 
     <!-- Exemplo de Lembrete -->
     <com.google.android.material.card.MaterialCardView
@@ -22,6 +24,7 @@
             android:padding="16dp">
 
             <ImageView
+                android:id="@+id/imgLembrete"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/ic_medicamento"
@@ -34,6 +37,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/lblTitulo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Medicamento - Omeprazol"
@@ -42,6 +46,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/lblHorario"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hoje às 14:00"

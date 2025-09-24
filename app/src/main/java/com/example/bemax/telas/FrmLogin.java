@@ -11,6 +11,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bemax.R;
+import com.example.bemax.util.BaseActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -22,10 +23,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class FrmLogin extends AppCompatActivity implements View.OnClickListener
+public class FrmLogin extends BaseActivity implements View.OnClickListener
 {
     //controles
     private LinearLayout btnGoogle = null;
+    private Button btnContinue = null;
 
     // variaveis da classe
 
@@ -47,7 +49,7 @@ public class FrmLogin extends AppCompatActivity implements View.OnClickListener
     private void iniciaControles()
     {
         btnGoogle = findViewById(R.id.btnGoogle);
-
+        btnContinue = findViewById(R.id.btnContinue);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -60,6 +62,7 @@ public class FrmLogin extends AppCompatActivity implements View.OnClickListener
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         btnGoogle.setOnClickListener(this);
+        btnContinue.setOnClickListener(this);
     }
 
     @Override
@@ -68,6 +71,10 @@ public class FrmLogin extends AppCompatActivity implements View.OnClickListener
         if (view.getId() == R.id.btnGoogle)
         {
             signIn();
+        }
+        else if (view.getId() == R.id.btnContinue)
+        {
+            startActivity(new Intent(this, FrmPrincipal.class));
         }
     }
 

@@ -9,9 +9,10 @@ import androidx.fragment.app.Fragment;
 
 
 import com.example.bemax.R;
+import com.example.bemax.util.BaseActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class FrmPrincipal extends AppCompatActivity {
+public class FrmPrincipal extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

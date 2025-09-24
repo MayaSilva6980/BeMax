@@ -157,7 +157,7 @@
                         <TextView
                             android:id="@+id/lblSono"
                             android:layout_width="wrap_content"
-                            android:layout_height="10dp"
+                            android:layout_height="wrap_content"
                             android:text="7h 30m"
                             android:textColor="@color/bemax_black"
                             android:textSize="18sp"
@@ -197,7 +197,7 @@
                         <TextView
                             android:id="@+id/lblHidratacao"
                             android:layout_width="wrap_content"
-                            android:layout_height="10dp"
+                            android:layout_height="wrap_content"
                             android:text="1.2 L"
                             android:textColor="@color/bemax_black"
                             android:textSize="18sp"
@@ -213,21 +213,38 @@
                 </com.google.android.material.card.MaterialCardView>
             </GridLayout>
 
-            <!-- Seção de Lembretes -->
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Próximos Lembretes"
-                android:textColor="@color/bemax_black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="12dp" />
+                android:orientation="horizontal">
+
+                <!-- Seção de Lembretes -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="90"
+                    android:text="Próximos Lembretes"
+                    android:textColor="@color/bemax_black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="12dp" />
+
+                <ImageView
+                    android:id="@+id/imgMais"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_mais"/>
+
+
+
+            </LinearLayout>
 
            <androidx.recyclerview.widget.RecyclerView
                android:id="@+id/rcvLembretes"
                android:layout_width="match_parent"
                android:layout_height="wrap_content" />
+
         </LinearLayout>
     </ScrollView>
 

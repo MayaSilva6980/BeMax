@@ -11,10 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bemax.R;
+import com.example.bemax.adapters.LembreteAdapter;
+import com.example.bemax.modelos.Lembrete;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
 
 public class FrmHome extends Fragment
 {
@@ -28,6 +33,8 @@ public class FrmHome extends Fragment
     private RecyclerView rcvLembretes = null;
 
 
+    FrmPrincipal frmPrincipal = (FrmPrincipal) getActivity();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,@Nullable ViewGroup container,@Nullable Bundle savedInstanceState)
@@ -38,6 +45,8 @@ public class FrmHome extends Fragment
         iniciaControles(view);
         return view;
     }
+
+
 
     public void iniciaControles(View view)
     {
@@ -55,8 +64,17 @@ public class FrmHome extends Fragment
 
      public void carregaDados()
      {
+         ArrayList listaLembretes = null;
          // obter as informacoes da api
 
+         listaLembretes = new ArrayList<>();
+         listaLembretes.add(new Lembrete("Medicamento - Omeprazol", "Hoje às 14:00", 1));
+         listaLembretes.add(new Lembrete("Consulta - Cardiologista", "Amanhã às 09:30", 2));
+         listaLembretes.add(new Lembrete("Exame de Sangue", "Quarta às 08:00", 3));
+
+         LembreteAdapter adapter = new LembreteAdapter(listaLembretes);
+         rcvLembretes.setLayoutManager(new LinearLayoutManager(frmPrincipal));
+         rcvLembretes.setAdapter(adapter);
 
      }
 }
