@@ -39,10 +39,4 @@
     <!-- Social (se precisar integração futura) -->
     <color name="bemax_whatsapp">#25D366</color>
 
-    <selector xmlns:android="http://schemas.android.com/apk/res/android">
-        <!-- Item selecionado -->
-        <item android:color="@color/bemax_red" android:state_checked="true"/>
-        <!-- Item não selecionado -->
-        <item android:color="@color/bemax_gray_dark"/>
-    </selector>
 </resources>
