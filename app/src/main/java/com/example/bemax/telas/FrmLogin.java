@@ -2,6 +2,7 @@ package com.example.bemax.telas;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -39,8 +40,10 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.frm_login);
 
+        iniciaControles();
     }
 
     @Override
@@ -49,7 +52,7 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener
     }
 
     @Override
-    public void iniciaControles() throws Exception
+    public void iniciaControles()
     {
         btnGoogle = findViewById(R.id.btnGoogle);
         btnContinue = findViewById(R.id.btnContinue);
@@ -74,6 +77,19 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener
     {
 
     }
+    @Override
+    public void onClick(View view)
+    {
+        if (view.getId() == R.id.btnGoogle)
+        {
+            signIn();
+        }
+        else if (view.getId() == R.id.btnContinue)
+        {
+            startActivity(new Intent(this, FrmPrincipal.class));
+        }
+    }
+
 
     private void signIn()
     {
@@ -122,16 +138,4 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener
         });
     }
 
-    @Override
-    public void onClick(View view)
-    {
-        if (view.getId() == R.id.btnGoogle)
-        {
-            signIn();
-        }
-        else if (view.getId() == R.id.btnContinue)
-        {
-            startActivity(new Intent(this, FrmPrincipal.class));
-        }
-    }
 }

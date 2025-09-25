@@ -35,8 +35,6 @@ public abstract class BaseActivity extends AppCompatActivity
 
             obtemParametros();
 
-            iniciaControles();
-
             carregaDados();
         }
         catch (Exception err)
@@ -48,7 +46,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     public abstract  void obtemParametros() throws Exception;
 
-    public abstract  void iniciaControles() throws Exception;
+    public abstract  void iniciaControles();
     public abstract  void carregaDados() throws Exception;
 
     public int getStatusBarHeight(Activity activity) {

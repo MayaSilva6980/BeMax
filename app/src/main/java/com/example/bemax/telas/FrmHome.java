@@ -1,9 +1,11 @@
 package com.example.bemax.telas;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -19,7 +21,7 @@ import com.example.bemax.model.Lembrete;
 
 import java.util.ArrayList;
 
-public class FrmHome extends Fragment
+public class FrmHome extends Fragment implements View.OnClickListener
 {
     // controles
     private Toolbar toolbar = null;
@@ -29,9 +31,15 @@ public class FrmHome extends Fragment
     private TextView lblSono = null;
     private TextView lblHidratacao = null;
     private RecyclerView rcvLembretes = null;
+    private LinearLayout lnlAdicionarLembrete = null;
 
 
-    FrmPrincipal frmPrincipal = (FrmPrincipal) getActivity();
+    FrmPrincipal frmPrincipal = null;
+
+    public FrmHome(FrmPrincipal principal)
+    {
+        frmPrincipal = principal;
+    }
 
     @Nullable
     @Override
@@ -55,7 +63,9 @@ public class FrmHome extends Fragment
         lblSono = view.findViewById(R.id.lblSono);
         lblHidratacao = view.findViewById(R.id.lblHidratacao);
         rcvLembretes = view.findViewById(R.id.rcvLembretes);
+        lnlAdicionarLembrete = view.findViewById(R.id.lnlAdicionarLembrete);
 
+        lnlAdicionarLembrete.setOnClickListener(this);
 
         carregaDados();
     }
@@ -75,4 +85,13 @@ public class FrmHome extends Fragment
          rcvLembretes.setAdapter(adapter);
 
      }
+
+    @Override
+    public void onClick(View view)
+    {
+        if (view.getId() == R.id.lnlAdicionarLembrete)
+        {
+            startActivity(new Intent(frmPrincipal, FrmCadastroLembretes.class));
+        }
+    }
 }

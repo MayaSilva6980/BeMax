@@ -4,84 +4,6 @@
     android:orientation="vertical"
     android:background="#F5F5F5">
 
-    <!-- Status Bar -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="16dp"
-        android:background="#FFFFFF">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Claro BR"
-            android:textSize="16sp"
-            android:textColor="#000000"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <!-- Signal bars -->
-            <View
-                android:layout_width="4dp"
-                android:layout_height="6dp"
-                android:layout_marginEnd="2dp"
-                android:background="#000000" />
-            <View
-                android:layout_width="4dp"
-                android:layout_height="8dp"
-                android:layout_marginEnd="2dp"
-                android:background="#000000" />
-            <View
-                android:layout_width="4dp"
-                android:layout_height="10dp"
-                android:layout_marginEnd="8dp"
-                android:background="#000000" />
-
-            <!-- WiFi icon -->
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginEnd="4dp"/>
-
-            <!-- Battery icon -->
-            <View
-                android:layout_width="24dp"
-                android:layout_height="12dp"
-                android:background="#000000" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Header -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="16dp"
-        android:background="#FFFFFF">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="8dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Back"
-            android:textSize="16sp"
-            android:textColor="#000000" />
-    </LinearLayout>
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,42 +61,59 @@
                     android:layout_marginStart="16dp" />
             </LinearLayout>
 
-            <!-- Time Picker -->
+            <!-- Container dos pickers -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginBottom="32dp">
+                android:gravity="center">
 
-                <!-- Hours List -->
-                <ListView
-                    android:id="@+id/hoursList"
-                    android:layout_width="80dp"
+                <!-- RecyclerView para Horas -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/hoursRecycler"
+                    android:layout_width="50dp"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="32dp"
-                    android:scrollbars="none"
-                    android:divider="@null"
-                    android:fadingEdge="vertical"
-                    android:fadingEdgeLength="24dp" />
+                    android:overScrollMode="never"
+                    android:clipToPadding="false"
+                    android:paddingTop="80dp"
+                    android:paddingBottom="80dp"
+                    android:scrollbars="none"/>
 
-                <!-- Minutes List -->
-                <ListView
-                    android:id="@+id/minutesList"
-                    android:layout_width="80dp"
+                <!-- Separador ":" -->
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:scrollbars="none"
-                    android:divider="@null"
-                    android:fadingEdge="vertical"
-                    android:fadingEdgeLength="24dp" />
+                    android:text=":"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/bemax_black"
+                    android:layout_marginHorizontal="12dp"/>
+
+                <!-- RecyclerView para Minutos -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/minutesRecycler"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    android:clipToPadding="false"
+                    android:paddingTop="80dp"
+                    android:paddingBottom="80dp"
+                    android:scrollbars="none"/>
             </LinearLayout>
 
-            <!-- Divider -->
+            <!-- Faixa de seleção (linha que destaca o centro) -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#E0E0E0"
-                android:layout_marginBottom="16dp" />
+                android:background="@color/cor_cinza_linhas"
+                android:layout_marginTop="-100dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/cor_cinza_linhas"
+               android:layout_marginTop="100dp"/>
 
             <!-- Label Option -->
             <LinearLayout
