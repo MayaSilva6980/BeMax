@@ -28,6 +28,11 @@
             android:name=".telas.FrmPrincipal"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".telas.FrmCadastroLembretes"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
+            android:screenOrientation="portrait" />
 
     </application>
 

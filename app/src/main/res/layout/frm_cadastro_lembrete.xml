@@ -1,8 +1,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#F5F5F5">
+    android:background="@color/cor_cinza_fundo"
+    android:id="@+id/root_layout">
+
+    <LinearLayout
+        android:id="@+id/cmdVoltar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_voltar"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/voltar"
+            android:textColor="@color/bemax_red"
+            android:textSize="18dp"/>
+
+    </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,7 +46,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Personzalized Reminders"
+                    android:text="Lembretes"
                     android:textSize="28sp"
                     android:textColor="#000000"
                     android:textStyle="bold" />
@@ -70,11 +94,12 @@
 
                 <!-- RecyclerView para Horas -->
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/hoursRecycler"
+                    android:id="@+id/rcvHoras"
                     android:layout_width="50dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:overScrollMode="never"
                     android:clipToPadding="false"
+                    android:background="@color/bemax_red"
                     android:paddingTop="80dp"
                     android:paddingBottom="80dp"
                     android:scrollbars="none"/>
@@ -92,12 +117,13 @@
 
                 <!-- RecyclerView para Minutos -->
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/minutesRecycler"
+                    android:id="@+id/rcvMinutos"
                     android:layout_width="50dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:overScrollMode="never"
                     android:clipToPadding="false"
                     android:paddingTop="80dp"
+                    android:background="@color/bemax_red"
                     android:paddingBottom="80dp"
                     android:scrollbars="none"/>
             </LinearLayout>

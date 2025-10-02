@@ -2,8 +2,11 @@ package com.example.bemax.telas;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
+
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,94 +15,107 @@ import androidx.recyclerview.widget.SnapHelper;
 import com.example.bemax.R;
 import com.example.bemax.adapters.HorarioAdapter;
 import com.example.bemax.util.BaseActivity;
+import com.example.bemax.util.CenterItemScrollListener;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayList;
 
-public class FrmCadastroLembretes extends BaseActivity implements View.OnClickListener
+public class FrmCadastroLembretes extends BaseActivity implements  View.OnClickListener
 {
-    public RecyclerView hoursRecycler = null;
-    public RecyclerView minutesRecycler = null;
+    public RecyclerView rcvHoras = null;
+    public RecyclerView rcvMinutos = null;
+    public LinearLayout cmdVoltar = null;
+    public Toolbar toolbar = null;
+
+
+    // variaveis da classe
+    ArrayList<Integer> arrHoras = null;
+    ArrayList<Integer> arrMinutos = null;
+
+    SnapHelper snapHelperHoras = new LinearSnapHelper();
+    SnapHelper snapHelperMinutos = new LinearSnapHelper();
+
+    HorarioAdapter horasAdapter = null;
+    HorarioAdapter minutosAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.frm_cadastro_lembrete);
-
-        iniciaControles();
+        try
+        {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.frm_cadastro_lembrete);
+            iniciaControles();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void obtemParametros() throws Exception {
-
+    public void obtemParametros() {
     }
 
     @Override
-    public void iniciaControles()
+    public void iniciaControles() throws Exception
     {
-        hoursRecycler = findViewById(R.id.hoursRecycler);
-        minutesRecycler = findViewById(R.id.minutesRecycler);
+        rcvHoras = findViewById(R.id.rcvHoras);
+        rcvMinutos = findViewById(R.id.rcvMinutos);
+        cmdVoltar = findViewById(R.id.cmdVoltar);
+
+        cmdVoltar.setOnClickListener(this);
+
+        preencheListasHorarios();
     }
 
     @Override
-    public void carregaDados() throws Exception {
-
+    public void carregaDados() throws Exception
+    {
+        preencheListasHorarios();
     }
 
     @Override
-    public void onClick(View v) {
-
+    public void onClick(View view)
+    {
+        if (view.getId() == R.id.cmdVoltar)
+        {
+            onBackPressed();
+        }
     }
 
     private  void preencheListasHorarios()
     {
+        arrHoras = new ArrayList<Integer>();
+        arrMinutos = new ArrayList<Integer>();
 
-        List<String> hours = Arrays.asList("07","08","09","10","11","12");
-        List<String> minutes = Arrays.asList("00","05","10","15","20","25","30","35","40","45","50","55");
+        // Preenche a lista de minutos
+        for (int i = 0; i < 60; i++) {
+            arrMinutos.add(i);
+        }
 
-        HorarioAdapter hoursAdapter = new HorarioAdapter(hours);
-        HorarioAdapter minutesAdapter = new HorarioAdapter(minutes);
+        // Preenche a lista de horas
+        for (int i = 0; i < 24; i++) {
+            arrHoras.add(i);
+        }
 
-        hoursRecycler.setLayoutManager(new LinearLayoutManager(this));
-        minutesRecycler.setLayoutManager(new LinearLayoutManager(this));
+        horasAdapter = new HorarioAdapter(arrHoras);
+        minutosAdapter = new HorarioAdapter(arrMinutos);
 
-        hoursRecycler.setAdapter(hoursAdapter);
-        minutesRecycler.setAdapter(minutesAdapter);
+        rcvHoras.setLayoutManager(new LinearLayoutManager(this));
+        rcvMinutos.setLayoutManager(new LinearLayoutManager(this));
 
-// snap helper = trava no item central
-        SnapHelper snapHelperHours = new LinearSnapHelper();
-        SnapHelper snapHelperMinutes = new LinearSnapHelper();
-        snapHelperHours.attachToRecyclerView(hoursRecycler);
-        snapHelperMinutes.attachToRecyclerView(minutesRecycler);
+        rcvHoras.setAdapter(horasAdapter);
+        rcvMinutos.setAdapter(minutosAdapter);
 
-// listener pra detectar item central
-        hoursRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    View centerView = snapHelperHours.findSnapView(recyclerView.getLayoutManager());
-                    int pos = recyclerView.getLayoutManager().getPosition(centerView);
-                    hoursAdapter.setSelectedPosition(pos);
-                }
-            }
-        });
+    // snap helper = trava no item central
+        snapHelperHoras = new LinearSnapHelper();
+        snapHelperMinutos = new LinearSnapHelper();
+        snapHelperHoras.attachToRecyclerView(rcvHoras);
+        snapHelperMinutos.attachToRecyclerView(rcvMinutos);
 
-        minutesRecycler.addOnScrollListener(new RecyclerView.OnScrollListener()
-        {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState)
-            {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE)
-                {
-                    View centerView = snapHelperMinutes.findSnapView(recyclerView.getLayoutManager());
-                    int pos = recyclerView.getLayoutManager().getPosition(centerView);
-                    minutesAdapter.setSelectedPosition(pos);
-                }
-            }
-        });
-
+    // listener pra detectar item central
+        rcvHoras.addOnScrollListener(new CenterItemScrollListener(snapHelperHoras, horasAdapter));
+        rcvMinutos.addOnScrollListener(new CenterItemScrollListener(snapHelperMinutos, minutosAdapter));
     }
 
 }

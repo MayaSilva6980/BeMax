@@ -37,7 +37,7 @@ public class FrmPrincipal extends BaseActivity  implements NavigationView.OnNavi
     }
 
     @Override
-    public void obtemParametros() throws Exception {
+    public void obtemParametros() {
 
     }
 

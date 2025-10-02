@@ -2,8 +2,8 @@
     <string name="app_name">BeMax</string>
 
     <string name="email">Email</string>
-
     <string name="senha">Senha</string>
+    <string name="voltar"> Voltar</string>
 
     <string name="default_web_client_id">AIzaSyBX9mOVRVfJV26JTZqU3kyJ9xXjVqJRw2k</string>
 </resources>

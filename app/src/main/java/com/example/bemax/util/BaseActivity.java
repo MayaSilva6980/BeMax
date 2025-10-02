@@ -33,20 +33,17 @@ public abstract class BaseActivity extends AppCompatActivity
                 });
             }
 
-            obtemParametros();
-
-            carregaDados();
         }
-        catch (Exception err)
+        catch (Exception e)
         {
-            //TODO: fazer um alert
+            e.printStackTrace();
         }
     }
 
 
-    public abstract  void obtemParametros() throws Exception;
+    public abstract  void obtemParametros();
 
-    public abstract  void iniciaControles();
+    public abstract  void iniciaControles()throws Exception;
     public abstract  void carregaDados() throws Exception;
 
     public int getStatusBarHeight(Activity activity) {

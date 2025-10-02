@@ -24,7 +24,6 @@ import java.util.ArrayList;
 public class FrmHome extends Fragment implements View.OnClickListener
 {
     // controles
-    private Toolbar toolbar = null;
     private TextView lblSaudacao = null;
     private TextView lblBatimento = null;
     private TextView lblPressao = null;
@@ -56,7 +55,6 @@ public class FrmHome extends Fragment implements View.OnClickListener
 
     public void iniciaControles(View view)
     {
-        toolbar = view.findViewById(R.id.toolbar);
         lblSaudacao = view.findViewById(R.id.lblSaudacao);
         lblBatimento = view.findViewById(R.id.lblBatimento);
         lblPressao = view.findViewById(R.id.lblPressao);

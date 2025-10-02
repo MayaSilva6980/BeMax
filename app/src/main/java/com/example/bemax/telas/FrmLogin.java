@@ -47,7 +47,7 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener
     }
 
     @Override
-    public void obtemParametros() throws Exception
+    public void obtemParametros()
     {
     }
 

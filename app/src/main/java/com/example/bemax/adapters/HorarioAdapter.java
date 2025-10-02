@@ -2,7 +2,7 @@ package com.example.bemax.adapters;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -10,52 +10,60 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
+import com.example.bemax.R;
 
-public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.ViewHolder>
+import java.util.ArrayList;
+
+public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.AdapterHorarioHolder>
 {
-    private List<String> items;
-    private int selectedPosition = RecyclerView.NO_POSITION;
+    private ArrayList<Integer> items;
+    private int PosicaoSelecionada = RecyclerView.NO_POSITION;
 
-    public HorarioAdapter(List<String> items) {
+    public HorarioAdapter(ArrayList<Integer> items) {
         this.items = items;
     }
 
-    public void setSelectedPosition(int position) {
-        selectedPosition = position;
+    public void setPosicaoSelecionada(int position)
+    {
+        PosicaoSelecionada = position;
         notifyDataSetChanged();
     }
 
     public String getSelectedItem() {
-        if (selectedPosition >= 0 && selectedPosition < items.size()) {
-            return items.get(selectedPosition);
+        if (PosicaoSelecionada >= 0 && PosicaoSelecionada < items.size())
+        {
+            return items.get(PosicaoSelecionada).toString();
         }
         return null;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        TextView tv = new TextView(parent.getContext());
-        tv.setTextSize(22);
-        tv.setGravity(Gravity.CENTER);
-        tv.setPadding(0, 30, 0, 30);
-        return new ViewHolder(tv);
+    public AdapterHorarioHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.cell_horario, parent, false); // seu XML
+        return new AdapterHorarioHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HorarioAdapter.ViewHolder holder, int position) {
-        String text = items.get(position);
-        holder.textView.setText(text);
+    public void onBindViewHolder(@NonNull AdapterHorarioHolder holder, int position)
+    {
+        String text = items.get(position).toString();
+        holder.lblNumero.setText(String.format("%02d", text));
+
 
         // destaca item selecionado
-        if (position == selectedPosition) {
-            holder.textView.setTextColor(Color.BLACK);
-            holder.textView.setTextSize(28);
-            holder.textView.setTypeface(null, Typeface.BOLD);
-        } else {
-            holder.textView.setTextColor(Color.GRAY);
-            holder.textView.setTextSize(22);
-            holder.textView.setTypeface(null, Typeface.NORMAL);
+        if (position == PosicaoSelecionada)
+        {
+            holder.lblNumero.setTextColor(Color.BLACK);
+            holder.lblNumero.setTextSize(28);
+            holder.lblNumero.setTypeface(null, Typeface.BOLD);
+        }
+        else
+        {
+            holder.lblNumero.setTextColor(Color.GRAY);
+            holder.lblNumero.setTextSize(22);
+            holder.lblNumero.setTypeface(null, Typeface.NORMAL);
         }
     }
 
@@ -64,12 +72,12 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.ViewHold
         return items.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
+    public static class AdapterHorarioHolder extends RecyclerView.ViewHolder {
+        TextView lblNumero;
 
-        public ViewHolder(View itemView) {
+        public AdapterHorarioHolder(View itemView) {
             super(itemView);
-            textView = (TextView) itemView;
+            lblNumero = (TextView) itemView;
         }
     }
 }
