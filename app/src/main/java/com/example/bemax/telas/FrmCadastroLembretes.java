@@ -3,6 +3,7 @@ package com.example.bemax.telas;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
@@ -23,7 +24,7 @@ public class FrmCadastroLembretes extends BaseActivity implements  View.OnClickL
 {
     public RecyclerView rcvHoras = null;
     public RecyclerView rcvMinutos = null;
-    public LinearLayout cmdVoltar = null;
+    public TextView cmdCancelar = null;
     public Toolbar toolbar = null;
 
 
@@ -61,9 +62,9 @@ public class FrmCadastroLembretes extends BaseActivity implements  View.OnClickL
     {
         rcvHoras = findViewById(R.id.rcvHoras);
         rcvMinutos = findViewById(R.id.rcvMinutos);
-        cmdVoltar = findViewById(R.id.cmdVoltar);
+        cmdCancelar = findViewById(R.id.cmdCancelar);
 
-        cmdVoltar.setOnClickListener(this);
+        cmdCancelar.setOnClickListener(this);
 
         preencheListasHorarios();
     }
@@ -77,7 +78,7 @@ public class FrmCadastroLembretes extends BaseActivity implements  View.OnClickL
     @Override
     public void onClick(View view)
     {
-        if (view.getId() == R.id.cmdVoltar)
+        if (view.getId() == R.id.cmdCancelar)
         {
             onBackPressed();
         }

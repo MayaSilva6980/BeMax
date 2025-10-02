@@ -6,28 +6,6 @@
     android:background="@color/cor_cinza_fundo"
     android:id="@+id/root_layout">
 
-    <LinearLayout
-        android:id="@+id/cmdVoltar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/ic_voltar"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/voltar"
-            android:textColor="@color/bemax_red"
-            android:textSize="18dp"/>
-
-    </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,7 +24,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Lembretes"
+                    android:text="Novo Lembrete"
                     android:textSize="28sp"
                     android:textColor="#000000"
                     android:textStyle="bold" />
@@ -60,80 +38,90 @@
                 android:layout_marginBottom="32dp">
 
                 <TextView
+                    android:id="@+id/cmdCancelar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cancel"
+                    android:text="Cancelar"
                     android:textSize="18sp"
-                    android:textColor="#007AFF"
+                    android:textColor="@color/bemax_red"
                     android:layout_marginEnd="16dp" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Edit"
-                    android:textSize="18sp"
-                    android:textColor="#000000"
-                    android:gravity="center" />
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/ic_calendario"/>
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Save"
+                    android:text="Salvar"
                     android:textSize="18sp"
                     android:textColor="#007AFF"
                     android:layout_marginStart="16dp" />
             </LinearLayout>
 
-            <!-- Container dos pickers -->
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:layout_height="200dp">
 
-                <!-- RecyclerView para Horas -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcvHoras"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:overScrollMode="never"
-                    android:clipToPadding="false"
-                    android:background="@color/bemax_red"
-                    android:paddingTop="80dp"
-                    android:paddingBottom="80dp"
-                    android:scrollbars="none"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/cor_cinza_linhas"/>
 
-                <!-- Separador ":" -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text=":"
-                    android:textSize="28sp"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:textColor="@color/bemax_black"
-                    android:layout_marginHorizontal="12dp"/>
+                <!-- Container dos pickers -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:orientation="horizontal"
+                    android:layout_centerVertical="true"
+                    android:gravity="center">
 
-                <!-- RecyclerView para Minutos -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcvMinutos"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:overScrollMode="never"
-                    android:clipToPadding="false"
-                    android:paddingTop="80dp"
-                    android:background="@color/bemax_red"
-                    android:paddingBottom="80dp"
-                    android:scrollbars="none"/>
-            </LinearLayout>
+                    <!-- RecyclerView para Horas -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcvHoras"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:overScrollMode="never"
+                        android:clipToPadding="false"
+                        android:paddingTop="80dp"
+                        android:paddingBottom="80dp"
+                        android:scrollbars="none"/>
 
-            <!-- Faixa de seleção (linha que destaca o centro) -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/cor_cinza_linhas"
-                android:layout_marginTop="-100dp"/>
+                    <!-- Separador ":" -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=":"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textColor="@color/bemax_black"
+                        android:layout_marginHorizontal="12dp"/>
+
+                    <!-- RecyclerView para Minutos -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcvMinutos"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:overScrollMode="never"
+                        android:clipToPadding="false"
+                        android:paddingTop="80dp"
+                        android:paddingBottom="80dp"
+                        android:scrollbars="none"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
 
             <View
                 android:layout_width="match_parent"
@@ -152,7 +140,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Label"
+                    android:text="Título"
                     android:textSize="16sp"
                     android:textColor="#000000" />
 
