@@ -1,9 +1,44 @@
 <resources>
     <string name="app_name">BeMax</string>
 
-    <string name="email">Email</string>
+    <!-- Tela principal -->
+    <string name="titulo_categorias_saude">Categorias de Saúde</string>
+    <string name="categoria_info_pessoal">Informações Pessoais</string>
+    <string name="categoria_info_medica">Informações Médicas</string>
+    <string name="categoria_config_emergencia">Configurações de Emergência</string>
+    <string name="categoria_contatos_familia">Contatos da Família</string>
+
+    <!-- Campos de formulário -->
+    <string name="nome_completo">Nome completo</string>
+    <string name="idade">Idade</string>
+    <string name="sexo">Sexo</string>
+    <string name="tipo_sanguineo">Tipo sanguíneo</string>
+    <string name="alergias">Alergias</string>
+    <string name="doencas_cronicas">Doenças crônicas</string>
+    <string name="medicamentos">Medicamentos em uso</string>
+    <string name="contato_emergencia">Contato de emergência</string>
+    <string name="palavra_emergencia">Palavra de emergência</string>
+    <string name="enviar_localizacao">Enviar localização automaticamente</string>
+    <string name="salvar_informacoes">Salvar informações</string>
+
+    <!-- Outras telas -->
+    <string name="hidratacao">Hidratação</string>
+    <string name="sinais_vitais">Sinais Vitais</string>
+    <string name="lembretes_pessoais">Lembretes Pessoais</string>
+
+    <!-- Ações -->
+    <string name="editar">Editar</string>
+    <string name="voltar">Voltar</string>
+    <string name="salvar">Salvar</string>
+    <string name="cancelar">Cancelar</string>
+
+    <!-- Mensagens -->
+    <string name="msg_informacoes_salvas">Informações salvas com sucesso!</string>
+    <string name="msg_preencha_campos">Por favor, preencha todos os campos obrigatórios.</string>
+
+    <!-- Autenticação -->
+    <string name="email">E-mail</string>
     <string name="senha">Senha</string>
-    <string name="voltar"> Voltar</string>
 
     <string name="default_web_client_id">AIzaSyBX9mOVRVfJV26JTZqU3kyJ9xXjVqJRw2k</string>
 </resources>

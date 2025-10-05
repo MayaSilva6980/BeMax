@@ -29,7 +29,8 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.AdapterH
         notifyDataSetChanged();
     }
 
-    public String getSelectedItem() {
+    public String getSelectedItem()
+    {
         if (PosicaoSelecionada >= 0 && PosicaoSelecionada < items.size())
         {
             return items.get(PosicaoSelecionada).toString();
@@ -48,7 +49,7 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.AdapterH
     @Override
     public void onBindViewHolder(@NonNull AdapterHorarioHolder holder, int position)
     {
-        String text = items.get(position).toString();
+        int text = items.get(position);
         holder.lblNumero.setText(String.format("%02d", text));
 
 
@@ -56,7 +57,7 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.AdapterH
         if (position == PosicaoSelecionada)
         {
             holder.lblNumero.setTextColor(Color.BLACK);
-            holder.lblNumero.setTextSize(28);
+            holder.lblNumero.setTextSize(23);
             holder.lblNumero.setTypeface(null, Typeface.BOLD);
         }
         else
@@ -77,7 +78,7 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.AdapterH
 
         public AdapterHorarioHolder(View itemView) {
             super(itemView);
-            lblNumero = (TextView) itemView;
+            lblNumero = itemView.findViewById(R.id.lblNumero);
         }
     }
 }
