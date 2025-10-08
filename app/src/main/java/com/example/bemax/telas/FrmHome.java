@@ -70,18 +70,10 @@ public class FrmHome extends Fragment implements View.OnClickListener
 
      public void carregaDados()
      {
-         ArrayList listaLembretes = null;
-         // obter as informacoes da api
+         //preenche campos da tela
 
-         listaLembretes = new ArrayList<>();
-         listaLembretes.add(new Lembrete("Medicamento - Omeprazol", "Hoje às 14:00", 1));
-         listaLembretes.add(new Lembrete("Consulta - Cardiologista", "Amanhã às 09:30", 2));
-         listaLembretes.add(new Lembrete("Exame de Sangue", "Quarta às 08:00", 3));
-
-         LembreteAdapter adapter = new LembreteAdapter(listaLembretes);
-         rcvLembretes.setLayoutManager(new LinearLayoutManager(frmPrincipal));
-         rcvLembretes.setAdapter(adapter);
-
+         //preenche a lista de lembretes
+         preencheListaLembretes();
      }
 
     @Override
@@ -91,5 +83,22 @@ public class FrmHome extends Fragment implements View.OnClickListener
         {
             startActivity(new Intent(frmPrincipal, FrmCadastroLembretes.class));
         }
+    }
+
+    public void preencheListaLembretes()
+    {
+
+        ArrayList listaLembretes = null;
+        // obter as informacoes da api
+
+        listaLembretes = new ArrayList<>();
+        listaLembretes.add(new Lembrete("Medicamento - Omeprazol", "Hoje às 14:00", 1));
+        listaLembretes.add(new Lembrete("Consulta - Cardiologista", "Amanhã às 09:30", 2));
+        listaLembretes.add(new Lembrete("Exame de Sangue", "Quarta às 08:00", 3));
+
+        LembreteAdapter adapter = new LembreteAdapter(listaLembretes);
+        rcvLembretes.setLayoutManager(new LinearLayoutManager(frmPrincipal));
+        rcvLembretes.setAdapter(adapter);
+
     }
 }

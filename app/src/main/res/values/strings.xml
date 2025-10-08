@@ -10,8 +10,10 @@
 
     <!-- Campos de formulário -->
     <string name="nome_completo">Nome completo</string>
+    <string name="data_nascimento">Data de nascimento</string>
     <string name="idade">Idade</string>
-    <string name="sexo">Sexo</string>
+    <string name="genero">Genero</string>
+    <string name="endereco">Endereço</string>
     <string name="tipo_sanguineo">Tipo sanguíneo</string>
     <string name="alergias">Alergias</string>
     <string name="doencas_cronicas">Doenças crônicas</string>

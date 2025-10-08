@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cor_cinza_fundo"
+    android:orientation="vertical"
+    android:id="@+id/root_layout"
+    android:padding="20dp">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Personal Information"
+            android:textSize="28sp"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="32dp">
+
+        <TextView
+            android:id="@+id/cmdCancelar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"
+            android:layout_weight="30"
+            android:textSize="18sp"
+            android:textColor="@color/bemax_red"
+            android:layout_marginEnd="16dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_info_usuario"/>
+
+        </LinearLayout>
+
+         <View
+             android:layout_width="0dp"
+             android:layout_weight="30"
+             android:layout_height="0dp"/>
+    </LinearLayout>
+
+    <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutInfoNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:hint="@string/nome_completo"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:endIconMode="none"
+            app:boxBackgroundColor="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditTextInfoNome"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tamanho_formulario"
+                android:inputType="textPersonName"
+                android:textSize="18sp"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@id/textInputEditTextLoginSenha"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutInfoNascimento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:hint="@string/data_nascimento"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:endIconMode="none"
+            app:boxBackgroundColor="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditTextInfoNascimento"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tamanho_formulario"
+                android:inputType="date"
+                android:textSize="18sp"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@id/textInputEditTextLoginSenha"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Gênero -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutInfoGenero"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:hint="@string/genero"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:endIconMode="none"
+            app:boxBackgroundColor="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditTextInfoGenero"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tamanho_formulario"
+                android:inputType="textPersonName"
+                android:textSize="18sp"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@id/textInputEditTextLoginSenha"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Endereço -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutInfoEndereco"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:hint="@string/endereco"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:endIconMode="none"
+            app:boxBackgroundColor="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditTextInfoEndereco"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tamanho_formulario"
+                android:textSize="18sp"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@id/textInputEditTextLoginSenha"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Botão Salvar -->
+        <Button
+            android:id="@+id/btnSalvar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Salvar"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/bemax_red"
+            android:padding="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="32dp"/>
+
+    </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
