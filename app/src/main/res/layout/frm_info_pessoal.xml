@@ -21,7 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Personal Information"
+            android:text="@string/categoria_info_pessoal"
             android:textSize="28sp"
             android:textColor="#000000"
             android:textStyle="bold" />
@@ -88,13 +88,13 @@
             app:boxBackgroundColor="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputEditTextInfoNome"
+                android:id="@+id/txtInfoNome"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tamanho_formulario"
                 android:inputType="textPersonName"
                 android:textSize="18sp"
                 android:imeOptions="actionNext"
-                android:nextFocusDown="@id/textInputEditTextLoginSenha"/>
+                android:nextFocusDown="@id/txtInfoNascimento"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -112,13 +112,13 @@
             app:boxBackgroundColor="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputEditTextInfoNascimento"
+                android:id="@+id/txtInfoNascimento"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tamanho_formulario"
                 android:inputType="date"
                 android:textSize="18sp"
                 android:imeOptions="actionNext"
-                android:nextFocusDown="@id/textInputEditTextLoginSenha"/>
+                android:nextFocusDown="@id/txtInfoGenero"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Gênero -->
@@ -137,13 +137,13 @@
             app:boxBackgroundColor="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputEditTextInfoGenero"
+                android:id="@+id/txtInfoGenero"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tamanho_formulario"
                 android:inputType="textPersonName"
                 android:textSize="18sp"
                 android:imeOptions="actionNext"
-                android:nextFocusDown="@id/textInputEditTextLoginSenha"/>
+                android:nextFocusDown="@id/txtInfoEndereco"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Endereço -->
@@ -162,12 +162,12 @@
             app:boxBackgroundColor="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputEditTextInfoEndereco"
+                android:id="@+id/txtInfoEndereco"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tamanho_formulario"
                 android:textSize="18sp"
                 android:imeOptions="actionNext"
-                android:nextFocusDown="@id/textInputEditTextLoginSenha"/>
+                android:nextFocusDown="@id/txtLoginSenha"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Botão Salvar -->

@@ -38,6 +38,11 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".telas.FrmInfoMedica"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
+            android:screenOrientation="portrait" />
 
     </application>
 

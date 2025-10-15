@@ -17,7 +17,8 @@
     <string name="tipo_sanguineo">Tipo sanguíneo</string>
     <string name="alergias">Alergias</string>
     <string name="doencas_cronicas">Doenças crônicas</string>
-    <string name="medicamentos">Medicamentos em uso</string>
+    <string name="medicamentos_uso">Medicamentos em uso</string>
+    <string name="historico_medico">Antecedentes e histórico médico</string>
     <string name="contato_emergencia">Contato de emergência</string>
     <string name="palavra_emergencia">Palavra de emergência</string>
     <string name="enviar_localizacao">Enviar localização automaticamente</string>

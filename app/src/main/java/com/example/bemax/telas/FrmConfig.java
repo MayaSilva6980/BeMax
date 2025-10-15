@@ -15,10 +15,10 @@ import com.google.android.material.card.MaterialCardView;
 
 public class FrmConfig extends Fragment implements View.OnClickListener
 {
-    private MaterialCardView btnPersonalInfo = null;
-    private MaterialCardView btnMedicalInfo = null;
+    private MaterialCardView btnInfoPessoal = null;
+    private MaterialCardView btnInfoMedica = null;
     private MaterialCardView btnEmergencySettings = null;
-    private MaterialCardView btnFamilyContacts = null;
+    private MaterialCardView btnContatoFamilia = null;
 
     FrmPrincipal frmPrincipal = null;
 
@@ -41,28 +41,28 @@ public class FrmConfig extends Fragment implements View.OnClickListener
 
     public void iniciaControles(View view)
     {
-        btnPersonalInfo = view.findViewById(R.id.btnPersonalInfo);
-        btnMedicalInfo = view.findViewById(R.id.btnMedicalInfo);
+        btnInfoPessoal = view.findViewById(R.id.btnInfoPessoal);
+        btnInfoMedica = view.findViewById(R.id.btnInfoMedica);
         btnEmergencySettings = view.findViewById(R.id.btnEmergencySettings);
-        btnFamilyContacts = view.findViewById(R.id.btnFamilyContacts);
+        btnContatoFamilia = view.findViewById(R.id.btnContatoFamilia);
     }
 
     @Override
     public void onClick(View v)
     {
-        if (v.getId() == R.id.btnPersonalInfo)
+        if (v.getId() == R.id.btnInfoPessoal)
         {
             startActivity(new Intent(frmPrincipal, FrmInfoPessoal.class));
         }
-        else if (v.getId() == R.id.btnMedicalInfo)
+        else if (v.getId() == R.id.btnInfoMedica)
         {
-
+            startActivity(new Intent(frmPrincipal, FrmInfoMedica.class));
         }
         else if (v.getId() == R.id.btnEmergencySettings)
         {
 
         }
-        else if (v.getId() == R.id.btnFamilyContacts)
+        else if (v.getId() == R.id.btnContatoFamilia)
         {
 
         }

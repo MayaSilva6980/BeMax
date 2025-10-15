@@ -10,7 +10,6 @@
 
     <!-- Título -->
     <TextView
-        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/titulo_categorias_saude"
@@ -31,7 +30,7 @@
 
             <!-- Informações Pessoais -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnPersonalInfo"
+                android:id="@+id/btnInfoPessoal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
@@ -72,7 +71,7 @@
 
             <!-- Informações Médicas -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnMedicalInfo"
+                android:id="@+id/btnInfoMedica"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
@@ -151,7 +150,7 @@
 
             <!-- Contatos da Família -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnFamilyContacts"
+                android:id="@+id/btnContatoFamilia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
