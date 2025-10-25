@@ -54,7 +54,8 @@ public class FrmCadastroLembretes extends BaseActivity implements  View.OnClickL
     }
 
     @Override
-    public void obtemParametros() {
+    public void obtemParametros()
+    {
     }
 
     @Override

@@ -45,6 +45,10 @@ public class FrmConfig extends Fragment implements View.OnClickListener
         btnInfoMedica = view.findViewById(R.id.btnInfoMedica);
         btnEmergencySettings = view.findViewById(R.id.btnEmergencySettings);
         btnContatoFamilia = view.findViewById(R.id.btnContatoFamilia);
+
+        btnInfoPessoal.setOnClickListener(this);
+        btnInfoMedica.setOnClickListener(this);
+        btnContatoFamilia.setOnClickListener(this);
     }
 
     @Override
@@ -58,13 +62,9 @@ public class FrmConfig extends Fragment implements View.OnClickListener
         {
             startActivity(new Intent(frmPrincipal, FrmInfoMedica.class));
         }
-        else if (v.getId() == R.id.btnEmergencySettings)
-        {
-
-        }
         else if (v.getId() == R.id.btnContatoFamilia)
         {
-
+            startActivity(new Intent(frmPrincipal, FrmInfoContatos.class));
         }
 
     }

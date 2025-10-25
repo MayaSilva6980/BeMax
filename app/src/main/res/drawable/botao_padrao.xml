@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Fundo cinza escuro -->
+    <solid android:color="@color/bemax_red" />
+
+    <!-- Bordas arredondadas -->
+    <corners android:radius="20dp" />
+
+    <!-- Borda opcional -->
+    <stroke
+        android:width="2dp"
+        android:color="@color/bemax_red"/> <!-- cinza ainda mais escuro -->
+</shape>

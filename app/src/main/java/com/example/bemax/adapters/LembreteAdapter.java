@@ -29,7 +29,7 @@ public class LembreteAdapter extends RecyclerView.Adapter<LembreteAdapter.Lembre
     public LembreteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.cell_lembrete, parent, false); // seu XML
+                .inflate(R.layout.adp_lembrete, parent, false); // seu XML
         return new LembreteViewHolder(itemView);
     }
 

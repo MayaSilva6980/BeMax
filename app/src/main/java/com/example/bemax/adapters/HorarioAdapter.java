@@ -42,7 +42,7 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.AdapterH
     public AdapterHorarioHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.cell_horario, parent, false); // seu XML
+                .inflate(R.layout.adp_horario, parent, false); // seu XML
         return new AdapterHorarioHolder(itemView);
     }
 

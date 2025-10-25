@@ -20,8 +20,7 @@ public class FrmInfoMedica extends BaseActivity implements  View.OnClickListener
 
     // Buttons e TextViews
     private Button btnSalvarMedico;
-    private TextView cmdCancelar;
-
+    private TextView btnCancelar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,8 +52,9 @@ public class FrmInfoMedica extends BaseActivity implements  View.OnClickListener
         txtHistoricoMedico = findViewById(R.id.txtHistoricoMedico);
 
         btnSalvarMedico = findViewById(R.id.btnSalvarMedico);
-        cmdCancelar = findViewById(R.id.cmdCancelar);
+        btnCancelar = findViewById(R.id.btnCancelar);
 
+        btnCancelar.setOnClickListener(this);
     }
 
     @Override
@@ -63,7 +63,12 @@ public class FrmInfoMedica extends BaseActivity implements  View.OnClickListener
     }
 
     @Override
-    public void onClick(View v) {
-
+    public void onClick(View view)
+    {
+        if (view.getId() == R.id.btnCancelar)
+        {
+            onBackPressed();
+        }
     }
+
 }

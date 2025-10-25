@@ -36,7 +36,7 @@
         android:layout_marginBottom="32dp">
 
         <TextView
-            android:id="@+id/cmdCancelar"
+            android:id="@+id/btnCancelar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Cancelar"
@@ -167,7 +167,7 @@
                 android:layout_height="@dimen/tamanho_formulario"
                 android:textSize="18sp"
                 android:imeOptions="actionNext"
-                android:nextFocusDown="@id/txtLoginSenha"/>
+                android:nextFocusDown="@id/txtInfoGenero"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Botão Salvar -->

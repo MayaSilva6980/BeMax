@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cor_cinza_fundo"
     android:orientation="vertical"
+    android:padding="20dp"
     android:id="@+id/root_layout"
-    android:padding="20dp">
+    android:background="@color/cor_cinza_fundo">
 
     <!-- Cabeçalho -->
     <LinearLayout
@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/categoria_info_medica"
+            android:text="@string/contato_emergencia"
             android:textSize="28sp"
             android:textColor="@color/bemax_black"
             android:textStyle="bold" />
@@ -35,7 +35,7 @@
         android:layout_marginBottom="32dp">
 
         <TextView
-            android:id="@+id/btnCancelar"
+            android:id="@+id/cmdCancelar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/cancelar"
@@ -53,13 +53,13 @@
             <ImageView
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/ic_info_medica"/>
+                android:src="@drawable/ic_ctt_emergencia" />
         </LinearLayout>
 
         <View
             android:layout_width="0dp"
             android:layout_weight="30"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp" />
     </LinearLayout>
 
     <!-- Formulário -->
@@ -73,139 +73,129 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutTipoSanguineo"
+                android:id="@+id/layoutNomeContato"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:hint="@string/tipo_sanguineo"
+                android:hint="@string/nome_contato"
                 app:boxBackgroundMode="outline"
                 app:boxCornerRadiusTopStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusBottomStart="8dp"
                 app:boxCornerRadiusBottomEnd="8dp"
-                app:endIconMode="none"
                 app:boxBackgroundColor="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtTipoSanguineo"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/tamanho_formulario"
-                    android:inputType="text"
-                    android:textSize="18sp"
-                    android:imeOptions="actionNext" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutAlergias"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:hint="@string/alergias"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:endIconMode="none"
-                app:boxBackgroundColor="@color/white">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtAlergias"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/tamanho_formulario"
-                    android:inputType="textMultiLine"
-                    android:textSize="18sp"
-                    android:minLines="2"
-                    android:imeOptions="actionNext" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutDoencasCronicas"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:hint="@string/doencas_cronicas"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:endIconMode="none"
-                app:boxBackgroundColor="@color/white">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtDoencasCronicas"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/tamanho_formulario"
-                    android:inputType="textMultiLine"
-                    android:textSize="18sp"
-                    android:minLines="2"
-                    android:imeOptions="actionNext" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutMedicamentos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:hint="@string/medicamentos_uso"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:endIconMode="none"
-                app:boxBackgroundColor="@color/white">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtMedicamentos"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/tamanho_formulario"
-                    android:inputType="textMultiLine"
-                    android:textSize="18sp"
-                    android:minLines="2"
-                    android:imeOptions="actionNext" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <!-- Antecedentes / Histórico médico -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutHistoricoMedico"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:hint="@string/historico_medico"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:endIconMode="none"
-                app:boxBackgroundColor="@color/white">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtHistoricoMedico"
+                    android:id="@+id/txtNomeContato"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
+                    android:inputType="textPersonName"
                     android:textSize="18sp"
-                    android:imeOptions="actionDone" />
+                    android:imeOptions="actionNext" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutParentesco"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:hint="@string/parentesco"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxBackgroundColor="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtParentesco"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:textSize="18sp"
+                    android:imeOptions="actionNext" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutTelefoneContato"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:hint="@string/telefone_contato"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxBackgroundColor="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtTelefoneContato"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:textSize="18sp"
+                    android:imeOptions="actionNext" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutEmailContato"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:hint="@string/email_contato"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxBackgroundColor="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtEmailContato"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:textSize="18sp"
+                    android:imeOptions="actionNext" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutObservacoesContato"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:hint="@string/observacoes_contato"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxBackgroundColor="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtObservacoesContato"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="textMultiLine"
+                    android:textSize="18sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Botão Salvar -->
             <Button
-                android:id="@+id/btnSalvarMedico"
+                android:id="@+id/btnSalvarContato"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/salvar"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/bemax_white"
                 android:backgroundTint="@color/bemax_red"
                 android:padding="12dp"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="32dp"/>
+                android:layout_marginBottom="32dp" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

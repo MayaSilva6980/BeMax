@@ -20,7 +20,7 @@ public class FrmInfoPessoal extends BaseActivity implements  View.OnClickListene
 
     // Buttons e TextViews
     private Button btnSalvar;
-    private TextView cmdCancelar;
+    private TextView btnCancelar;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -50,7 +50,9 @@ public class FrmInfoPessoal extends BaseActivity implements  View.OnClickListene
         txtInfoEndereco = findViewById(R.id.txtInfoEndereco);
 
         btnSalvar = findViewById(R.id.btnSalvar);
-        cmdCancelar = findViewById(R.id.cmdCancelar);
+        btnCancelar = findViewById(R.id.btnCancelar);
+
+        btnCancelar.setOnClickListener(this);
     }
 
     @Override
@@ -59,8 +61,12 @@ public class FrmInfoPessoal extends BaseActivity implements  View.OnClickListene
     }
 
     @Override
-    public void onClick(View v) {
-
+    public void onClick(View view)
+    {
+        if (view.getId() == R.id.btnCancelar)
+        {
+            onBackPressed();
+        }
     }
 
 }
