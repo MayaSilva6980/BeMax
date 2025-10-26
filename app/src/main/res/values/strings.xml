@@ -29,6 +29,28 @@
     <string name="telefone_contato">Telefone</string>
     <string name="email_contato">E-mail</string>
     <string name="observacoes_contato">Observações</string>
+    <string name="titulo_cadastro_usuario">Cadastro de Usuário</string>
+    <string name="cmd_cancelar">Cancelar</string>
+    <string name="confirmar_senha">Confirmar senha</string>
+    <string name="telefone">Telefone</string>
+    <string name="btn_salvar">Salvar</string>
+    <!-- Tela de Alerta -->
+    <string name="titulo_alerta_emergencia">Alerta de Emergência</string>
+    <string name="status_emergencia_ativa">⚠️ Emergência Ativa</string>
+    <string name="resumo_usuario">O+ | 72 anos | Hipertenso</string>
+    <string name="nome_padrao">Nome: Igor Santos</string>
+    <string name="tipo_sanguineo_padrao">Tipo Sanguíneo: O+</string>
+    <string name="doencas_padrao">Doenças Crônicas: Hipertensão</string>
+    <string name="alergias_padrao">Alergias: Nenhuma</string>
+    <string name="localizacao_padrao">Localização: Av. Paulista, 1000 - São Paulo/SP</string>
+    <string name="tempo_padrao">Tempo decorrido: 00:02:15</string>
+    <string name="contato_emergencia_padrao">Contato de Emergência: Maria Souza - (11) 98888-0000</string>
+
+    <!-- Botões -->
+    <string name="btn_ligar_emergencia">Ligar Contato de Emergência</string>
+    <string name="btn_enviar_mensagem">Enviar Mensagem Rápida</string>
+    <string name="btn_som_alerta">Emitir Som de Alerta</string>
+
 
 
 

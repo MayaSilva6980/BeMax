@@ -53,6 +53,10 @@
             android:name=".telas.FrmCadastroContatos"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".telas.FrmCadastro"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

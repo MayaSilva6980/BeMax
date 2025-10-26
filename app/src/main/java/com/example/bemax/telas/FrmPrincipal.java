@@ -58,7 +58,7 @@ public class FrmPrincipal extends BaseActivity  implements NavigationView.OnNavi
         if (item.getItemId() == R.id.nav_home) {
             selectedFragment = new FrmHome(this);
         } else if (item.getItemId() == R.id.nav_sos) {
-            selectedFragment = new FrmAlerta();
+            selectedFragment = new FrmAlerta(this);
         } else if (item.getItemId() == R.id.nav_settings) {
             selectedFragment = new FrmConfig(this);
         }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -32,8 +33,9 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
     // Controles do Layout
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextSenha;
-    private Button btnContinue = null;
-    private LinearLayout btnGoogle = null;
+    private Button btnContinue;
+    private LinearLayout btnGoogle;
+    private TextView txtSignup;
     private ProgressBar progressBar;
 
 
@@ -65,9 +67,11 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
         btnContinue = findViewById(R.id.btnContinue);
         btnGoogle = findViewById(R.id.btnGoogle);
         progressBar = findViewById(R.id.progressBar);
+        txtSignup = findViewById(R.id.txtSignup);
 
         btnGoogle.setOnClickListener(this);
         btnContinue.setOnClickListener(this);
+        txtSignup.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -94,6 +98,11 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
         else if (view.getId() == R.id.btnGoogle) {
             signIn();
         }
+        else if (view.getId() == R.id.txtSignup){
+
+            startActivity(new Intent(this, FrmCadastro.class));
+        }
+
     }
 
     private void realizarLoginRetrofit() {
@@ -197,7 +206,11 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
                 Toast.makeText(this, "Logado: " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
 
                 // redireciona para tela principal
-                startActivity(new Intent(this, FrmPrincipal.class));
+                Intent intent = new Intent(FrmLogin.this, FrmCadastro.class);
+                intent.putExtra("nome", user.getDisplayName());
+                intent.putExtra("email", user.getEmail());
+                intent.putExtra("telefone", user.getPhoneNumber());
+                startActivity(intent);
                 finish();
             }
             else {
