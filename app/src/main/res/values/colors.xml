@@ -10,6 +10,7 @@
     <color name="cor_cinza_transparente">#80585858</color>
     <color name="cor_cinza_linhas">#e0e0e0</color>
     <color name="cor_cinza_claro">#AFAFAF</color>
+    <color name="cor_cinza_escuro">#555555</color>
     <color name="cor_whatsapp">#25D366</color>
     <color name="cor_cinza_fundo">#F9F9F9</color>
 
