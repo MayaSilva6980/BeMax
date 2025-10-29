@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "1037514636295-asm8k1cbkuekdq7m98d7667r323il7bg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bemax",
+            "certificate_hash": "8a1d6e87c9cb339d1126a374f89ca90775fd2e40"
+          }
+        },
+        {
           "client_id": "1037514636295-pl4iudcs1n8oin3b4gnfv0574vgevp3i.apps.googleusercontent.com",
           "client_type": 3
         }
