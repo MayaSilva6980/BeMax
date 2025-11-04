@@ -12,6 +12,7 @@
     <string name="full_name">Full name</string>
     <string name="data_nascimento">Date of birth</string>
     <string name="idade">Age</string>
+    <string name="cpf">Cpf</string>
     <string name="genero">Gender</string>
     <string name="endereco">Address</string>
     <string name="tipo_sanguineo">Blood type</string>
@@ -34,7 +35,8 @@
     <string name="confirmar_senha">Confirm password</string>
     <string name="telefone">Phone</string>
     <string name="btn_salvar">Save</string>
-    
+    <string name="btn_logout">Logout</string>
+
     <!-- Alert screen -->
     <string name="titulo_alerta_emergencia">Emergency Alert</string>
     <string name="status_emergencia_ativa">⚠️ Active Emergency</string>

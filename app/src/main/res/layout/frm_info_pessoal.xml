@@ -8,8 +8,6 @@
     android:id="@+id/root_layout"
     android:padding="20dp">
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -90,9 +88,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtInfoNome"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/tamanho_formulario"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
                 android:inputType="textPersonName"
-                android:textSize="18sp"
                 android:imeOptions="actionNext"
                 android:nextFocusDown="@id/txtInfoNascimento"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -114,9 +112,35 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtInfoNascimento"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/tamanho_formulario"
+                android:layout_height="wrap_content"
                 android:inputType="date"
-                android:textSize="18sp"
+                android:textSize="16dp"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@id/txtInfoGenero"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutInfoCpf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:hint="@string/cpf"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:endIconMode="none"
+            app:boxBackgroundColor="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtCpf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textSize="16dp"
+
                 android:imeOptions="actionNext"
                 android:nextFocusDown="@id/txtInfoGenero"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -139,9 +163,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtInfoGenero"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/tamanho_formulario"
+                android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:textSize="18sp"
+                android:textSize="16dp"
                 android:imeOptions="actionNext"
                 android:nextFocusDown="@id/txtInfoEndereco"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -164,8 +188,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtInfoEndereco"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/tamanho_formulario"
-                android:textSize="18sp"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
                 android:imeOptions="actionNext"
                 android:nextFocusDown="@id/txtInfoGenero"/>
         </com.google.android.material.textfield.TextInputLayout>

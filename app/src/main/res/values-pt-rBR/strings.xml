@@ -12,6 +12,7 @@
     <string name="full_name">Nome completo</string>
     <string name="data_nascimento">Data de nascimento</string>
     <string name="idade">Idade</string>
+    <string name="cpf">Cpf</string>
     <string name="genero">Gênero</string>
     <string name="endereco">Endereço</string>
     <string name="tipo_sanguineo">Tipo sanguíneo</string>
@@ -34,6 +35,7 @@
     <string name="confirmar_senha">Confirmar senha</string>
     <string name="telefone">Telefone</string>
     <string name="btn_salvar">Salvar</string>
+    <string name="btn_logout">Sair</string>
     
     <!-- Tela de Alerta -->
     <string name="titulo_alerta_emergencia">Alerta de Emergência</string>

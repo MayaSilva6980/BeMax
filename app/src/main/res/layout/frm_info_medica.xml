@@ -89,9 +89,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtTipoSanguineo"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/tamanho_formulario"
+                    android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:textSize="18sp"
+                    android:textSize="16dp"
+                    android:singleLine="false"
                     android:imeOptions="actionNext" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,10 +113,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtAlergias"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/tamanho_formulario"
+                    android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
-                    android:textSize="18sp"
-                    android:minLines="2"
+                    android:textSize="16dp"
+                    android:singleLine="false"
                     android:imeOptions="actionNext" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -136,10 +137,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtDoencasCronicas"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/tamanho_formulario"
+                    android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
-                    android:textSize="18sp"
-                    android:minLines="2"
+                    android:textSize="16dp"
+                    android:singleLine="false"
                     android:imeOptions="actionNext" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -160,10 +161,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtMedicamentos"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/tamanho_formulario"
+                    android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
-                    android:textSize="18sp"
-                    android:minLines="2"
+                    android:textSize="16dp"
+                    android:singleLine="false"
                     android:imeOptions="actionNext" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -188,7 +189,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
-                    android:textSize="18sp"
+                    android:textSize="16dp"
+                    android:singleLine="false"
                     android:imeOptions="actionDone" />
             </com.google.android.material.textfield.TextInputLayout>
 
