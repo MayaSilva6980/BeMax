@@ -77,7 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:hint="@string/nome_completo"
+                android:hint="@string/full_name"
                 app:boxBackgroundMode="outline"
                 app:boxBackgroundColor="@color/white"
                 app:boxCornerRadiusTopStart="8dp"

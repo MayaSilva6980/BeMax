@@ -9,7 +9,7 @@
     <string name="categoria_contatos_familia">Family Contacts</string>
 
     <!-- Form fields -->
-    <string name="nome_completo">Full name</string>
+    <string name="full_name">Full name</string>
     <string name="data_nascimento">Date of birth</string>
     <string name="idade">Age</string>
     <string name="genero">Gender</string>
