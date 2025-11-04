@@ -65,7 +65,7 @@ public class FrmInfoPessoal extends BaseActivity implements  View.OnClickListene
     {
         if (view.getId() == R.id.btnCancelar)
         {
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
         }
     }
 

@@ -84,7 +84,7 @@ public class FrmCadastroContatos extends BaseActivity implements  View.OnClickLi
     {
         if (view.getId() == R.id.cmdCancelar)
         {
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
         }
     }
 }

@@ -101,7 +101,7 @@ public class FrmInfoContatos extends BaseActivity implements  View.OnClickListen
         }
         else if (view.getId() == R.id.btnCancelar)
         {
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
         }
     }
 }

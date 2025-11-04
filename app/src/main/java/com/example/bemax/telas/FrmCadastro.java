@@ -29,8 +29,8 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.frm_cadastro);
 
-            obtemParametros();
             iniciaControles();
+            obtemParametros();
         }
         catch (Exception e)
         {
@@ -41,9 +41,15 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
     @Override
     public void obtemParametros()
     {
-        txtEmail.setText((String) getIntent().getSerializableExtra("email"));
-        txtNome.setText((String) getIntent().getSerializableExtra("nome"));
-        txtTelefone.setText((String) getIntent().getSerializableExtra("telefone"));
+        // Preenche os campos com dados vindos da Intent (se houver)
+        if (getIntent().getSerializableExtra("email") != null)
+            txtEmail.setText((String) getIntent().getSerializableExtra("email"));
+        
+        if (getIntent().getSerializableExtra("nome") != null)
+            txtNome.setText((String) getIntent().getSerializableExtra("nome"));
+        
+        if (getIntent().getSerializableExtra("telefone") != null)
+            txtTelefone.setText((String) getIntent().getSerializableExtra("telefone"));
     }
 
     @Override
@@ -73,7 +79,7 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
     {
         if (view.getId() == R.id.cmdCancelar)
         {
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
         }
     }
 }

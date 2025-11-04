@@ -81,7 +81,7 @@ public class FrmCadastroLembretes extends BaseActivity implements  View.OnClickL
     {
         if (view.getId() == R.id.cmdCancelar)
         {
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
         }
     }
 

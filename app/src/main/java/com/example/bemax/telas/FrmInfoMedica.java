@@ -67,7 +67,7 @@ public class FrmInfoMedica extends BaseActivity implements  View.OnClickListener
     {
         if (view.getId() == R.id.btnCancelar)
         {
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
         }
     }
 

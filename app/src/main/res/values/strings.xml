@@ -1,77 +1,77 @@
 <resources>
     <string name="app_name">BeMax</string>
 
-    <!-- Tela principal -->
-    <string name="titulo_categorias_saude">Categorias de Saúde</string>
-    <string name="categoria_info_pessoal">Informações Pessoais</string>
-    <string name="categoria_info_medica">Informações Médicas</string>
-    <string name="categoria_config_emergencia">Configurações de Emergência</string>
-    <string name="categoria_contatos_familia">Contatos da Família</string>
+    <!-- Main screen -->
+    <string name="titulo_categorias_saude">Health Categories</string>
+    <string name="categoria_info_pessoal">Personal Information</string>
+    <string name="categoria_info_medica">Medical Information</string>
+    <string name="categoria_config_emergencia">Emergency Settings</string>
+    <string name="categoria_contatos_familia">Family Contacts</string>
 
-    <!-- Campos de formulário -->
-    <string name="nome_completo">Nome completo</string>
-    <string name="data_nascimento">Data de nascimento</string>
-    <string name="idade">Idade</string>
-    <string name="genero">Genero</string>
-    <string name="endereco">Endereço</string>
-    <string name="tipo_sanguineo">Tipo sanguíneo</string>
-    <string name="alergias">Alergias</string>
-    <string name="doencas_cronicas">Doenças crônicas</string>
-    <string name="medicamentos_uso">Medicamentos em uso</string>
-    <string name="historico_medico">Antecedentes e histórico médico</string>
-    <string name="contato_emergencia">Contatos de emergência</string>
-    <string name="palavra_emergencia">Palavra de emergência</string>
-    <string name="enviar_localizacao">Enviar localização automaticamente</string>
-    <string name="salvar_informacoes">Salvar informações</string>
-    <string name="categoria_info_contatos">Contatos Familiares</string>
-    <string name="nome_contato">Nome do contato</string>
-    <string name="parentesco">Parentesco</string>
-    <string name="telefone_contato">Telefone</string>
-    <string name="email_contato">E-mail</string>
-    <string name="observacoes_contato">Observações</string>
-    <string name="titulo_cadastro_usuario">Cadastro de Usuário</string>
-    <string name="cmd_cancelar">Cancelar</string>
-    <string name="confirmar_senha">Confirmar senha</string>
-    <string name="telefone">Telefone</string>
-    <string name="btn_salvar">Salvar</string>
-    <!-- Tela de Alerta -->
-    <string name="titulo_alerta_emergencia">Alerta de Emergência</string>
-    <string name="status_emergencia_ativa">⚠️ Emergência Ativa</string>
-    <string name="resumo_usuario">O+ | 72 anos | Hipertenso</string>
-    <string name="nome_padrao">Nome: Igor Santos</string>
-    <string name="tipo_sanguineo_padrao">Tipo Sanguíneo: O+</string>
-    <string name="doencas_padrao">Doenças Crônicas: Hipertensão</string>
-    <string name="alergias_padrao">Alergias: Nenhuma</string>
-    <string name="localizacao_padrao">Localização: Av. Paulista, 1000 - São Paulo/SP</string>
-    <string name="tempo_padrao">Tempo decorrido: 00:02:15</string>
-    <string name="contato_emergencia_padrao">Contato de Emergência: Maria Souza - (11) 98888-0000</string>
+    <!-- Form fields -->
+    <string name="nome_completo">Full name</string>
+    <string name="data_nascimento">Date of birth</string>
+    <string name="idade">Age</string>
+    <string name="genero">Gender</string>
+    <string name="endereco">Address</string>
+    <string name="tipo_sanguineo">Blood type</string>
+    <string name="alergias">Allergies</string>
+    <string name="doencas_cronicas">Chronic diseases</string>
+    <string name="medicamentos_uso">Medications in use</string>
+    <string name="historico_medico">Medical history</string>
+    <string name="contato_emergencia">Emergency contacts</string>
+    <string name="palavra_emergencia">Emergency word</string>
+    <string name="enviar_localizacao">Send location automatically</string>
+    <string name="salvar_informacoes">Save information</string>
+    <string name="categoria_info_contatos">Family Contacts</string>
+    <string name="nome_contato">Contact name</string>
+    <string name="parentesco">Relationship</string>
+    <string name="telefone_contato">Phone</string>
+    <string name="email_contato">Email</string>
+    <string name="observacoes_contato">Notes</string>
+    <string name="titulo_cadastro_usuario">User Registration</string>
+    <string name="cmd_cancelar">Cancel</string>
+    <string name="confirmar_senha">Confirm password</string>
+    <string name="telefone">Phone</string>
+    <string name="btn_salvar">Save</string>
+    
+    <!-- Alert screen -->
+    <string name="titulo_alerta_emergencia">Emergency Alert</string>
+    <string name="status_emergencia_ativa">⚠️ Active Emergency</string>
+    <string name="resumo_usuario">O+ | 72 years | Hypertensive</string>
+    <string name="nome_padrao">Name: Igor Santos</string>
+    <string name="tipo_sanguineo_padrao">Blood Type: O+</string>
+    <string name="doencas_padrao">Chronic Diseases: Hypertension</string>
+    <string name="alergias_padrao">Allergies: None</string>
+    <string name="localizacao_padrao">Location: Av. Paulista, 1000 - São Paulo/SP</string>
+    <string name="tempo_padrao">Elapsed time: 00:02:15</string>
+    <string name="contato_emergencia_padrao">Emergency Contact: Maria Souza - (11) 98888-0000</string>
 
-    <!-- Botões -->
-    <string name="btn_ligar_emergencia">Ligar Contato de Emergência</string>
-    <string name="btn_enviar_mensagem">Enviar Mensagem Rápida</string>
-    <string name="btn_som_alerta">Emitir Som de Alerta</string>
+    <!-- Buttons -->
+    <string name="btn_ligar_emergencia">Call Emergency Contact</string>
+    <string name="btn_enviar_mensagem">Send Quick Message</string>
+    <string name="btn_som_alerta">Emit Alert Sound</string>
 
+    <!-- Other screens -->
+    <string name="hidratacao">Hydration</string>
+    <string name="sinais_vitais">Vital Signs</string>
+    <string name="lembretes_pessoais">Personal Reminders</string>
 
+    <!-- Actions -->
+    <string name="editar">Edit</string>
+    <string name="voltar">Back</string>
+    <string name="salvar">Save</string>
+    <string name="cancelar">Cancel</string>
 
+    <!-- Messages -->
+    <string name="msg_informacoes_salvas">Information saved successfully!</string>
+    <string name="msg_preencha_campos">Please fill in all required fields.</string>
 
-    <!-- Outras telas -->
-    <string name="hidratacao">Hidratação</string>
-    <string name="sinais_vitais">Sinais Vitais</string>
-    <string name="lembretes_pessoais">Lembretes Pessoais</string>
-
-    <!-- Ações -->
-    <string name="editar">Editar</string>
-    <string name="voltar">Voltar</string>
-    <string name="salvar">Salvar</string>
-    <string name="cancelar">Cancelar</string>
-
-    <!-- Mensagens -->
-    <string name="msg_informacoes_salvas">Informações salvas com sucesso!</string>
-    <string name="msg_preencha_campos">Por favor, preencha todos os campos obrigatórios.</string>
-
-    <!-- Autenticação -->
-    <string name="email">E-mail</string>
-    <string name="senha">Senha</string>
+    <!-- Authentication -->
+    <string name="email">Email</string>
+    <string name="senha">Password</string>
+    <string name="others_options_login">Other login options</string>
+    <string name="sign_up">Don’t have account? Sign Up</string>
 
     <string name="default_web_client_id">AIzaSyBX9mOVRVfJV26JTZqU3kyJ9xXjVqJRw2k</string>
 </resources>
