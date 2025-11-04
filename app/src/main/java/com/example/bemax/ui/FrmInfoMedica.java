@@ -1,4 +1,4 @@
-package com.example.bemax.telas;
+package com.example.bemax.ui;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,25 +9,26 @@ import android.widget.TextView;
 import com.example.bemax.R;
 import com.example.bemax.util.BaseActivity;
 
-public class FrmInfoPessoal extends BaseActivity implements  View.OnClickListener
+public class FrmInfoMedica extends BaseActivity implements  View.OnClickListener
 {
-
     // TextInputEditText
-    private EditText txtInfoNome;
-    private EditText txtInfoNascimento;
-    private EditText txtInfoGenero;
-    private EditText txtInfoEndereco;
+    private EditText txtTipoSanguineo;
+    private EditText txtAlergias;
+    private EditText txtDoencasCronicas;
+    private EditText txtMedicamentos;
+    private EditText txtHistoricoMedico;
 
     // Buttons e TextViews
-    private Button btnSalvar;
+    private Button btnSalvarMedico;
     private TextView btnCancelar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         try
         {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.frm_info_pessoal);
+            setContentView(R.layout.frm_info_medica);
             iniciaControles();
         }
         catch (Exception e)
@@ -44,12 +45,13 @@ public class FrmInfoPessoal extends BaseActivity implements  View.OnClickListene
     @Override
     public void iniciaControles() throws Exception
     {
-        txtInfoNome = findViewById(R.id.txtInfoNome);
-        txtInfoNascimento = findViewById(R.id.txtInfoNascimento);
-        txtInfoGenero = findViewById(R.id.txtInfoGenero);
-        txtInfoEndereco = findViewById(R.id.txtInfoEndereco);
+        txtTipoSanguineo = findViewById(R.id.txtTipoSanguineo);
+        txtAlergias = findViewById(R.id.txtAlergias);
+        txtDoencasCronicas = findViewById(R.id.txtDoencasCronicas);
+        txtMedicamentos = findViewById(R.id.txtMedicamentos);
+        txtHistoricoMedico = findViewById(R.id.txtHistoricoMedico);
 
-        btnSalvar = findViewById(R.id.btnSalvar);
+        btnSalvarMedico = findViewById(R.id.btnSalvarMedico);
         btnCancelar = findViewById(R.id.btnCancelar);
 
         btnCancelar.setOnClickListener(this);

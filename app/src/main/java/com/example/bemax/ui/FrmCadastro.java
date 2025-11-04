@@ -1,4 +1,4 @@
-package com.example.bemax.telas;
+package com.example.bemax.ui;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,7 +7,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.bemax.R;
-import com.example.bemax.model.Contato;
 import com.example.bemax.util.BaseActivity;
 
 public class FrmCadastro extends BaseActivity implements  View.OnClickListener {

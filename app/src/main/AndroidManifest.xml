@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.BeMax">
         <activity
-            android:name=".telas.FrmSplash"
+            android:name=".ui.FrmSplash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,35 +26,35 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".telas.FrmLogin"
+            android:name=".ui.FrmLogin"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".telas.FrmPrincipal"
+            android:name=".ui.FrmPrincipal"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".telas.FrmCadastroLembretes"
+            android:name=".ui.FrmCadastroLembretes"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".telas.FrmInfoPessoal"
+            android:name=".ui.FrmInfoPessoal"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".telas.FrmInfoMedica"
+            android:name=".ui.FrmInfoMedica"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".telas.FrmInfoContatos"
+            android:name=".ui.FrmInfoContatos"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".telas.FrmCadastroContatos"
+            android:name=".ui.FrmCadastroContatos"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".telas.FrmCadastro"
+            android:name=".ui.FrmCadastro"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
     </application>

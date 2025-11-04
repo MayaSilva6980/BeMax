@@ -1,4 +1,4 @@
-package com.example.bemax.telas;
+package com.example.bemax.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,9 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bemax.R;
 import com.example.bemax.model.dto.LoginResponse;
