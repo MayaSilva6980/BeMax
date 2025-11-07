@@ -1,12 +1,22 @@
 package com.example.bemax.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bemax.R;
+import com.example.bemax.model.dto.LoginResponse;
+import com.example.bemax.model.dto.RegisterRequest;
+import com.example.bemax.model.dto.RegisterResponse;
+import com.example.bemax.repository.AuthRepository;
+import com.example.bemax.repository.RegisterRepository;
 import com.example.bemax.util.BaseActivity;
 
 public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
@@ -16,8 +26,16 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
     private EditText txtSenha;
     private EditText txtConfirmarSenha;
     private EditText txtTelefone;
+    private EditText txtCpf;
+    private EditText txtDataNasc;
     private Button btnSalvarUsuario;
     private TextView cmdCancelar;
+
+    private LinearLayout lnlAreaProgressBar;
+
+    //Variaveis de classe
+    private RegisterRepository registerRepository = null;
+    private RegisterRequest registerRequest = null;
 
 
     @Override
@@ -59,6 +77,9 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
         txtSenha = findViewById(R.id.txtSenha);
         txtConfirmarSenha = findViewById(R.id.txtConfirmarSenha);
         txtTelefone = findViewById(R.id.txtTelefone);
+        txtCpf = findViewById(R.id.txtCpf);
+        txtDataNasc = findViewById(R.id.txtDataNasc);
+        lnlAreaProgressBar = findViewById(R.id.lnlAreaProgressBar);
 
         btnSalvarUsuario = findViewById(R.id.btnSalvarUsuario);
         cmdCancelar = findViewById(R.id.cmdCancelar);
@@ -80,5 +101,134 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
         {
             getOnBackPressedDispatcher().onBackPressed();
         }
+        else if (view.getId() == R.id.btnSalvarUsuario)
+        {
+            realizarCadastroRetrofit();
+        }
+    }
+
+    public boolean validaCampos()
+    {
+        String sNome = txtNome.getText().toString();
+        String sEmail = txtEmail.getText().toString();
+        String sCpf = txtCpf.getText().toString();
+        String sTelefone = txtTelefone.getText().toString();
+        String sSenha = txtSenha.getText().toString();
+        String sSenhaConfirma = txtConfirmarSenha.getText().toString();
+        String sDataNasc = txtDataNasc.getText().toString();
+
+        if ( sNome.isEmpty())
+        {
+            txtNome.setError("Nome é obrigatório");
+            txtNome.requestFocus();
+            return false;
+        }
+        else if ( sEmail.isEmpty())
+        {
+            txtEmail.setError("Email é obrigatório");
+            txtEmail.requestFocus();
+            return false;
+        }
+        else if ( sCpf.isEmpty() )
+        {
+            txtCpf.setError("Cpf é obrigatório");
+            txtCpf.requestFocus();
+            return false;
+        }
+        else if ( sCpf.length() < 11 )
+        {
+            txtCpf.setError("Cpf inválido");
+            txtCpf.requestFocus();
+            return false;
+        }
+        else if ( sTelefone.isEmpty())
+        {
+            txtTelefone.setError("Telefone é obrigatório");
+            txtTelefone.requestFocus();
+            return false;
+        }
+        else if ( sTelefone.length() < 11)
+        {
+            txtTelefone.setError("Telefone é obrigatório");
+            txtTelefone.requestFocus();
+            return false;
+        }
+        else if ( sSenha.isEmpty())
+        {
+            txtSenha.setError("Senha é obrigatório");
+            txtSenha.requestFocus();
+            return false;
+        }
+        else if ( sSenhaConfirma.isEmpty())
+        {
+            txtConfirmarSenha.setError("Confirmação de senha é obrigatório");
+            txtConfirmarSenha.requestFocus();
+            return false;
+        }
+        else if ( sSenha != sSenhaConfirma)
+        {
+            txtTelefone.setError("Senhas diferentes");
+            txtTelefone.requestFocus();
+            return false;
+        }
+        else if ( sDataNasc.isEmpty())
+        {
+            txtDataNasc.setError("Senhas diferentes");
+            txtDataNasc.requestFocus();
+            return false;
+        }
+
+        registerRequest = new RegisterRequest(sEmail,sNome,sSenha,sCpf,sTelefone,sDataNasc);
+        return true;
+    }
+
+    private void realizarCadastroRetrofit() {
+
+        if (!validaCampos())
+        {
+            return;
+        }
+
+        btnSalvarUsuario.setEnabled(false);
+        btnSalvarUsuario.setText("Entrando...");
+        lnlAreaProgressBar.setVisibility(View.VISIBLE);
+
+        registerRepository.register(registerRequest, new RegisterRepository.RegisterCallback() {
+            @Override
+            public void onSuccess(RegisterResponse response) {
+                runOnUiThread(() -> {
+                    btnSalvarUsuario.setEnabled(true);
+                    btnSalvarUsuario.setText("Continue");
+                    lnlAreaProgressBar.setVisibility(View.GONE);
+
+                    Toast.makeText(FrmCadastro.this,
+                            "Cadastro realizado com sucesso!",
+                            Toast.LENGTH_SHORT).show();
+
+                    // Log debug
+                    Log.d("FrmCadastro", "Cadastro realizado com sucesso!");
+                    Log.d("FrmCadastro", "Response: " + response);
+
+                    Intent intent = new Intent(FrmCadastro.this, FrmPrincipal.class);
+                    finish();
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                runOnUiThread(() -> {
+                    btnSalvarUsuario.setEnabled(true);
+                    btnSalvarUsuario.setText("Continue");
+                    lnlAreaProgressBar.setVisibility(View.GONE);
+
+                    Toast.makeText(FrmCadastro.this,
+                            "Erro ao fazer cadastro: " + error,
+                            Toast.LENGTH_LONG).show();
+
+                    // Log debug
+                    Log.e("FrmCadastro", "Erro no cadastro: " + error);
+                });
+            }
+        });
     }
 }

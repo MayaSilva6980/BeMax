@@ -10,9 +10,8 @@ public class Const
     //Constantes de preferencias
     public static final String Prefs_Access_Token = "Prefs_Access_Token";
     public static final String Prefs_Refresh_Token = "Prefs_Access_Token";
-
     public static final String Prefs_Nome_Usuario = "Prefs_Nome_Usuario";
-
+    public static final String Prefs_Usuario = "Prefs_Usuario";
     //Mascara
 
     public static final String mask_telefone = "(##) #####-####";

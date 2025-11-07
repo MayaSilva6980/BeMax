@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import com.example.bemax.model.dto.LoginRequest;
 import com.example.bemax.model.dto.LoginResponse;
 import com.example.bemax.network.RetrofitClient;
-import com.example.bemax.network.api.AuthApi;
+import com.example.bemax.network.api.CallApi;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -16,16 +16,16 @@ import retrofit2.Response;
 
 public class AuthRepository {
     private static final String TAG = "AuthRepository";
-    private final AuthApi authApi;
+    private final CallApi callApi;
 
     public AuthRepository() {
-        this.authApi = RetrofitClient.getInstance().createService(AuthApi.class);
+        this.callApi = RetrofitClient.getInstance().createService(CallApi.class);
     }
 
     public void login(String email, String password, AuthCallback callback) {
         LoginRequest request = new LoginRequest(email, password);
 
-        authApi.login(request).enqueue(new Callback<LoginResponse>() {
+        callApi.login(request).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {

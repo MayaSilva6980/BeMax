@@ -6,9 +6,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+
 public class Apoio {
 
     private static final String PREF_NAME = "BeMaxPrefs";
+    private static final Gson gson = new Gson();
 
     // Salvar String genérica
     public static void salvarString(Context context, String chave, String valor) {
@@ -44,6 +47,26 @@ public class Apoio {
     public static boolean getBoolean(Context context, String chave, boolean valorPadrao) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         return prefs.getBoolean(chave, valorPadrao);
+    }
+
+    // Salvar qualquer objeto model
+    public static void salvarModel(Context context, String chave, Object objeto) {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        String json = gson.toJson(objeto);
+        prefs.edit().putString(chave, json).apply();
+    }
+
+    // Ler model genérico
+    public static <T> T getModel(Context context, String chave, Class<T> classe) {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        String json = prefs.getString(chave, null);
+        if (json == null) return null;
+        try {
+            return gson.fromJson(json, classe);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     // Remover chave

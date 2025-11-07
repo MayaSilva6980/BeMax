@@ -5,197 +5,283 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/cor_cinza_fundo"
-    android:padding="20dp"
     android:id="@+id/root_layout">
 
-    <!-- Cabeçalho -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingBottom="20dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/titulo_cadastro_usuario"
-            android:textSize="28sp"
-            android:textColor="#000000"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <!-- Linha Cancelar + Ícone -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="32dp">
-
-        <TextView
-            android:id="@+id/btnCancelar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="30"
-            android:text="@string/cmd_cancelar"
-            android:textSize="18sp"
-            android:textColor="@color/bemax_red"
-            android:layout_marginEnd="16dp" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="30"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/ic_usuario" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_weight="30"
-            android:layout_height="0dp" />
-    </LinearLayout>
-
-    <!-- Formulário -->
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp">
 
-            <!-- Nome completo -->
-            <com.google.android.material.textfield.TextInputLayout
+            <!-- Cabeçalho -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:hint="@string/full_name"
-                app:boxBackgroundMode="outline"
-                app:boxBackgroundColor="@color/white"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusBottomEnd="8dp">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="20dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtNome"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/titulo_cadastro_usuario"
+                    android:textSize="28sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Linha Cancelar + Ícone -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="32dp">
+
+                <TextView
+                    android:id="@+id/btnCancelar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"
+                    android:text="@string/cmd_cancelar"
+                    android:textSize="18sp"
+                    android:textColor="@color/bemax_red"
+                    android:layout_marginEnd="16dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/ic_usuario" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="30"
+                    android:layout_height="0dp" />
+            </LinearLayout>
+
+            <!-- Formulário -->
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/tamanho_formulario"
-                    android:inputType="textPersonName"
-                    android:textSize="18sp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <!-- Email -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layoutEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:hint="@string/email"
-                app:boxBackgroundMode="outline"
-                app:boxBackgroundColor="@color/white"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusBottomEnd="8dp">
+                    <!-- Nome completo -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:hint="@string/full_name"
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxCornerRadiusTopStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusBottomEnd="8dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/tamanho_formulario"
-                    android:inputType="textEmailAddress"
-                    android:textSize="18sp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtNome"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:textSize="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Telefone -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layoutTelefone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:hint="@string/telefone"
-                app:boxBackgroundMode="outline"
-                app:boxBackgroundColor="@color/white"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusBottomEnd="8dp">
+                    <!-- Email -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:hint="@string/email"
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxCornerRadiusTopStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusBottomEnd="8dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtTelefone"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/tamanho_formulario"
-                    android:inputType="phone"
-                    android:textSize="18sp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress"
+                            android:textSize="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Senha -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layoutSenha"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:hint="@string/senha"
-                app:boxBackgroundMode="outline"
-                app:endIconMode="password_toggle"
-                app:boxBackgroundColor="@color/white"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusBottomEnd="8dp">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayoutInfoCpf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:hint="@string/cpf"
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusTopStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusBottomEnd="8dp"
+                        app:endIconMode="none"
+                        app:boxBackgroundColor="@color/white">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtSenha"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/tamanho_formulario"
-                    android:inputType="textPassword"
-                    android:textSize="18sp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtCpf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textSize="16dp"
+                            android:imeOptions="actionNext"
+                            android:nextFocusDown="@id/txtTelefone"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Confirmar senha -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layoutConfirmarSenha"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:hint="@string/confirmar_senha"
-                app:boxBackgroundMode="outline"
-                app:endIconMode="password_toggle"
-                app:boxBackgroundColor="@color/white"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusBottomEnd="8dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtConfirmarSenha"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/tamanho_formulario"
-                    android:inputType="textPassword"
-                    android:textSize="18sp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    <!-- Telefone -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutTelefone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:hint="@string/telefone"
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxCornerRadiusTopStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusBottomEnd="8dp">
 
-            <!-- Botão Salvar -->
-            <Button
-                android:id="@+id/btnSalvarUsuario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_salvar"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="@color/bemax_red"
-                android:padding="12dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="32dp" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtTelefone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone"
+                            android:textSize="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutInfoNascimento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:hint="@string/data_nascimento"
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusTopStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusBottomEnd="8dp"
+                        app:endIconMode="none"
+                        app:boxBackgroundColor="@color/white">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtDataNasc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="date"
+                            android:textSize="16dp"
+                            android:imeOptions="actionNext"
+                            android:nextFocusDown="@id/txtSenha"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <!-- Senha -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutSenha"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:hint="@string/senha"
+                        app:boxBackgroundMode="outline"
+                        app:endIconMode="password_toggle"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxCornerRadiusTopStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusBottomEnd="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtSenha"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:textSize="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Confirmar senha -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutConfirmarSenha"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:hint="@string/confirmar_senha"
+                        app:boxBackgroundMode="outline"
+                        app:endIconMode="password_toggle"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxCornerRadiusTopStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusBottomEnd="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtConfirmarSenha"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:textSize="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Botão Salvar -->
+                    <Button
+                        android:id="@+id/btnSalvarUsuario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/btn_salvar"
+                        android:textAllCaps="false"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"
+                        android:backgroundTint="@color/bemax_red"
+                        android:padding="12dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp" />
+                </LinearLayout>
+            </ScrollView>
+
         </LinearLayout>
-    </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/lnlAreaProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:indeterminateTint="@color/bemax_red"
+                android:layout_marginBottom="16dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
 </LinearLayout>
