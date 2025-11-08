@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="@color/cor_cinza_fundo"
     android:id="@+id/root_layout"
-    android:padding="20dp">
+    android:padding="18dp">
 
     <!-- Cabeçalho -->
     <LinearLayout

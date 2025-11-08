@@ -130,13 +130,13 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
         }
         else if ( sCpf.isEmpty() )
         {
-            txtCpf.setError("Cpf é obrigatório");
+            txtCpf.setError("CPF é obrigatório");
             txtCpf.requestFocus();
             return false;
         }
         else if ( sCpf.length() < 11 )
         {
-            txtCpf.setError("Cpf inválido");
+            txtCpf.setError("CPF inválido");
             txtCpf.requestFocus();
             return false;
         }

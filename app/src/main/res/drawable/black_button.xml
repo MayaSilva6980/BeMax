@@ -2,8 +2,8 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <!-- Fundo cinza escuro -->
-    <solid android:color="@android:color/darker_gray" />
+    <!-- Fundo preto -->
+    <solid android:color="@color/bemax_black" />
 
     <!-- Bordas arredondadas -->
     <corners android:radius="20dp" />
@@ -11,5 +11,5 @@
     <!-- Borda opcional -->
     <stroke
         android:width="2dp"
-        android:color="@android:color/darker_gray"/> <!-- cinza ainda mais escuro -->
+        android:color="@color/bemax_black"/>
 </shape>

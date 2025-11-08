@@ -11,7 +11,7 @@
     <Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:backgroundTint="@color/bemax_offwhite"
         android:elevation="0dp"
         android:title="BeMax"
@@ -24,7 +24,9 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
     <!-- Tab bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
