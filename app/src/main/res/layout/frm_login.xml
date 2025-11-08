@@ -126,7 +126,7 @@
         android:layout_height="38dp"
         android:layout_gravity="center"
         android:gravity="center"
-        android:background="@drawable/botao_cinza"
+        android:background="@drawable/black_button"
         android:clickable="true"
         android:layout_marginBottom="12dp" >
 

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.bemax.model.dto.FirebaseLoginRequest;
 import com.example.bemax.model.dto.LoginRequest;
 import com.example.bemax.model.dto.LoginResponse;
 import com.example.bemax.network.RetrofitClient;
@@ -66,6 +67,60 @@ public class AuthRepository {
             @Override
             public void onFailure(@NonNull Call<LoginResponse> call, @NonNull Throwable t) {
                 String errorMsg = "Erro de conexão: " + t.getMessage();
+                Log.e(TAG, errorMsg, t);
+                callback.onError(errorMsg);
+            }
+        });
+    }
+
+    // Login com Firebase Token
+    public void loginWithFirebase(String firebaseToken, AuthCallback callback) {
+        FirebaseLoginRequest request = new FirebaseLoginRequest(firebaseToken, "mobile");
+
+        Log.d(TAG, "Iniciando login com Firebase Token");
+        Log.d(TAG, "Firebase Token (primeiros 30 chars): " + firebaseToken.substring(0, Math.min(30, firebaseToken.length())) + "...");
+
+        callApi.loginWithFirebase(request).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    LoginResponse loginResponse = response.body();
+
+                    // Verifica se tem token
+                    if (loginResponse.hasToken()) {
+                        // Salvar token no RetrofitClient
+                        RetrofitClient.getInstance().setAuthToken(loginResponse.getAccessToken());
+
+                        Log.d(TAG, "Login com Firebase realizado com sucesso!");
+                        Log.d(TAG, "Access Token: " + loginResponse.getAccessToken().substring(0, Math.min(20, loginResponse.getAccessToken().length())) + "...");
+                        Log.d(TAG, "Token Type: " + loginResponse.getTokenType());
+
+                        callback.onSuccess(loginResponse);
+                    } else {
+                        Log.e(TAG, "Resposta sem token");
+                        callback.onError("Resposta inválida do servidor");
+                    }
+                } else {
+                    String errorMsg = "Erro ao fazer login com Firebase: " + response.code();
+                    Log.e(TAG, errorMsg);
+
+                    try {
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            Log.e(TAG, "Error Body: " + errorBody);
+                            callback.onError(errorMsg + " - " + errorBody);
+                        } else {
+                            callback.onError(errorMsg);
+                        }
+                    } catch (Exception e) {
+                        callback.onError(errorMsg);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<LoginResponse> call, @NonNull Throwable t) {
+                String errorMsg = "Erro de conexão ao fazer login com Firebase: " + t.getMessage();
                 Log.e(TAG, errorMsg, t);
                 callback.onError(errorMsg);
             }

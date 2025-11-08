@@ -12,9 +12,9 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_marginBottom="12dp"
-        app:cardCornerRadius="16dp"
+        android:layout_margin="4dp"
+        android:layout_marginBottom="6dp"
+        app:cardCornerRadius="6dp"
         app:cardElevation="3dp"
         app:cardBackgroundColor="@color/bemax_white">
 
@@ -36,7 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textColor="@color/bemax_black"
                     android:text="Nome do contato" />
 
@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:text="Telefone"
                     android:textColor="@color/bemax_black"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     android:textSize="16sp"
                     android:layout_marginTop="2dp" />
 
@@ -74,7 +74,6 @@
                     android:src="@drawable/ic_editar"/>
 
             </LinearLayout>
-
 
          </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

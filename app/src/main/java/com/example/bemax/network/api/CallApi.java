@@ -1,6 +1,7 @@
 package com.example.bemax.network.api;
 
 import com.example.bemax.model.dto.ApiResponse;
+import com.example.bemax.model.dto.FirebaseLoginRequest;
 import com.example.bemax.model.dto.LoginRequest;
 import com.example.bemax.model.dto.LoginResponse;
 import com.example.bemax.model.dto.RegisterRequest;
@@ -17,6 +18,9 @@ public interface CallApi {
 
     @POST("auth/registry")
     Call<RegisterResponse> register(@Body RegisterRequest request);
+
+    @POST("auth/firebase/login")
+    Call<LoginResponse> loginWithFirebase(@Body FirebaseLoginRequest request);
 
     @POST("auth/logout")
     Call<ApiResponse<Void>> logout(@Header("Authorization") String token);

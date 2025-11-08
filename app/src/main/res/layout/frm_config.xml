@@ -187,7 +187,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -201,13 +200,11 @@
             android:src="@drawable/ic_logout"
             app:tint="@color/bemax_white"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             app:backgroundTint="@color/bemax_red"
             app:maxImageSize="35dp"
             app:elevation="6dp" />
 
-
     </RelativeLayout>
-
 
 </LinearLayout>

@@ -11,5 +11,5 @@
     <!-- Borda opcional -->
     <stroke
         android:width="2dp"
-        android:color="@color/bemax_red"/> <!-- cinza ainda mais escuro -->
+        android:color="@color/bemax_red"/>
 </shape>
