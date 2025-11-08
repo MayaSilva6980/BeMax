@@ -74,6 +74,21 @@
     <string name="senha">Senha</string>
     <string name="others_options_login">Outras opções de login</string>
     <string name="sign_up">Não tem uma conta? Cadastre-se</string>
+    
+    <!-- Biometria -->
+    <string name="biometric_title">Autenticação Biométrica</string>
+    <string name="biometric_subtitle">Use sua digital ou face para continuar</string>
+    <string name="biometric_description">Confirme sua identidade para acessar o app</string>
+    <string name="biometric_negative_button">Usar senha</string>
+    <string name="biometric_enable_title">Ativar login biométrico?</string>
+    <string name="biometric_enable_message">Nas próximas vezes você poderá fazer login usando sua digital ou reconhecimento facial</string>
+    <string name="biometric_enable_positive">Ativar</string>
+    <string name="biometric_enable_negative">Agora não</string>
+    <string name="biometric_success">Autenticação bem-sucedida!</string>
+    <string name="biometric_error">Erro na autenticação biométrica</string>
+    <string name="biometric_failed">Biometria não reconhecida. Tente novamente</string>
+    <string name="biometric_not_available">Biometria não disponível neste dispositivo</string>
+    <string name="biometric_not_enrolled">Nenhuma biometria cadastrada. Configure nas configurações do dispositivo</string>
 
     <string name="default_web_client_id">AIzaSyBX9mOVRVfJV26JTZqU3kyJ9xXjVqJRw2k</string>
 </resources>

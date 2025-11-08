@@ -24,12 +24,10 @@ public class RegisterRepository {
 
     public RegisterRepository(Context contextParam) {
         context = contextParam;
-
         this.callApi = RetrofitClient.getInstance().createService(CallApi.class);
     }
 
         public void register (RegisterRequest request, RegisterCallback callback){
-
         callApi.register(request).enqueue(new Callback<RegisterResponse>() {
 
             @Override
@@ -41,6 +39,7 @@ public class RegisterRepository {
                     Log.d(TAG, "Response: " + registerResponse);
 
                     Apoio.salvarModel(context, Const.Prefs_Usuario, registerResponse);
+                    callback.onSuccess(registerResponse);
                 }
                 else {
                     String errorMsg = "Erro ao fazer cadastro: " + response.code();

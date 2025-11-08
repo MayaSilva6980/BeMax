@@ -1,5 +1,6 @@
 package com.example.bemax.ui;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,8 @@ import com.example.bemax.R;
 import com.example.bemax.model.dto.LoginResponse;
 import com.example.bemax.repository.AuthRepository;
 import com.example.bemax.util.BaseActivity;
+import com.example.bemax.util.BiometricHelper;
+import com.example.bemax.util.SecureStorage;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -35,14 +38,15 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
     private TextView txtSignup;
     private ProgressBar progressBar;
 
-
-    // variaveis da classe
-
+    // Variáveis da classe
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private final static int RC_SIGN_IN = 123;
-
     private AuthRepository authRepository;
+    
+    // Biometria
+    private BiometricHelper biometricHelper;
+    private SecureStorage secureStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,13 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.frm_login);
 
         authRepository = new AuthRepository();
+        biometricHelper = new BiometricHelper(this);
+        secureStorage = new SecureStorage(this);
+        
         iniciaControles();
+        
+        // Verificar se há login salvo com biometria
+        checkSavedLogin();
     }
 
     @Override
@@ -74,19 +84,17 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
 
         // Configura opções de login Google
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id)) // vem do google-services.json
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
     }
 
     @Override
-    public void carregaDados() throws Exception
-    {
-
+    public void carregaDados() throws Exception {
     }
+
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btnContinue) {
@@ -95,11 +103,68 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
         else if (view.getId() == R.id.btnGoogle) {
             signIn();
         }
-        else if (view.getId() == R.id.txtSignup){
-
+        else if (view.getId() == R.id.txtSignup) {
             startActivity(new Intent(this, FrmCadastro.class));
         }
+    }
 
+    /**
+     * Verifica se há login salvo e oferece biometria
+     */
+    private void checkSavedLogin() {
+        if (secureStorage.isBiometricEnabled() && secureStorage.hasValidToken()) {
+            String savedEmail = secureStorage.getUserEmail();
+            
+            if (savedEmail != null) {
+                editTextEmail.setText(savedEmail);
+                
+                Toast.makeText(this, 
+                    "Use sua biometria para entrar rapidamente", 
+                    Toast.LENGTH_LONG).show();
+                
+                editTextEmail.postDelayed(this::authenticateWithBiometric, 500);
+            }
+        }
+    }
+
+    /**
+     * Autentica usando biometria
+     */
+    private void authenticateWithBiometric() {
+        biometricHelper.authenticate(new BiometricHelper.BiometricCallback() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(FrmLogin.this, 
+                    R.string.biometric_success, 
+                    Toast.LENGTH_SHORT).show();
+                
+                String accessToken = secureStorage.getAccessToken();
+                String email = secureStorage.getUserEmail();
+                
+                Intent intent = new Intent(FrmLogin.this, FrmPrincipal.class);
+                intent.putExtra("user_email", email);
+                intent.putExtra("access_token", accessToken);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(FrmLogin.this, error, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailed() {
+                Toast.makeText(FrmLogin.this, 
+                    R.string.biometric_failed, 
+                    Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onUsePassword() {
+                editTextSenha.requestFocus();
+            }
+        });
     }
 
     private void realizarLoginRetrofit() {
@@ -140,17 +205,26 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
                             "Login realizado com sucesso!",
                             Toast.LENGTH_SHORT).show();
 
-                    // Log debug
                     Log.d("FrmLogin", "Login realizado com sucesso!");
                     Log.d("FrmLogin", "Access Token: " + response.getAccessToken().substring(0, Math.min(20, response.getAccessToken().length())) + "...");
-                    Log.d("FrmLogin", "Refresh Token: " + response.getRefreshToken());
-                    Log.d("FrmLogin", "Expires In: " + response.getExpiresIn());
 
-                    Intent intent = new Intent(FrmLogin.this, FrmPrincipal.class);
-                    intent.putExtra("user_email", email);
-                    intent.putExtra("access_token", response.getAccessToken());
-                    startActivity(intent);
-                    finish();
+                    // Salvar tokens de forma segura
+                    secureStorage.saveAccessToken(response.getAccessToken());
+                    if (response.getRefreshToken() != null) {
+                        secureStorage.saveRefreshToken(response.getRefreshToken());
+                    }
+                    secureStorage.saveUserEmail(email);
+                    
+                    long expirationTimeMs = System.currentTimeMillis() + (response.getExpiresIn() * 1000);
+                    secureStorage.saveTokenExpiration(expirationTimeMs);
+
+                    // Perguntar se quer ativar biometria
+                    if (!secureStorage.isBiometricEnabled() && 
+                        biometricHelper.checkBiometricAvailability() == BiometricHelper.BiometricStatus.AVAILABLE) {
+                        askToEnableBiometric(email, response.getAccessToken());
+                    } else {
+                        goToPrincipal(email, response.getAccessToken());
+                    }
                 });
             }
 
@@ -165,14 +239,37 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
                             "Erro ao fazer login: " + error,
                             Toast.LENGTH_LONG).show();
 
-                    // Log debug
                     Log.e("FrmLogin", "Erro no login: " + error);
                 });
             }
         });
     }
-    private void signIn()
-    {
+
+    private void askToEnableBiometric(String email, String accessToken) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.biometric_enable_title)
+                .setMessage(R.string.biometric_enable_message)
+                .setPositiveButton(R.string.biometric_enable_positive, (dialog, which) -> {
+                    secureStorage.setBiometricEnabled(true);
+                    Toast.makeText(this, "Biometria ativada!", Toast.LENGTH_SHORT).show();
+                    goToPrincipal(email, accessToken);
+                })
+                .setNegativeButton(R.string.biometric_enable_negative, (dialog, which) -> {
+                    goToPrincipal(email, accessToken);
+                })
+                .setCancelable(false)
+                .show();
+    }
+
+    private void goToPrincipal(String email, String accessToken) {
+        Intent intent = new Intent(FrmLogin.this, FrmPrincipal.class);
+        intent.putExtra("user_email", email);
+        intent.putExtra("access_token", accessToken);
+        startActivity(intent);
+        finish();
+    }
+
+    private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -181,11 +278,15 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == RC_SIGN_IN)
-        {
+        if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
+                Log.d("FrmLogin", "Google SignIn successful: " + account.getEmail());
+
+                progressBar.setVisibility(View.VISIBLE);
+                btnGoogle.setEnabled(false);
+
                 firebaseAuthWithGoogle(account.getIdToken());
             }
             catch (ApiException e) {
@@ -195,26 +296,107 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    private void firebaseAuthWithGoogle(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+    private void firebaseAuthWithGoogle(String googleIdToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(googleIdToken, null);
+
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
                 FirebaseUser user = mAuth.getCurrentUser();
-                Toast.makeText(this, "Logado: " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+                Log.d("FrmLogin", "Firebase auth successful");
 
-                // redireciona para tela principal
-                Intent intent = new Intent(FrmLogin.this, FrmCadastro.class);
-                intent.putExtra("nome", user.getDisplayName());
-                intent.putExtra("email", user.getEmail());
-                intent.putExtra("telefone", user.getPhoneNumber());
-                startActivity(intent);
-                finish();
-            }
-            else {
-                Toast.makeText(this, "Erro ao autenticar no Firebase.", Toast.LENGTH_SHORT).show();
+                user.getIdToken(true).addOnCompleteListener(tokenTask -> {
+                    if (tokenTask.isSuccessful()) {
+                        String firebaseIdToken = tokenTask.getResult().getToken();
+
+                        Log.d("FrmLogin", "Firebase ID Token obtido com sucesso");
+                        Log.d("FrmLogin", "Token (primeiros 30 chars): " +
+                                firebaseIdToken.substring(0, Math.min(30, firebaseIdToken.length())) + "...");
+
+                        loginWithFirebaseToken(firebaseIdToken, user);
+
+                    } else {
+                        progressBar.setVisibility(View.GONE);
+                        btnGoogle.setEnabled(true);
+
+                        Toast.makeText(this,
+                                "Erro ao obter token do Firebase",
+                                Toast.LENGTH_SHORT).show();
+                        Log.e("FrmLogin", "Erro ao obter Firebase token", tokenTask.getException());
+                    }
+                });
+
+            } else {
+                progressBar.setVisibility(View.GONE);
+                btnGoogle.setEnabled(true);
+
+                Toast.makeText(this,
+                        "Erro ao autenticar no Firebase.",
+                        Toast.LENGTH_SHORT).show();
                 Log.e("FrmLogin", "Erro no Firebase Auth", task.getException());
             }
         });
     }
 
+    private void loginWithFirebaseToken(String firebaseToken, FirebaseUser firebaseUser) {
+        authRepository.loginWithFirebase(firebaseToken, new AuthRepository.AuthCallback() {
+            @Override
+            public void onSuccess(LoginResponse response) {
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    btnGoogle.setEnabled(true);
+
+                    Toast.makeText(FrmLogin.this,
+                            "Login com Google realizado com sucesso!",
+                            Toast.LENGTH_SHORT).show();
+
+                    Log.d("FrmLogin", "Backend login successful");
+
+                    // Salvar tokens
+                    secureStorage.saveAccessToken(response.getAccessToken());
+                    if (response.getRefreshToken() != null) {
+                        secureStorage.saveRefreshToken(response.getRefreshToken());
+                    }
+                    secureStorage.saveUserEmail(firebaseUser.getEmail());
+                    
+                    long expirationTimeMs = System.currentTimeMillis() + (response.getExpiresIn() * 1000);
+                    secureStorage.saveTokenExpiration(expirationTimeMs);
+
+                    // Perguntar sobre biometria
+                    if (!secureStorage.isBiometricEnabled() && 
+                        biometricHelper.checkBiometricAvailability() == BiometricHelper.BiometricStatus.AVAILABLE) {
+                        askToEnableBiometric(firebaseUser.getEmail(), response.getAccessToken());
+                    } else {
+                        goToPrincipal(firebaseUser.getEmail(), response.getAccessToken());
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    btnGoogle.setEnabled(true);
+
+                    if (error.contains("404") || error.contains("not registered")) {
+                        Toast.makeText(FrmLogin.this,
+                                "Complete seu cadastro",
+                                Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(FrmLogin.this, FrmCadastro.class);
+                        intent.putExtra("nome", firebaseUser.getDisplayName());
+                        intent.putExtra("email", firebaseUser.getEmail());
+                        intent.putExtra("firebase_token", firebaseToken);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(FrmLogin.this,
+                                "Erro ao fazer login: " + error,
+                                Toast.LENGTH_LONG).show();
+
+                        Log.e("FrmLogin", "Erro no login com Firebase: " + error);
+                    }
+                });
+            }
+        });
+    }
 }

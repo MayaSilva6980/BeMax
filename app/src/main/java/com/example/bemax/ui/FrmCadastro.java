@@ -7,15 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bemax.R;
-import com.example.bemax.model.dto.LoginResponse;
 import com.example.bemax.model.dto.RegisterRequest;
 import com.example.bemax.model.dto.RegisterResponse;
-import com.example.bemax.repository.AuthRepository;
 import com.example.bemax.repository.RegisterRepository;
 import com.example.bemax.util.BaseActivity;
 
@@ -29,13 +26,13 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
     private EditText txtCpf;
     private EditText txtDataNasc;
     private Button btnSalvarUsuario;
-    private TextView cmdCancelar;
+    private TextView btnCancelar;
 
     private LinearLayout lnlAreaProgressBar;
 
     //Variaveis de classe
-    private RegisterRepository registerRepository = null;
-    private RegisterRequest registerRequest = null;
+    private RegisterRepository registerRepository;
+    private RegisterRequest registerRequest;
 
 
     @Override
@@ -45,6 +42,8 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
         {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.frm_cadastro);
+
+            registerRepository = new RegisterRepository(this);
 
             iniciaControles();
             obtemParametros();
@@ -82,9 +81,10 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
         lnlAreaProgressBar = findViewById(R.id.lnlAreaProgressBar);
 
         btnSalvarUsuario = findViewById(R.id.btnSalvarUsuario);
-        cmdCancelar = findViewById(R.id.cmdCancelar);
+        btnCancelar = findViewById(R.id.btnCancelar);
 
-        cmdCancelar.setOnClickListener(this);
+        btnCancelar.setOnClickListener(this);
+        btnSalvarUsuario.setOnClickListener(this);
 
         carregaDados();
     }
@@ -97,7 +97,7 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
     @Override
     public void onClick(View view)
     {
-        if (view.getId() == R.id.cmdCancelar)
+        if (view.getId() == R.id.btnCancelar)
         {
             getOnBackPressedDispatcher().onBackPressed();
         }
@@ -107,8 +107,7 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
         }
     }
 
-    public boolean validaCampos()
-    {
+    public boolean validaCampos() {
         String sNome = txtNome.getText().toString();
         String sEmail = txtEmail.getText().toString();
         String sCpf = txtCpf.getText().toString();
@@ -159,24 +158,20 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
             txtSenha.requestFocus();
             return false;
         }
-        else if ( sSenhaConfirma.isEmpty())
+        else if ( !sSenha.equals(sSenhaConfirma))
         {
-            txtConfirmarSenha.setError("Confirmação de senha é obrigatório");
+            txtConfirmarSenha.setError("Senhas diferentes");
             txtConfirmarSenha.requestFocus();
-            return false;
-        }
-        else if ( sSenha != sSenhaConfirma)
-        {
-            txtTelefone.setError("Senhas diferentes");
-            txtTelefone.requestFocus();
             return false;
         }
         else if ( sDataNasc.isEmpty())
         {
-            txtDataNasc.setError("Senhas diferentes");
+            txtDataNasc.setError("Data de nascimento é obrigatória");
             txtDataNasc.requestFocus();
             return false;
         }
+
+        Toast.makeText(FrmCadastro.this, sTelefone, Toast.LENGTH_SHORT).show();
 
         registerRequest = new RegisterRequest(sEmail,sNome,sSenha,sCpf,sTelefone,sDataNasc);
         return true;
@@ -190,7 +185,7 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
         }
 
         btnSalvarUsuario.setEnabled(false);
-        btnSalvarUsuario.setText("Entrando...");
+        btnSalvarUsuario.setText("Cadastrando...");
         lnlAreaProgressBar.setVisibility(View.VISIBLE);
 
         registerRepository.register(registerRequest, new RegisterRepository.RegisterCallback() {
@@ -198,7 +193,7 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
             public void onSuccess(RegisterResponse response) {
                 runOnUiThread(() -> {
                     btnSalvarUsuario.setEnabled(true);
-                    btnSalvarUsuario.setText("Continue");
+                    btnSalvarUsuario.setText("Salvar");
                     lnlAreaProgressBar.setVisibility(View.GONE);
 
                     Toast.makeText(FrmCadastro.this,
@@ -210,6 +205,7 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
                     Log.d("FrmCadastro", "Response: " + response);
 
                     Intent intent = new Intent(FrmCadastro.this, FrmPrincipal.class);
+                    startActivity(intent);
                     finish();
                 });
             }

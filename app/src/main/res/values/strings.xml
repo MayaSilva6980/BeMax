@@ -73,7 +73,22 @@
     <string name="email">Email</string>
     <string name="senha">Password</string>
     <string name="others_options_login">Other login options</string>
-    <string name="sign_up">Don’t have account? Sign Up</string>
+    <string name="sign_up">Don\'t have account? Sign Up</string>
+    
+    <!-- Biometric -->
+    <string name="biometric_title">Biometric Authentication</string>
+    <string name="biometric_subtitle">Use your fingerprint or face to continue</string>
+    <string name="biometric_description">Confirm your identity to access the app</string>
+    <string name="biometric_negative_button">Use password</string>
+    <string name="biometric_enable_title">Enable biometric login?</string>
+    <string name="biometric_enable_message">Next time you can log in using your fingerprint or face recognition</string>
+    <string name="biometric_enable_positive">Enable</string>
+    <string name="biometric_enable_negative">Not now</string>
+    <string name="biometric_success">Authentication successful!</string>
+    <string name="biometric_error">Biometric authentication error</string>
+    <string name="biometric_failed">Biometric not recognized. Try again</string>
+    <string name="biometric_not_available">Biometric not available on this device</string>
+    <string name="biometric_not_enrolled">No biometric enrolled. Set up in device settings</string>
 
     <string name="default_web_client_id">AIzaSyBX9mOVRVfJV26JTZqU3kyJ9xXjVqJRw2k</string>
 </resources>
