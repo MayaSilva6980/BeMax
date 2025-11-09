@@ -16,5 +16,6 @@ public class Const
 
     public static final String mask_telefone = "(##) #####-####";
     public static final String mask_cpf = "###.###.###-##";
+    public static final String mask_data= "##/##/####";
 
 }

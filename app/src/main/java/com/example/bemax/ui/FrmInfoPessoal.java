@@ -7,7 +7,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.bemax.R;
+import com.example.bemax.util.Apoio;
 import com.example.bemax.util.BaseActivity;
+import com.example.bemax.util.Const;
 
 public class FrmInfoPessoal extends BaseActivity implements  View.OnClickListener
 {
@@ -17,6 +19,7 @@ public class FrmInfoPessoal extends BaseActivity implements  View.OnClickListene
     private EditText txtInfoNascimento;
     private EditText txtInfoGenero;
     private EditText txtInfoEndereco;
+    private EditText txtCpf;
 
     // Buttons e TextViews
     private Button btnSalvar;
@@ -48,6 +51,10 @@ public class FrmInfoPessoal extends BaseActivity implements  View.OnClickListene
         txtInfoNascimento = findViewById(R.id.txtInfoNascimento);
         txtInfoGenero = findViewById(R.id.txtInfoGenero);
         txtInfoEndereco = findViewById(R.id.txtInfoEndereco);
+        txtCpf = findViewById(R.id.txtCpf);
+
+        Apoio.aplicarMascara(txtInfoNascimento, Const.mask_data);
+        Apoio.aplicarMascara(txtCpf, Const.mask_cpf);
 
         btnSalvar = findViewById(R.id.btnSalvar);
         btnCancelar = findViewById(R.id.btnCancelar);

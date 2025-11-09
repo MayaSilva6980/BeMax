@@ -8,7 +8,9 @@ import android.widget.TextView;
 
 import com.example.bemax.R;
 import com.example.bemax.model.Contato;
+import com.example.bemax.util.Apoio;
 import com.example.bemax.util.BaseActivity;
+import com.example.bemax.util.Const;
 
 public class FrmCadastroContatos extends BaseActivity implements  View.OnClickListener {
     // Campos de texto
@@ -56,6 +58,8 @@ public class FrmCadastroContatos extends BaseActivity implements  View.OnClickLi
         txtEmailContato = findViewById(R.id.txtEmailContato);
         txtParentesco = findViewById(R.id.txtParentesco);
         txtObservacoesContato = findViewById(R.id.txtObservacoesContato);
+
+        Apoio.aplicarMascara(txtTelefoneContato, Const.mask_telefone);
 
         btnSalvarContato = findViewById(R.id.btnSalvarContato);
         cmdCancelar = findViewById(R.id.cmdCancelar);

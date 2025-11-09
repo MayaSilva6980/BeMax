@@ -14,7 +14,9 @@ import com.example.bemax.R;
 import com.example.bemax.model.dto.RegisterRequest;
 import com.example.bemax.model.dto.RegisterResponse;
 import com.example.bemax.repository.RegisterRepository;
+import com.example.bemax.util.Apoio;
 import com.example.bemax.util.BaseActivity;
+import com.example.bemax.util.Const;
 
 public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
     // Campos de texto
@@ -79,9 +81,12 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
         txtCpf = findViewById(R.id.txtCpf);
         txtDataNasc = findViewById(R.id.txtDataNasc);
         lnlAreaProgressBar = findViewById(R.id.lnlAreaProgressBar);
-
         btnSalvarUsuario = findViewById(R.id.btnSalvarUsuario);
         btnCancelar = findViewById(R.id.btnCancelar);
+
+        Apoio.aplicarMascara(txtTelefone, Const.mask_telefone);
+        Apoio.aplicarMascara(txtCpf, Const.mask_cpf);
+        Apoio.aplicarMascara(txtDataNasc, Const.mask_data);
 
         btnCancelar.setOnClickListener(this);
         btnSalvarUsuario.setOnClickListener(this);
