@@ -53,13 +53,14 @@
         app:boxCornerRadiusTopEnd="8dp"
         app:boxCornerRadiusBottomStart="8dp"
         app:boxCornerRadiusBottomEnd="8dp"
-        app:endIconMode="none"
+        app:endIconMode="password_toggle"
         app:boxBackgroundColor="@color/white">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputEditTextLoginSenha"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tamanho_formulario"
+            android:inputType="textPassword"
             android:textSize="18sp"
             android:imeOptions="actionNext"
             android:nextFocusDown="@id/textInputEditTextLoginSenha"/>
