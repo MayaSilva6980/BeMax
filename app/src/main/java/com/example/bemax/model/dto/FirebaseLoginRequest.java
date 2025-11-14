@@ -3,7 +3,7 @@ package com.example.bemax.model.dto;
 import com.google.gson.annotations.SerializedName;
 
 public class FirebaseLoginRequest {
-    @SerializedName("token")
+    @SerializedName("id_token")
     private String firebaseToken;
     @SerializedName("device_info")
     private String deviceInfo;

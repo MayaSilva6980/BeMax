@@ -1,9 +1,9 @@
 package com.example.bemax.model.dto;
 
+import com.example.bemax.model.User;
 import com.google.gson.annotations.SerializedName;
 
 public class LoginResponse {
-
     @SerializedName("access_token")
     private String accessToken;
 
@@ -15,6 +15,9 @@ public class LoginResponse {
 
     @SerializedName("expires_in")
     private long expiresIn;
+
+    @SerializedName("user")
+    private User user;
 
     public String getAccessToken() {
         return accessToken;
@@ -54,5 +57,14 @@ public class LoginResponse {
 
     public String getBearerToken() {
         return tokenType + " " + accessToken;
+    }
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

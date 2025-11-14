@@ -17,11 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bemax.R;
 import com.example.bemax.adapters.LembreteAdapter;
 import com.example.bemax.model.Lembrete;
+import com.example.bemax.model.User;
 
 import java.util.ArrayList;
 
-public class FrmHome extends Fragment implements View.OnClickListener
-{
+public class FrmHome extends Fragment implements View.OnClickListener {
     // controles
     private TextView lblSaudacao = null;
     private TextView lblBatimento = null;
@@ -33,16 +33,16 @@ public class FrmHome extends Fragment implements View.OnClickListener
 
 
     FrmPrincipal frmPrincipal = null;
+    User currentUser = null;
 
-    public FrmHome(FrmPrincipal principal)
-    {
+    public FrmHome(FrmPrincipal principal, User user) {
         frmPrincipal = principal;
+        currentUser = user;
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,@Nullable ViewGroup container,@Nullable Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater,@Nullable ViewGroup container,@Nullable Bundle savedInstanceState) {
         // Infla o layout do fragmento
         View view = inflater.inflate(R.layout.frm_home, container, false);
 
@@ -52,8 +52,7 @@ public class FrmHome extends Fragment implements View.OnClickListener
 
 
 
-    public void iniciaControles(View view)
-    {
+    public void iniciaControles(View view) {
         lblSaudacao = view.findViewById(R.id.lblSaudacao);
         lblBatimento = view.findViewById(R.id.lblBatimento);
         lblPressao = view.findViewById(R.id.lblPressao);
@@ -67,26 +66,29 @@ public class FrmHome extends Fragment implements View.OnClickListener
         carregaDados();
     }
 
-     public void carregaDados()
-     {
+     public void carregaDados() {
          //preenche campos da tela
+
+         // Atualiza saudação com nome do usuário
+         if (currentUser != null && currentUser.getFullName() != null) {
+             String firstName = currentUser.getFullName().split(" ")[0];
+             lblSaudacao.setText(getGreeting() + ", " + firstName + "!");
+         } else {
+             lblSaudacao.setText(getGreeting() + "!");
+         }
 
          //preenche a lista de lembretes
          preencheListaLembretes();
      }
 
     @Override
-    public void onClick(View view)
-    {
-        if (view.getId() == R.id.lnlAdicionarLembrete)
-        {
+    public void onClick(View view) {
+        if (view.getId() == R.id.lnlAdicionarLembrete) {
             startActivity(new Intent(frmPrincipal, FrmCadastroLembretes.class));
         }
     }
 
-    public void preencheListaLembretes()
-    {
-
+    public void preencheListaLembretes() {
         ArrayList listaLembretes = null;
         // obter as informacoes da api
 
@@ -98,6 +100,18 @@ public class FrmHome extends Fragment implements View.OnClickListener
         LembreteAdapter adapter = new LembreteAdapter(listaLembretes);
         rcvLembretes.setLayoutManager(new LinearLayoutManager(frmPrincipal));
         rcvLembretes.setAdapter(adapter);
+    }
 
+    // Retorna a saudação apropriada com base na hora do dia
+    private String getGreeting() {
+        int hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY);
+
+        if (hour >= 0 && hour < 12) {
+            return "Bom dia";
+        } else if (hour >= 12 && hour < 18) {
+            return "Boa tarde";
+        } else {
+            return "Boa noite";
+        }
     }
 }

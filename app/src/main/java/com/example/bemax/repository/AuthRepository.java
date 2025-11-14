@@ -4,11 +4,15 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.bemax.model.dto.ApiResponse;
 import com.example.bemax.model.dto.FirebaseLoginRequest;
 import com.example.bemax.model.dto.LoginRequest;
 import com.example.bemax.model.dto.LoginResponse;
+import com.example.bemax.model.dto.RefreshTokenRequest;
 import com.example.bemax.network.RetrofitClient;
 import com.example.bemax.network.api.CallApi;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -127,12 +131,77 @@ public class AuthRepository {
         });
     }
 
-    public void logout() {
-        RetrofitClient.getInstance().clearAuthToken();
-        Log.d(TAG, "Logout realizado");
+    public void refreshToken(String accessToken, String refreshToken, AuthCallback callback) {
+        RetrofitClient retrofitClient = RetrofitClient.getInstance();
+        CallApi api = retrofitClient.createService(CallApi.class);
+
+        RefreshTokenRequest request = new RefreshTokenRequest(refreshToken);
+        String authHeader = "Bearer " + accessToken;
+
+        Call<LoginResponse> call = api.refreshToken(authHeader, request);
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    LoginResponse loginResponse = response.body();
+                    Log.d("AuthRepository", "Token refreshed successfully");
+                    callback.onSuccess(loginResponse);
+                } else {
+                    try {
+                        String errorBody = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
+                        Log.e("AuthRepository", "Refresh token failed: " + errorBody);
+                        callback.onError("Sessão expirada. Faça login novamente.");
+                    } catch (IOException e) {
+                        callback.onError("Erro ao renovar sessão");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<LoginResponse> call, @NonNull Throwable t) {
+                Log.e("AuthRepository", "Refresh token network error", t);
+                callback.onError("Erro de rede ao renovar sessão");
+            }
+        });
     }
 
-    // Interface de callback
+    public void logout(String accessToken, String refreshToken, LogoutCallback callback) {
+        String authHeader = "Bearer " + accessToken;
+        RefreshTokenRequest request = new RefreshTokenRequest(refreshToken);
+
+        Log.d(TAG, "Fazendo logout no backend...");
+
+        callApi.logout(authHeader, request).enqueue(new Callback<ApiResponse<Void>>() {
+            @Override
+            public void onResponse(@NonNull Call<ApiResponse<Void>> call, @NonNull Response<ApiResponse<Void>> response) {
+                if (response.isSuccessful()) {
+                    RetrofitClient.getInstance().clearAuthToken();
+                    Log.d(TAG, "Logout realizado com sucesso no backend");
+                    callback.onSuccess();
+                } else {
+                    // Mesmo com erro no backend, limpar dados locais
+                    RetrofitClient.getInstance().clearAuthToken();
+                    Log.w(TAG, "Erro no logout do backend (code: " + response.code() + "), mas limpando dados locais");
+                    callback.onSuccess();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ApiResponse<Void>> call, @NonNull Throwable t) {
+                // Mesmo com erro de rede, limpar dados locais
+                RetrofitClient.getInstance().clearAuthToken();
+                Log.e(TAG, "Falha na rede ao fazer logout, mas limpando dados locais", t);
+                callback.onSuccess();
+            }
+        });
+    }
+
+    // Interfaces de callback
+    public interface LogoutCallback {
+        void onSuccess();
+    }
+
     public interface AuthCallback {
         void onSuccess(LoginResponse response);
         void onError(String error);
