@@ -31,7 +31,6 @@ public class FrmHome extends Fragment implements View.OnClickListener {
     private RecyclerView rcvLembretes = null;
     private LinearLayout lnlAdicionarLembrete = null;
 
-
     FrmPrincipal frmPrincipal = null;
     User currentUser = null;
 
@@ -49,8 +48,6 @@ public class FrmHome extends Fragment implements View.OnClickListener {
         iniciaControles(view);
         return view;
     }
-
-
 
     public void iniciaControles(View view) {
         lblSaudacao = view.findViewById(R.id.lblSaudacao);
@@ -106,12 +103,18 @@ public class FrmHome extends Fragment implements View.OnClickListener {
     private String getGreeting() {
         int hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY);
 
-        if (hour >= 0 && hour < 12) {
-            return "Bom dia";
+        if (hour >= 0 && hour < 6) {
+            // 00:00 - 05:59 = Madrugada
+            return getString(R.string.good_dawn);
+        } else if (hour >= 6 && hour < 12) {
+            // 06:00 - 11:59 = Manhã
+            return getString(R.string.good_morning);
         } else if (hour >= 12 && hour < 18) {
-            return "Boa tarde";
+            // 12:00 - 17:59 = Tarde
+            return getString(R.string.good_afternoon);
         } else {
-            return "Boa noite";
+            // 18:00 - 23:59 = Noite
+            return getString(R.string.good_evening);
         }
     }
 }

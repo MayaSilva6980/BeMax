@@ -5,6 +5,7 @@
 
     <!-- Saudações -->
     <string name="good_morning">Bom dia</string>
+    <string name="good_dawn">Boa madrugada</string>
     <string name="good_afternoon">Boa tarde</string>
     <string name="good_evening">Boa noite</string>
 

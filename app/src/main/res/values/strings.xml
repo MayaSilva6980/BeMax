@@ -5,6 +5,7 @@
 
     <!-- Greetings -->
     <string name="good_morning">Good Morning</string>
+    <string name="good_dawn">Good Dawn</string>
     <string name="good_afternoon">Good Afternoon</string>
     <string name="good_evening">Good Evening</string>
 
