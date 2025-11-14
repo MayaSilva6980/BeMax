@@ -36,6 +36,11 @@
     <string name="telefone">Phone</string>
     <string name="btn_salvar">Save</string>
     <string name="btn_logout">Logout</string>
+    <string name="logout_title">Sign Out</string>
+    <string name="logout_message">Are you sure you want to sign out?</string>
+    <string name="logout_confirm">Yes</string>
+    <string name="logout_cancel">Cancel</string>
+    <string name="logout_success">Successfully signed out</string>
 
     <!-- Alert screen -->
     <string name="titulo_alerta_emergencia">Emergency Alert</string>
@@ -91,4 +96,5 @@
     <string name="biometric_not_enrolled">No biometric enrolled. Set up in device settings</string>
 
     <string name="default_web_client_id">AIzaSyBX9mOVRVfJV26JTZqU3kyJ9xXjVqJRw2k</string>
+    <string name="good_morning">Good Morning</string>
 </resources>

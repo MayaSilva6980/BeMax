@@ -27,10 +27,11 @@ public class SecureStorage {
     private static final String PREFS_NAME = "bemax_secure_prefs";
     private static final String KEY_ACCESS_TOKEN = "access_token";
     private static final String KEY_REFRESH_TOKEN = "refresh_token";
+    private static final String KEY_USER_DATA = "user_data";
     private static final String KEY_USER_EMAIL = "user_email";
     private static final String KEY_TOKEN_EXPIRATION = "token_expiration";
     private static final String KEY_BIOMETRIC_ENABLED = "biometric_enabled";
-    
+
     private final SharedPreferences encryptedPrefs;
     private final Context context;
 
@@ -140,9 +141,7 @@ public class SecureStorage {
         return token != null && !token.isEmpty() && !isTokenExpired();
     }
 
-    /**
-     * Limpa todos os dados salvos (logout)
-     *
+    // Limpa todos os dados salvos (logout)
     public void clearAll() {
         encryptedPrefs.edit().clear().apply();
         Log.d(TAG, "All secure data cleared");
@@ -157,9 +156,34 @@ public class SecureStorage {
                 .remove(KEY_ACCESS_TOKEN)
                 .remove(KEY_REFRESH_TOKEN)
                 .remove(KEY_TOKEN_EXPIRATION)
+                .remove(KEY_USER_DATA)
+                .remove(KEY_USER_EMAIL)
                 .apply();
         setBiometricEnabled(biometricEnabled);
-        Log.d(TAG, "Tokens cleared");
+        Log.d(TAG, "Tokens and user data cleared");
+    }
+
+    // Salvar dados completos do usuário como JSON
+    public void saveUserData(String userJson) {
+        encryptedPrefs.edit().putString(KEY_USER_DATA, userJson).apply();
+        Log.d(TAG, "User data saved");
+    }
+
+    public String getUserData() {
+        return encryptedPrefs.getString(KEY_USER_DATA, null);
+    }
+
+     // Verifica se o token está próximo de expirar (menos de 5 minutos)
+    public boolean isTokenExpiringSoon() {
+        long expirationTime = encryptedPrefs.getLong(KEY_TOKEN_EXPIRATION, 0);
+        long fiveMinutesFromNow = System.currentTimeMillis() + (5 * 60 * 1000);
+        return fiveMinutesFromNow >= expirationTime;
+    }
+
+     // Verifica se tem refresh token salvo
+    public boolean hasRefreshToken() {
+        String refreshToken = getRefreshToken();
+        return refreshToken != null && !refreshToken.isEmpty();
     }
 }
 

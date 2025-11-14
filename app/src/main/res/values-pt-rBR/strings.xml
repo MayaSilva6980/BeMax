@@ -36,6 +36,11 @@
     <string name="telefone">Telefone</string>
     <string name="btn_salvar">Salvar</string>
     <string name="btn_logout">Sair</string>
+    <string name="logout_title">Sair</string>
+    <string name="logout_message">Tem certeza que deseja sair?</string>
+    <string name="logout_confirm">Sim</string>
+    <string name="logout_cancel">Cancelar</string>
+    <string name="logout_success">Logout realizado com sucesso</string>
     
     <!-- Tela de Alerta -->
     <string name="titulo_alerta_emergencia">Alerta de Emergência</string>
@@ -91,5 +96,6 @@
     <string name="biometric_not_enrolled">Nenhuma biometria cadastrada. Configure nas configurações do dispositivo</string>
 
     <string name="default_web_client_id">AIzaSyBX9mOVRVfJV26JTZqU3kyJ9xXjVqJRw2k</string>
+    <string name="good_morning">Bom dia</string>
 </resources>
 

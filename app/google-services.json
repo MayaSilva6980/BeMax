@@ -14,14 +14,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "1037514636295-81feb0gh7t05ertci8t5ob17aardfdjg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.bemax",
-            "certificate_hash": "67ff25d3f55b8884dd85b71da1b1b0efc34699f2"
-          }
-        },
-        {
           "client_id": "1037514636295-asm8k1cbkuekdq7m98d7667r323il7bg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

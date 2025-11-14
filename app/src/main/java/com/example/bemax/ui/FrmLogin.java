@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bemax.R;
+import com.example.bemax.model.User;
 import com.example.bemax.model.dto.LoginResponse;
 import com.example.bemax.repository.AuthRepository;
 import com.example.bemax.util.BaseActivity;
@@ -28,6 +29,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.gson.Gson;
 
 public class FrmLogin extends BaseActivity implements View.OnClickListener {
     // Controles do Layout
@@ -127,45 +129,95 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    /**
-     * Autentica usando biometria
-     */
-    private void authenticateWithBiometric() {
-        biometricHelper.authenticate(new BiometricHelper.BiometricCallback() {
-            @Override
-            public void onSuccess() {
-                Toast.makeText(FrmLogin.this, 
-                    R.string.biometric_success, 
-                    Toast.LENGTH_SHORT).show();
-                
-                String accessToken = secureStorage.getAccessToken();
-                String email = secureStorage.getUserEmail();
-                
-                Intent intent = new Intent(FrmLogin.this, FrmPrincipal.class);
-                intent.putExtra("user_email", email);
-                intent.putExtra("access_token", accessToken);
-                startActivity(intent);
-                finish();
-            }
+     // Autentica usando biometria
+     private void authenticateWithBiometric() {
+         biometricHelper.authenticate(new BiometricHelper.BiometricCallback() {
+             @Override
+             public void onSuccess() {
+                 Toast.makeText(FrmLogin.this,
+                         R.string.biometric_success,
+                         Toast.LENGTH_SHORT).show();
 
-            @Override
-            public void onError(String error) {
-                Toast.makeText(FrmLogin.this, error, Toast.LENGTH_SHORT).show();
-            }
+                 // Verificar se token expirou ou está expirando
+                 if (secureStorage.isTokenExpired() || secureStorage.isTokenExpiringSoon()) {
+                     // Tentar renovar com refresh token
+                     String refreshToken = secureStorage.getRefreshToken();
+                     String oldAccessToken = secureStorage.getAccessToken();
 
-            @Override
-            public void onFailed() {
-                Toast.makeText(FrmLogin.this, 
-                    R.string.biometric_failed, 
-                    Toast.LENGTH_SHORT).show();
-            }
+                     if (refreshToken != null && !refreshToken.isEmpty()) {
+                         progressBar.setVisibility(View.VISIBLE);
 
-            @Override
-            public void onUsePassword() {
-                editTextSenha.requestFocus();
-            }
-        });
-    }
+                         authRepository.refreshToken(oldAccessToken, refreshToken, new AuthRepository.AuthCallback() {
+                             @Override
+                             public void onSuccess(LoginResponse response) {
+                                 runOnUiThread(() -> {
+                                     progressBar.setVisibility(View.GONE);
+
+                                     // Salvar novos tokens
+                                     secureStorage.saveAccessToken(response.getAccessToken());
+                                     if (response.getRefreshToken() != null) {
+                                         secureStorage.saveRefreshToken(response.getRefreshToken());
+                                     }
+
+                                     long expirationTimeMs = System.currentTimeMillis() + (response.getExpiresIn() * 1000);
+                                     secureStorage.saveTokenExpiration(expirationTimeMs);
+
+                                     // Salvar dados do usuário se vieram
+                                     if (response.getUser() != null) {
+                                         Gson gson = new Gson();
+                                         String userJson = gson.toJson(response.getUser());
+                                         secureStorage.saveUserData(userJson);
+                                     }
+
+                                     goToPrincipalFromStorage();
+                                 });
+                             }
+
+                             @Override
+                             public void onError(String error) {
+                                 runOnUiThread(() -> {
+                                     progressBar.setVisibility(View.GONE);
+
+                                     // Limpar dados e forçar novo login
+                                     secureStorage.clearTokens();
+
+                                     Toast.makeText(FrmLogin.this,
+                                             "Sessão expirada. Faça login novamente.",
+                                             Toast.LENGTH_LONG).show();
+                                 });
+                             }
+                         });
+                     } else {
+                         // Não tem refresh token, forçar novo login
+                         secureStorage.clearTokens();
+                         Toast.makeText(FrmLogin.this,
+                                 "Sessão expirada. Faça login novamente.",
+                                 Toast.LENGTH_LONG).show();
+                     }
+                 } else {
+                     // Token válido, pode entrar direto
+                     goToPrincipalFromStorage();
+                 }
+             }
+
+             @Override
+             public void onError(String error) {
+                 Toast.makeText(FrmLogin.this, error, Toast.LENGTH_SHORT).show();
+             }
+
+             @Override
+             public void onFailed() {
+                 Toast.makeText(FrmLogin.this,
+                         R.string.biometric_failed,
+                         Toast.LENGTH_SHORT).show();
+             }
+
+             @Override
+             public void onUsePassword() {
+                 editTextSenha.requestFocus();
+             }
+         });
+     }
 
     private void realizarLoginRetrofit() {
         String email = editTextEmail.getText().toString().trim();
@@ -214,6 +266,12 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
                         secureStorage.saveRefreshToken(response.getRefreshToken());
                     }
                     secureStorage.saveUserEmail(email);
+
+                    if (response.getUser() != null) {
+                        Gson gson = new Gson();
+                        String userJson = gson.toJson(response.getUser());
+                        secureStorage.saveUserData(userJson);
+                    }
                     
                     long expirationTimeMs = System.currentTimeMillis() + (response.getExpiresIn() * 1000);
                     secureStorage.saveTokenExpiration(expirationTimeMs);
@@ -221,9 +279,9 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
                     // Perguntar se quer ativar biometria
                     if (!secureStorage.isBiometricEnabled() && 
                         biometricHelper.checkBiometricAvailability() == BiometricHelper.BiometricStatus.AVAILABLE) {
-                        askToEnableBiometric(email, response.getAccessToken());
+                        askToEnableBiometric(response);
                     } else {
-                        goToPrincipal(email, response.getAccessToken());
+                        goToPrincipal(response);
                     }
                 });
             }
@@ -245,26 +303,44 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
         });
     }
 
-    private void askToEnableBiometric(String email, String accessToken) {
+    private void askToEnableBiometric(LoginResponse response) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.biometric_enable_title)
                 .setMessage(R.string.biometric_enable_message)
                 .setPositiveButton(R.string.biometric_enable_positive, (dialog, which) -> {
                     secureStorage.setBiometricEnabled(true);
                     Toast.makeText(this, "Biometria ativada!", Toast.LENGTH_SHORT).show();
-                    goToPrincipal(email, accessToken);
+                    goToPrincipal(response);
                 })
                 .setNegativeButton(R.string.biometric_enable_negative, (dialog, which) -> {
-                    goToPrincipal(email, accessToken);
+                    goToPrincipal(response);
                 })
                 .setCancelable(false)
                 .show();
     }
 
-    private void goToPrincipal(String email, String accessToken) {
+
+    private void goToPrincipalFromStorage() {
+        String accessToken = secureStorage.getAccessToken();
+        String userJson = secureStorage.getUserData();
+
         Intent intent = new Intent(FrmLogin.this, FrmPrincipal.class);
-        intent.putExtra("user_email", email);
         intent.putExtra("access_token", accessToken);
+
+        if (userJson != null) {
+            Gson gson = new Gson();
+            User user = gson.fromJson(userJson, User.class);
+
+            intent.putExtra("user", user);
+        }
+
+        startActivity(intent);
+        finish();
+    }
+    private void goToPrincipal(LoginResponse response) {
+        Intent intent = new Intent(FrmLogin.this, FrmPrincipal.class);
+        intent.putExtra("user", response.getUser());
+        intent.putExtra("access_token", response.getAccessToken());
         startActivity(intent);
         finish();
     }
@@ -357,6 +433,17 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
                         secureStorage.saveRefreshToken(response.getRefreshToken());
                     }
                     secureStorage.saveUserEmail(firebaseUser.getEmail());
+
+                    if (firebaseUser.getPhotoUrl() != null && response.getUser() != null) {
+                        response.getUser().setPhotoUrl(firebaseUser.getPhotoUrl().toString());
+                    }
+
+                    // Salvar dados completos do usuário
+                    if (response.getUser() != null) {
+                        Gson gson = new Gson();
+                        String userJson = gson.toJson(response.getUser());
+                        secureStorage.saveUserData(userJson);
+                    }
                     
                     long expirationTimeMs = System.currentTimeMillis() + (response.getExpiresIn() * 1000);
                     secureStorage.saveTokenExpiration(expirationTimeMs);
@@ -364,9 +451,9 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
                     // Perguntar sobre biometria
                     if (!secureStorage.isBiometricEnabled() && 
                         biometricHelper.checkBiometricAvailability() == BiometricHelper.BiometricStatus.AVAILABLE) {
-                        askToEnableBiometric(firebaseUser.getEmail(), response.getAccessToken());
+                        askToEnableBiometric(response);
                     } else {
-                        goToPrincipal(firebaseUser.getEmail(), response.getAccessToken());
+                        goToPrincipal(response);
                     }
                 });
             }
