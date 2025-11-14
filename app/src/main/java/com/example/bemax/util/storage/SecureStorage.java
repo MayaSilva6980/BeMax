@@ -21,6 +21,9 @@ public class SecureStorage {
     private static final String KEY_TOKEN_EXPIRATION = "token_expiration";
     private static final String KEY_BIOMETRIC_ENABLED = "biometric_enabled";
 
+    // Session Timeout
+    private static final String KEY_SESSION_TIMEOUT = "session_timeout";
+
     private final SharedPreferences encryptedPrefs;
     private final Context context;
 
@@ -173,6 +176,15 @@ public class SecureStorage {
     public boolean hasRefreshToken() {
         String refreshToken = getRefreshToken();
         return refreshToken != null && !refreshToken.isEmpty();
+    }
+
+    public void saveSessionTimeout(long timeoutMs) {
+        encryptedPrefs.edit().putLong(KEY_SESSION_TIMEOUT, timeoutMs).apply();
+        Log.d(TAG, "Session timeout saved: " + timeoutMs + "ms");
+    }
+
+    public long getSessionTimeout() {
+        return encryptedPrefs.getLong(KEY_SESSION_TIMEOUT, 15 * 60 * 1000); // default 15 min
     }
 }
 

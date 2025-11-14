@@ -38,7 +38,7 @@
             android:id="@+id/cmdCancelar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/cancelar"
+            android:text="@string/cancel"
             android:layout_weight="30"
             android:textSize="18sp"
             android:textColor="@color/bemax_red"
@@ -191,7 +191,7 @@
                 android:layout_marginBottom="32dp"
                 android:backgroundTint="@color/bemax_red"
                 android:padding="12dp"
-                android:text="@string/salvar"
+                android:text="@string/save"
                 android:textAllCaps="false"
                 android:textColor="@color/bemax_white"
                 android:textStyle="bold" />

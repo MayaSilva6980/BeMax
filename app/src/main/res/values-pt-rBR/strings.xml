@@ -67,10 +67,10 @@
     <string name="lembretes_pessoais">Lembretes Pessoais</string>
 
     <!-- Ações -->
-    <string name="editar">Editar</string>
+    <string name="edit">Editar</string>
     <string name="voltar">Voltar</string>
-    <string name="salvar">Salvar</string>
-    <string name="cancelar">Cancelar</string>
+    <string name="save">Salvar</string>
+    <string name="cancel">Cancelar</string>
 
     <!-- Mensagens -->
     <string name="msg_informacoes_salvas">Informações salvas com sucesso!</string>
@@ -122,6 +122,67 @@
     <string name="biometric_failed">Biometria não reconhecida. Tente novamente</string>
     <string name="biometric_not_available">Biometria não disponível neste dispositivo</string>
     <string name="biometric_not_enrolled">Nenhuma biometria cadastrada. Configure nas configurações do dispositivo</string>
+    <string name="biometric_authentication">Autenticação Biométrica</string>
+    <string name="biometric_status_on">Login rápido com biometria ativado</string>
+    <string name="biometric_status_off">Login rápido com biometria desativado</string>
+    <string name="biometric_enabled_success">Autenticação biométrica ativada</string>
+    <string name="biometric_disabled_success">Autenticação biométrica desativada</string>
+
+    <!-- Privacy & Security -->
+    <string name="privacy_security_title">Privacidade e Segurança</string>
+    <string name="section_authentication">Autenticação</string>
+    <string name="section_account_management">Gerenciamento de Conta</string>
+    <string name="section_danger_zone">Zona de Perigo</string>
+
+    <!-- Password -->
+    <string name="change_password">Alterar Senha</string>
+    <string name="change_password_subtitle">Atualize sua senha periodicamente</string>
+    <string name="current_password">Senha Atual</string>
+    <string name="new_password">Nova Senha</string>
+    <string name="confirm_new_password">Confirmar Nova Senha</string>
+    <string name="password_changed_success">Senha alterada com sucesso</string>
+    <string name="password_change_error">Erro ao alterar senha</string>
+    <string name="passwords_do_not_match">As senhas não coincidem</string>
+    <string name="current_password_incorrect">Senha atual incorreta</string>
+    <string name="password_too_short">A senha deve ter pelo menos 6 caracteres</string>
+
+    <!-- Session Timeout -->
+    <string name="session_timeout">Timeout de Sessão</string>
+    <string name="session_timeout_title">Selecione o timeout</string>
+    <string name="session_timeout_never">Nunca</string>
+    <string name="session_timeout_5min">5 minutos</string>
+    <string name="session_timeout_15min">15 minutos</string>
+    <string name="session_timeout_30min">30 minutos</string>
+    <string name="session_timeout_1hour">1 hora</string>
+    <string name="session_timeout_updated">Timeout de sessão atualizado</string>
+
+    <!-- Devices -->
+    <string name="connected_devices">Dispositivos Conectados</string>
+    <string name="devices_count_1">1 dispositivo conectado</string>
+    <string name="devices_count_multiple">%d dispositivos conectados</string>
+    <string name="current_device">Este dispositivo</string>
+    <string name="last_access">Último acesso: %s</string>
+    <string name="disconnect_device">Desconectar</string>
+    <string name="disconnect_device_confirm">Desconectar este dispositivo?</string>
+    <string name="disconnect_device_success">Dispositivo desconectado</string>
+    <string name="no_other_devices">Nenhum outro dispositivo conectado</string>
+
+    <!-- Login History -->
+    <string name="login_history">Histórico de Acessos</string>
+    <string name="login_history_subtitle">Últimas 10 tentativas de acesso</string>
+    <string name="login_success_at">Login realizado em %s</string>
+    <string name="login_failed_at">Tentativa falha em %s</string>
+    <string name="no_login_history">Nenhum histórico de login disponível</string>
+
+    <!-- Delete Account -->
+    <string name="delete_account">Excluir Conta</string>
+    <string name="delete_account_warning">Esta ação é irreversível</string>
+    <string name="delete_account_title">Tem certeza?</string>
+    <string name="delete_account_message">Todos os seus dados serão permanentemente excluídos. Esta ação não pode ser desfeita.\n\nDigite sua senha para confirmar:</string>
+    <string name="delete_account_confirm">EXCLUIR MINHA CONTA</string>
+    <string name="delete_account_success">Sua conta foi excluída</string>
+    <string name="delete_account_error">Erro ao excluir conta</string>
+    <string name="password_incorrect">Senha incorreta</string>
 
     <!-- Seções -->
     <string name="section_health_info">Informações de Saúde</string>

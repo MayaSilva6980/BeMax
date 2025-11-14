@@ -67,10 +67,10 @@
     <string name="lembretes_pessoais">Personal Reminders</string>
 
     <!-- Actions -->
-    <string name="editar">Edit</string>
+    <string name="edit">Edit</string>
     <string name="voltar">Back</string>
-    <string name="salvar">Save</string>
-    <string name="cancelar">Cancel</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Messages -->
     <string name="msg_informacoes_salvas">Information saved successfully!</string>
@@ -121,6 +121,67 @@
     <string name="biometric_failed">Biometric not recognized. Try again</string>
     <string name="biometric_not_available">Biometric not available on this device</string>
     <string name="biometric_not_enrolled">No biometric enrolled. Set up in device settings</string>
+    <string name="biometric_authentication">Biometric Authentication</string>
+    <string name="biometric_status_on">Quick login with biometrics enabled</string>
+    <string name="biometric_status_off">Quick login with biometrics disabled</string>
+    <string name="biometric_enabled_success">Biometric authentication enabled</string>
+    <string name="biometric_disabled_success">Biometric authentication disabled</string>
+
+    <!-- Privacy & Security -->
+    <string name="privacy_security_title">Privacy &amp; Security</string>
+    <string name="section_authentication">Authentication</string>
+    <string name="section_account_management">Account Management</string>
+    <string name="section_danger_zone">Danger Zone</string>
+
+    <!-- Password -->
+    <string name="change_password">Change Password</string>
+    <string name="change_password_subtitle">Update your password regularly</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="password_changed_success">Password changed successfully</string>
+    <string name="password_change_error">Error changing password</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="current_password_incorrect">Current password is incorrect</string>
+    <string name="password_too_short">Password must be at least 6 characters</string>
+
+    <!-- Session Timeout -->
+    <string name="session_timeout">Session Timeout</string>
+    <string name="session_timeout_title">Select timeout</string>
+    <string name="session_timeout_never">Never</string>
+    <string name="session_timeout_5min">5 minutes</string>
+    <string name="session_timeout_15min">15 minutes</string>
+    <string name="session_timeout_30min">30 minutes</string>
+    <string name="session_timeout_1hour">1 hour</string>
+    <string name="session_timeout_updated">Session timeout updated</string>
+
+    <!-- Devices -->
+    <string name="connected_devices">Connected Devices</string>
+    <string name="devices_count_1">1 device connected</string>
+    <string name="devices_count_multiple">%d devices connected</string>
+    <string name="current_device">This device</string>
+    <string name="last_access">Last access: %s</string>
+    <string name="disconnect_device">Disconnect</string>
+    <string name="disconnect_device_confirm">Disconnect this device?</string>
+    <string name="disconnect_device_success">Device disconnected</string>
+    <string name="no_other_devices">No other devices connected</string>
+
+    <!-- Login History -->
+    <string name="login_history">Login History</string>
+    <string name="login_history_subtitle">Last 10 access attempts</string>
+    <string name="login_success_at">Successful login on %s</string>
+    <string name="login_failed_at">Failed attempt on %s</string>
+    <string name="no_login_history">No login history available</string>
+
+    <!-- Delete Account -->
+    <string name="delete_account">Delete Account</string>
+    <string name="delete_account_warning">This action is irreversible</string>
+    <string name="delete_account_title">Are you sure?</string>
+    <string name="delete_account_message">All your data will be permanently deleted. This action cannot be undone.\n\nEnter your password to confirm:</string>
+    <string name="delete_account_confirm">DELETE MY ACCOUNT</string>
+    <string name="delete_account_success">Your account has been deleted</string>
+    <string name="delete_account_error">Error deleting account</string>
+    <string name="password_incorrect">Incorrect password</string>
 
     <!-- Seções -->
     <string name="section_health_info">Informações de Saúde</string>

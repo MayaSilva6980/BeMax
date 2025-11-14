@@ -17,5 +17,4 @@ public class AppConstants {
     public static final String MASK_PHONE = "(##) #####-####";
     public static final String MASK_CPF = "###.###.###-##";
     public static final String MASK_DATE = "##/##/####";
-
 }
