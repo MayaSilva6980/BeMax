@@ -1,4 +1,4 @@
-package com.example.bemax.adapters;
+package com.example.bemax.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

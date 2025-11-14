@@ -13,7 +13,7 @@ import android.content.Intent;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bemax.adapters.ContatoAdapter;
+import com.example.bemax.adapter.ContatoAdapter;
 import com.example.bemax.model.Contato;
 
 import java.util.ArrayList;

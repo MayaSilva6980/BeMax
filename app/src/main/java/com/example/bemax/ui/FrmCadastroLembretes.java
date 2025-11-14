@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import com.example.bemax.R;
-import com.example.bemax.adapters.HorarioAdapter;
+import com.example.bemax.adapter.HorarioAdapter;
 import com.example.bemax.util.BaseActivity;
 import com.example.bemax.util.CenterItemScrollListener;
 

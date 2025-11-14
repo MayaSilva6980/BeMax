@@ -1,5 +1,8 @@
 package com.example.bemax.ui;
 
+import static com.example.bemax.util.StringUtils.getFirstName;
+import static com.example.bemax.util.StringUtils.getGreeting;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -87,7 +90,7 @@ public class FrmPrincipal extends BaseActivity  implements NavigationView.OnNavi
         // Configura o cabeçalho com dados do usuário
         if (currentUser != null) {
             String firstName = getFirstName(currentUser.getFullName());
-            toolbarTitle.setText(getGreeting() + ", " + firstName);
+            toolbarTitle.setText(getGreeting(this) + ", " + firstName);
 
             if (currentUser.isProfileCompleted()) {
                 toolbarSubtitle.setText(R.string.profile_complete_check);
@@ -104,7 +107,7 @@ public class FrmPrincipal extends BaseActivity  implements NavigationView.OnNavi
                         .into(toolbarProfile);
             }
         } else {
-            toolbarTitle.setText(getGreeting());
+            toolbarTitle.setText(getGreeting(this));
             toolbarSubtitle.setText(R.string.profile_toolbar_title);
         }
 
@@ -143,25 +146,5 @@ public class FrmPrincipal extends BaseActivity  implements NavigationView.OnNavi
         }
 
         return true;
-    }
-    private String getGreeting() {
-        int hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY);
-
-        if (hour >= 0 && hour < 12) {
-            return getString(R.string.good_morning);
-        } else if (hour >= 12 && hour < 18) {
-            return getString(R.string.good_afternoon);
-        } else {
-            return getString(R.string.good_evening);
-        }
-    }
-
-    private String getFirstName(String fullName) {
-        if (fullName == null || fullName.trim().isEmpty()) {
-            return "Usuário";
-        }
-
-        String[] parts = fullName.trim().split(" ");
-        return parts[0];
     }
 }

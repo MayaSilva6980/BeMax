@@ -1,5 +1,7 @@
 package com.example.bemax.ui;
 
+import static com.example.bemax.util.StringUtils.getGreeting;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bemax.R;
-import com.example.bemax.adapters.LembreteAdapter;
+import com.example.bemax.adapter.LembreteAdapter;
 import com.example.bemax.model.Lembrete;
 import com.example.bemax.model.User;
 
@@ -69,9 +71,9 @@ public class FrmHome extends Fragment implements View.OnClickListener {
          // Atualiza saudação com nome do usuário
          if (currentUser != null && currentUser.getFullName() != null) {
              String firstName = currentUser.getFullName().split(" ")[0];
-             lblSaudacao.setText(getGreeting() + ", " + firstName + "!");
+             lblSaudacao.setText(getGreeting(frmPrincipal) + ", " + firstName + "!");
          } else {
-             lblSaudacao.setText(getGreeting() + "!");
+             lblSaudacao.setText(getGreeting(frmPrincipal) + "!");
          }
 
          //preenche a lista de lembretes
@@ -97,24 +99,5 @@ public class FrmHome extends Fragment implements View.OnClickListener {
         LembreteAdapter adapter = new LembreteAdapter(listaLembretes);
         rcvLembretes.setLayoutManager(new LinearLayoutManager(frmPrincipal));
         rcvLembretes.setAdapter(adapter);
-    }
-
-    // Retorna a saudação apropriada com base na hora do dia
-    private String getGreeting() {
-        int hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY);
-
-        if (hour >= 0 && hour < 6) {
-            // 00:00 - 05:59 = Madrugada
-            return getString(R.string.good_dawn);
-        } else if (hour >= 6 && hour < 12) {
-            // 06:00 - 11:59 = Manhã
-            return getString(R.string.good_morning);
-        } else if (hour >= 12 && hour < 18) {
-            // 12:00 - 17:59 = Tarde
-            return getString(R.string.good_afternoon);
-        } else {
-            // 18:00 - 23:59 = Noite
-            return getString(R.string.good_evening);
-        }
     }
 }

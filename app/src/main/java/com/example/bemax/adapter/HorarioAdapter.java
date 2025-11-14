@@ -1,4 +1,4 @@
-package com.example.bemax.adapters;
+package com.example.bemax.adapter;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
