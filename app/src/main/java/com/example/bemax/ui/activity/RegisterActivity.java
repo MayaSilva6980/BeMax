@@ -38,8 +38,7 @@ public class RegisterActivity extends BaseActivity implements  View.OnClickListe
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         try
         {
             super.onCreate(savedInstanceState);
@@ -57,8 +56,7 @@ public class RegisterActivity extends BaseActivity implements  View.OnClickListe
     }
 
     @Override
-    public void obtemParametros()
-    {
+    public void obtemParametros() {
         // Preenche os campos com dados vindos da Intent (se houver)
         if (getIntent().getSerializableExtra("email") != null)
             txtEmail.setText((String) getIntent().getSerializableExtra("email"));
@@ -71,8 +69,7 @@ public class RegisterActivity extends BaseActivity implements  View.OnClickListe
     }
 
     @Override
-    public void iniciaControles() throws Exception
-    {
+    public void iniciaControles() throws Exception {
         txtNome = findViewById(R.id.txtNome);
         txtEmail = findViewById(R.id.txtEmail);
         txtSenha = findViewById(R.id.txtSenha);
@@ -95,13 +92,11 @@ public class RegisterActivity extends BaseActivity implements  View.OnClickListe
     }
 
     @Override
-    public void carregaDados() throws Exception
-    {
+    public void carregaDados() throws Exception {
     }
 
     @Override
-    public void onClick(View view)
-    {
+    public void onClick(View view) {
         if (view.getId() == R.id.btnCancelar)
         {
             getOnBackPressedDispatcher().onBackPressed();
@@ -133,7 +128,7 @@ public class RegisterActivity extends BaseActivity implements  View.OnClickListe
             txtEmail.requestFocus();
             return false;
         }
-        else if ( sCpf.isEmpty() )
+        else if (sCpf.isEmpty())
         {
             txtCpf.setError(getString(R.string.error_cpf_required));
             txtCpf.requestFocus();
@@ -175,8 +170,6 @@ public class RegisterActivity extends BaseActivity implements  View.OnClickListe
             txtDataNasc.requestFocus();
             return false;
         }
-
-        Toast.makeText(RegisterActivity.this, sTelefone, Toast.LENGTH_SHORT).show();
 
         registerRequest = new RegisterRequest(sEmail,sNome,sSenha,sCpf,sTelefone,sDataNasc);
         return true;

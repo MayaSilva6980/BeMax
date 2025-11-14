@@ -1,7 +1,7 @@
 <resources>
     <!-- App Info -->
     <string name="app_name">BeMax</string>
-    <string name="default_web_client_id">AIzaSyBX9mOVRVfJV26JTZqU3kyJ9xXjVqJRw2k</string>
+    <string name="default_web_client_id">1037514636295-pl4iudcs1n8oin3b4gnfv0574vgevp3i.apps.googleusercontent.com</string>
 
     <!-- Greetings -->
     <string name="good_morning">Good Morning</string>
