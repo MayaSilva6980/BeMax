@@ -123,6 +123,33 @@
     <string name="biometric_not_available">Biometria não disponível neste dispositivo</string>
     <string name="biometric_not_enrolled">Nenhuma biometria cadastrada. Configure nas configurações do dispositivo</string>
 
+    <!-- Seções -->
+    <string name="section_health_info">Informações de Saúde</string>
+    <string name="section_preferences">Preferências</string>
+    <string name="section_about">Sobre</string>
+
+    <!-- Subtítulos dos Cards -->
+    <string name="subtitle_info_pessoal">Nome, CPF, telefone e endereço</string>
+    <string name="subtitle_info_medica">Alergias, medicações e condições</string>
+    <string name="subtitle_contatos_familia">Pessoas para contato de emergência</string>
+
+    <!-- Configurações -->
+    <string name="config_notifications">Notificações</string>
+    <string name="config_privacy">Privacidade e Segurança</string>
+    <string name="config_terms">Termos e Políticas</string>
+    <string name="config_help">Ajuda e Suporte</string>
+
+    <!-- Perfil -->
+    <string name="edit_profile">Editar Perfil</string>
+    <string name="profile_completion">Perfil %d%% completo</string>
+
+    <!-- Status Biometria -->
+    <string name="biometric_enabled">Biometria ativada</string>
+    <string name="biometric_disabled">Biometria desativada</string>
+
+    <!-- Versão -->
+    <string name="app_version">Versão %s</string>
+
     <!-- Logout -->
     <string name="btn_logout">Sair</string>
     <string name="logout_title">Sair</string>

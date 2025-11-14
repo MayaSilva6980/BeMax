@@ -61,4 +61,7 @@ dependencies {
     // Glide to load images
     implementation("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+
+    // CircleImageView for profile photo
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 }
