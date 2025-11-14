@@ -26,6 +26,7 @@ import com.example.bemax.ui.activity.MedicalInfoActivity;
 import com.example.bemax.ui.activity.PersonalInfoActivity;
 import com.example.bemax.ui.activity.LoginActivity;
 import com.example.bemax.ui.activity.MainActivity;
+import com.example.bemax.ui.activity.PrivacySecurityActivity;
 import com.example.bemax.util.storage.SecureStorage;
 import com.example.bemax.util.helper.StringHelper;
 import com.google.android.material.button.MaterialButton;
@@ -204,8 +205,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(mainActivity, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
         }
         else if (id == R.id.btnPrivacy) {
-            // TODO: Implementar tela de privacidade
-            Toast.makeText(mainActivity, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(mainActivity, PrivacySecurityActivity.class));
         }
         else if (id == R.id.btnTerms) {
             // TODO: Abrir termos e políticas (WebView ou Intent)
