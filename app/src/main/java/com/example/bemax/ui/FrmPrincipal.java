@@ -40,7 +40,6 @@ public class FrmPrincipal extends BaseActivity  implements NavigationView.OnNavi
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
-
         // tela inicial
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -91,9 +90,9 @@ public class FrmPrincipal extends BaseActivity  implements NavigationView.OnNavi
             toolbarTitle.setText(getGreeting() + ", " + firstName);
 
             if (currentUser.isProfileCompleted()) {
-                toolbarSubtitle.setText("Perfil completo ✓");
+                toolbarSubtitle.setText(R.string.profile_complete_check);
             } else {
-                toolbarSubtitle.setText("Complete seu perfil");
+                toolbarSubtitle.setText(R.string.profile_incomplete);
             }
             // Carregar foto do usuário se existir
             if (currentUser.getPhotoUrl() != null && !currentUser.getPhotoUrl().isEmpty()) {
@@ -106,7 +105,7 @@ public class FrmPrincipal extends BaseActivity  implements NavigationView.OnNavi
             }
         } else {
             toolbarTitle.setText(getGreeting());
-            toolbarSubtitle.setText("BeMax");
+            toolbarSubtitle.setText(R.string.profile_toolbar_title);
         }
 
         toolbarProfileContainer.setOnClickListener(v -> {
@@ -151,9 +150,9 @@ public class FrmPrincipal extends BaseActivity  implements NavigationView.OnNavi
         if (hour >= 0 && hour < 12) {
             return getString(R.string.good_morning);
         } else if (hour >= 12 && hour < 18) {
-            return "Boa tarde";
+            return getString(R.string.good_afternoon);
         } else {
-            return "Boa noite";
+            return getString(R.string.good_evening);
         }
     }
 

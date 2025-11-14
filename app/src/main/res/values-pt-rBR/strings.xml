@@ -1,5 +1,12 @@
 <resources>
+    <!-- Info do App -->
     <string name="app_name">BeMax</string>
+    <string name="default_web_client_id">AIzaSyBX9mOVRVfJV26JTZqU3kyJ9xXjVqJRw2k</string>
+
+    <!-- Saudações -->
+    <string name="good_morning">Bom dia</string>
+    <string name="good_afternoon">Boa tarde</string>
+    <string name="good_evening">Boa noite</string>
 
     <!-- Tela principal -->
     <string name="titulo_categorias_saude">Categorias de Saúde</string>
@@ -35,13 +42,7 @@
     <string name="confirmar_senha">Confirmar Senha</string>
     <string name="telefone">Telefone</string>
     <string name="btn_salvar">Salvar</string>
-    <string name="btn_logout">Sair</string>
-    <string name="logout_title">Sair</string>
-    <string name="logout_message">Tem certeza que deseja sair?</string>
-    <string name="logout_confirm">Sim</string>
-    <string name="logout_cancel">Cancelar</string>
-    <string name="logout_success">Logout realizado com sucesso</string>
-    
+
     <!-- Tela de Alerta -->
     <string name="titulo_alerta_emergencia">Alerta de Emergência</string>
     <string name="status_emergencia_ativa">⚠️ Emergência Ativa</string>
@@ -79,7 +80,29 @@
     <string name="senha">Senha</string>
     <string name="others_options_login">Outras opções de login</string>
     <string name="sign_up">Não tem uma conta? Cadastre-se</string>
-    
+    <string name="auth_logging_in">Entrando…</string>
+    <string name="auth_continue">Continuar</string>
+    <string name="auth_login_success">Login realizado com sucesso!</string>
+    <string name="auth_login_error">Erro ao fazer login: %1$s</string>
+    <string name="auth_biometric_activated">Biometria ativada!</string>
+    <string name="auth_biometric_quick_login">Use sua biometria para entrar rapidamente</string>
+    <string name="auth_google_signin_failed">Falha no Google SignIn: %1$s</string>
+    <string name="auth_firebase_token_error">Erro ao obter token do Firebase</string>
+    <string name="auth_firebase_auth_error">Erro ao autenticar no Firebase</string>
+    <string name="auth_google_login_success">Login com Google realizado com sucesso!</string>
+    <string name="auth_complete_registration">Complete seu cadastro</string>
+
+    <!-- Cadastro -->
+    <string name="register_registering">Cadastrando…</string>
+    <string name="register_save">Salvar</string>
+    <string name="register_success">Cadastro realizado com sucesso!</string>
+    <string name="register_error">Erro ao cadastrar: %1$s</string>
+
+    <!-- Perfil -->
+    <string name="profile_complete_check">Perfil completo ✓</string>
+    <string name="profile_incomplete">Complete seu perfil</string>
+    <string name="profile_toolbar_title">BeMax</string>
+
     <!-- Biometria -->
     <string name="biometric_title">Autenticação Biométrica</string>
     <string name="biometric_subtitle">Use sua digital ou face para continuar</string>
@@ -95,7 +118,27 @@
     <string name="biometric_not_available">Biometria não disponível neste dispositivo</string>
     <string name="biometric_not_enrolled">Nenhuma biometria cadastrada. Configure nas configurações do dispositivo</string>
 
-    <string name="default_web_client_id">AIzaSyBX9mOVRVfJV26JTZqU3kyJ9xXjVqJRw2k</string>
-    <string name="good_morning">Bom dia</string>
-</resources>
+    <!-- Logout -->
+    <string name="btn_logout">Sair</string>
+    <string name="logout_title">Sair</string>
+    <string name="logout_message">Tem certeza que deseja sair?</string>
+    <string name="logout_confirm">Sim</string>
+    <string name="logout_cancel">Cancelar</string>
+    <string name="logout_success">Logout realizado com sucesso</string>
 
+    <!-- Erros -->
+    <string name="error_session_expired">Sessão expirada. Faça login novamente.</string>
+    <string name="error_network">Erro de rede</string>
+    <string name="error_generic">Ocorreu um erro</string>
+
+    <!-- Erros de Validação de Formulário -->
+    <string name="error_name_required">Nome é obrigatório</string>
+    <string name="error_email_required">Email é obrigatório</string>
+    <string name="error_cpf_required">CPF é obrigatório</string>
+    <string name="error_cpf_invalid">CPF inválido</string>
+    <string name="error_phone_required">Telefone é obrigatório</string>
+    <string name="error_password_required">Senha é obrigatório</string>
+    <string name="error_passwords_different">Senhas diferentes</string>
+    <string name="error_birthdate_required">Data de nascimento é obrigatória</string>
+    <string name="error_password_min_length">Senha deve ter no mínimo 6 caracteres</string>
+</resources>
