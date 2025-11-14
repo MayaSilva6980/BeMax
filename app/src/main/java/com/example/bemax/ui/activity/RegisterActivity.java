@@ -1,4 +1,4 @@
-package com.example.bemax.ui;
+package com.example.bemax.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,11 +14,11 @@ import com.example.bemax.R;
 import com.example.bemax.model.dto.RegisterRequest;
 import com.example.bemax.model.dto.RegisterResponse;
 import com.example.bemax.repository.RegisterRepository;
-import com.example.bemax.util.Apoio;
-import com.example.bemax.util.BaseActivity;
-import com.example.bemax.util.Const;
+import com.example.bemax.util.helper.InputMaskHelper;
+import com.example.bemax.ui.base.BaseActivity;
+import com.example.bemax.util.AppConstants;
 
-public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
+public class RegisterActivity extends BaseActivity implements  View.OnClickListener {
     // Campos de texto
     private EditText txtNome;
     private EditText txtEmail;
@@ -84,9 +84,9 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
         btnSalvarUsuario = findViewById(R.id.btnSalvarUsuario);
         btnCancelar = findViewById(R.id.btnCancelar);
 
-        Apoio.aplicarMascara(txtTelefone, Const.mask_telefone);
-        Apoio.aplicarMascara(txtCpf, Const.mask_cpf);
-        Apoio.aplicarMascara(txtDataNasc, Const.mask_data);
+        InputMaskHelper.aplicarMascara(txtTelefone, AppConstants.MASK_PHONE);
+        InputMaskHelper.aplicarMascara(txtCpf, AppConstants.MASK_CPF);
+        InputMaskHelper.aplicarMascara(txtDataNasc, AppConstants.MASK_DATE);
 
         btnCancelar.setOnClickListener(this);
         btnSalvarUsuario.setOnClickListener(this);
@@ -176,7 +176,7 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
             return false;
         }
 
-        Toast.makeText(FrmCadastro.this, sTelefone, Toast.LENGTH_SHORT).show();
+        Toast.makeText(RegisterActivity.this, sTelefone, Toast.LENGTH_SHORT).show();
 
         registerRequest = new RegisterRequest(sEmail,sNome,sSenha,sCpf,sTelefone,sDataNasc);
         return true;
@@ -201,7 +201,7 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
                     btnSalvarUsuario.setText(R.string.register_save);
                     lnlAreaProgressBar.setVisibility(View.GONE);
 
-                    Toast.makeText(FrmCadastro.this,
+                    Toast.makeText(RegisterActivity.this,
                             R.string.register_success,
                             Toast.LENGTH_SHORT).show();
 
@@ -209,7 +209,7 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
                     Log.d("FrmCadastro", "Cadastro realizado com sucesso!");
                     Log.d("FrmCadastro", "Response: " + response);
 
-                    Intent intent = new Intent(FrmCadastro.this, FrmPrincipal.class);
+                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 });
@@ -222,7 +222,7 @@ public class FrmCadastro extends BaseActivity implements  View.OnClickListener {
                     btnSalvarUsuario.setText(R.string.register_save);
                     lnlAreaProgressBar.setVisibility(View.GONE);
 
-                    Toast.makeText(FrmCadastro.this,
+                    Toast.makeText(RegisterActivity.this,
                             getString(R.string.register_error, error),
                             Toast.LENGTH_LONG).show();
 

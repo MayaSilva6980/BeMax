@@ -1,4 +1,4 @@
-package com.example.bemax.ui;
+package com.example.bemax.ui.activity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -13,12 +13,12 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import com.example.bemax.R;
 import com.example.bemax.adapter.HorarioAdapter;
-import com.example.bemax.util.BaseActivity;
-import com.example.bemax.util.CenterItemScrollListener;
+import com.example.bemax.ui.base.BaseActivity;
+import com.example.bemax.util.listener.CenterItemScrollListener;
 
 import java.util.ArrayList;
 
-public class FrmCadastroLembretes extends BaseActivity implements  View.OnClickListener
+public class ReminderFormActivity extends BaseActivity implements  View.OnClickListener
 {
     public RecyclerView rcvHoras = null;
     public RecyclerView rcvMinutos = null;

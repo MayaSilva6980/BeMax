@@ -1,4 +1,4 @@
-package com.example.bemax.util;
+package com.example.bemax.ui.base;
 
 import android.app.Activity;
 import android.os.Bundle;

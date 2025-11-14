@@ -1,7 +1,7 @@
-package com.example.bemax.ui;
+package com.example.bemax.ui.activity;
 
-import static com.example.bemax.util.StringUtils.getFirstName;
-import static com.example.bemax.util.StringUtils.getGreeting;
+import static com.example.bemax.util.helper.StringHelper.getFirstName;
+import static com.example.bemax.util.helper.StringHelper.getGreeting;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,14 +19,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.bemax.R;
-import com.example.bemax.model.User;
-import com.example.bemax.util.BaseActivity;
-import com.example.bemax.util.SecureStorage;
+import com.example.bemax.ui.fragments.AlertFragment;
+import com.example.bemax.ui.fragments.ConfigFragment;
+import com.example.bemax.ui.fragments.HomeFragment;
+import com.example.bemax.model.domain.User;
+import com.example.bemax.ui.base.BaseActivity;
+import com.example.bemax.util.storage.SecureStorage;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
-public class FrmPrincipal extends BaseActivity  implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity  implements NavigationView.OnNavigationItemSelectedListener {
     private SecureStorage secureStorage;
     private User currentUser;
     private String accessToken;
@@ -46,7 +49,7 @@ public class FrmPrincipal extends BaseActivity  implements NavigationView.OnNavi
         // tela inicial
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new FrmHome(this, currentUser))
+                    .replace(R.id.fragment_container, new HomeFragment(this, currentUser))
                     .commit();
         }
 
@@ -114,7 +117,7 @@ public class FrmPrincipal extends BaseActivity  implements NavigationView.OnNavi
         toolbarProfileContainer.setOnClickListener(v -> {
             // Navegar para tela de perfil/configurações
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new FrmConfig(this))
+                    .replace(R.id.fragment_container, new ConfigFragment(this))
                     .commit();
 
             BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
@@ -132,11 +135,11 @@ public class FrmPrincipal extends BaseActivity  implements NavigationView.OnNavi
     {
         Fragment selectedFragment = null;
         if (item.getItemId() == R.id.nav_home) {
-            selectedFragment = new FrmHome(this, currentUser);
+            selectedFragment = new HomeFragment(this, currentUser);
         } else if (item.getItemId() == R.id.nav_sos) {
-            selectedFragment = new FrmAlerta(this);
+            selectedFragment = new AlertFragment(this);
         } else if (item.getItemId() == R.id.nav_settings) {
-            selectedFragment = new FrmConfig(this);
+            selectedFragment = new ConfigFragment(this);
         }
 
         if (selectedFragment != null) {

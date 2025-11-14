@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bemax.R;
-import com.example.bemax.model.Contato;
+import com.example.bemax.model.domain.Contato;
 
 import java.util.ArrayList;
 

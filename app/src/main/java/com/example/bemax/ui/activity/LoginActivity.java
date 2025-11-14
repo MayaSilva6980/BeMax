@@ -1,4 +1,4 @@
-package com.example.bemax.ui;
+package com.example.bemax.ui.activity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -12,12 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bemax.R;
-import com.example.bemax.model.User;
+import com.example.bemax.model.domain.User;
 import com.example.bemax.model.dto.LoginResponse;
 import com.example.bemax.repository.AuthRepository;
-import com.example.bemax.util.BaseActivity;
-import com.example.bemax.util.BiometricHelper;
-import com.example.bemax.util.SecureStorage;
+import com.example.bemax.ui.base.BaseActivity;
+import com.example.bemax.util.helper.BiometricHelper;
+import com.example.bemax.util.storage.SecureStorage;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -31,7 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.gson.Gson;
 
-public class FrmLogin extends BaseActivity implements View.OnClickListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
     // Controles do Layout
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextSenha;
@@ -106,7 +106,7 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
             signIn();
         }
         else if (view.getId() == R.id.txtSignup) {
-            startActivity(new Intent(this, FrmCadastro.class));
+            startActivity(new Intent(this, RegisterActivity.class));
         }
     }
 
@@ -134,7 +134,7 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
          biometricHelper.authenticate(new BiometricHelper.BiometricCallback() {
              @Override
              public void onSuccess() {
-                 Toast.makeText(FrmLogin.this,
+                 Toast.makeText(LoginActivity.this,
                          R.string.biometric_success,
                          Toast.LENGTH_SHORT).show();
 
@@ -181,7 +181,7 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
                                      // Limpar dados e forçar novo login
                                      secureStorage.clearTokens();
 
-                                     Toast.makeText(FrmLogin.this,
+                                     Toast.makeText(LoginActivity.this,
                                              "Sessão expirada. Faça login novamente.",
                                              Toast.LENGTH_LONG).show();
                                  });
@@ -190,7 +190,7 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
                      } else {
                          // Não tem refresh token, forçar novo login
                          secureStorage.clearTokens();
-                         Toast.makeText(FrmLogin.this,
+                         Toast.makeText(LoginActivity.this,
                                  "Sessão expirada. Faça login novamente.",
                                  Toast.LENGTH_LONG).show();
                      }
@@ -202,12 +202,12 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
 
              @Override
              public void onError(String error) {
-                 Toast.makeText(FrmLogin.this, error, Toast.LENGTH_SHORT).show();
+                 Toast.makeText(LoginActivity.this, error, Toast.LENGTH_SHORT).show();
              }
 
              @Override
              public void onFailed() {
-                 Toast.makeText(FrmLogin.this,
+                 Toast.makeText(LoginActivity.this,
                          R.string.biometric_failed,
                          Toast.LENGTH_SHORT).show();
              }
@@ -253,7 +253,7 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
                     btnContinue.setText(R.string.auth_continue);
                     progressBar.setVisibility(View.GONE);
 
-                    Toast.makeText(FrmLogin.this,
+                    Toast.makeText(LoginActivity.this,
                             R.string.auth_login_success,
                             Toast.LENGTH_SHORT).show();
 
@@ -293,7 +293,7 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
                     btnContinue.setText(R.string.auth_continue);
                     progressBar.setVisibility(View.GONE);
 
-                    Toast.makeText(FrmLogin.this,
+                    Toast.makeText(LoginActivity.this,
                             getString(R.string.auth_login_error, error),
                             Toast.LENGTH_LONG).show();
 
@@ -324,7 +324,7 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
         String accessToken = secureStorage.getAccessToken();
         String userJson = secureStorage.getUserData();
 
-        Intent intent = new Intent(FrmLogin.this, FrmPrincipal.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.putExtra("access_token", accessToken);
 
         if (userJson != null) {
@@ -338,7 +338,7 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
         finish();
     }
     private void goToPrincipal(LoginResponse response) {
-        Intent intent = new Intent(FrmLogin.this, FrmPrincipal.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.putExtra("user", response.getUser());
         intent.putExtra("access_token", response.getAccessToken());
         startActivity(intent);
@@ -421,7 +421,7 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
                     progressBar.setVisibility(View.GONE);
                     btnGoogle.setEnabled(true);
 
-                    Toast.makeText(FrmLogin.this,
+                    Toast.makeText(LoginActivity.this,
                             R.string.auth_google_login_success,
                             Toast.LENGTH_SHORT).show();
 
@@ -465,18 +465,18 @@ public class FrmLogin extends BaseActivity implements View.OnClickListener {
                     btnGoogle.setEnabled(true);
 
                     if (error.contains("404") || error.contains("not registered")) {
-                        Toast.makeText(FrmLogin.this,
+                        Toast.makeText(LoginActivity.this,
                                 R.string.auth_complete_registration,
                                 Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(FrmLogin.this, FrmCadastro.class);
+                        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                         intent.putExtra("nome", firebaseUser.getDisplayName());
                         intent.putExtra("email", firebaseUser.getEmail());
                         intent.putExtra("firebase_token", firebaseToken);
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(FrmLogin.this,
+                        Toast.makeText(LoginActivity.this,
                                 getString(R.string.auth_login_error, error),
                                 Toast.LENGTH_LONG).show();
 

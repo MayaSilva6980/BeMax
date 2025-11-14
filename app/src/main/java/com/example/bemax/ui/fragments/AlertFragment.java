@@ -1,4 +1,4 @@
-package com.example.bemax.ui;
+package com.example.bemax.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,8 +12,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.bemax.R;
+import com.example.bemax.ui.activity.MainActivity;
 
-public class FrmAlerta  extends Fragment implements View.OnClickListener
+public class AlertFragment extends Fragment implements View.OnClickListener
 {
     // controles
     private TextView txtStatusEmergencia;
@@ -29,11 +30,11 @@ public class FrmAlerta  extends Fragment implements View.OnClickListener
     private Button btnEnviarMensagem;
     private Button btnSomAlerta;
 
-    FrmPrincipal frmPrincipal = null;
+    MainActivity mainActivity = null;
 
-    public FrmAlerta(FrmPrincipal principal)
+    public AlertFragment(MainActivity principal)
     {
-        frmPrincipal = principal;
+        mainActivity = principal;
     }
 
     @Nullable

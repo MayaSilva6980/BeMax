@@ -9,8 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bemax.R;
-import com.example.bemax.model.Lembrete;
-import com.example.bemax.util.Const;
+import com.example.bemax.model.domain.Lembrete;
+import com.example.bemax.util.AppConstants;
 
 import java.util.List;
 
@@ -40,15 +40,15 @@ public class LembreteAdapter extends RecyclerView.Adapter<LembreteAdapter.Lembre
         holder.lblTitulo.setText(lembrete.DsTitulo);
         holder.lblHorario.setText(lembrete.DsHorario);
 
-        if (lembrete.FlTipo == Const.LembreteMedicamento)
+        if (lembrete.FlTipo == AppConstants.REMINDER_TYPE_MEDICATION)
         {
             holder.imgLembrete.setImageResource(R.drawable.ic_medicamento);
         }
-        else if (lembrete.FlTipo == Const.LembreteoConsulta)
+        else if (lembrete.FlTipo == AppConstants.REMINDER_TYPE_APPOINTMENT)
         {
             holder.imgLembrete.setImageResource(R.drawable.ic_consulta);
         }
-        else if (lembrete.FlTipo == Const.LembreteExame)
+        else if (lembrete.FlTipo == AppConstants.REMINDER_TYPE_EXAM)
         {
             holder.imgLembrete.setImageResource(R.drawable.ic_exame);
         }

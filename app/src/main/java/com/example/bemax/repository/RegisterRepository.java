@@ -9,8 +9,8 @@ import com.example.bemax.model.dto.RegisterRequest;
 import com.example.bemax.model.dto.RegisterResponse;
 import com.example.bemax.network.RetrofitClient;
 import com.example.bemax.network.api.CallApi;
-import com.example.bemax.util.Apoio;
-import com.example.bemax.util.Const;
+import com.example.bemax.util.storage.PreferencesHelper;
+import com.example.bemax.util.AppConstants;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,7 +38,7 @@ public class RegisterRepository {
                     Log.d(TAG, "Cadastro realizado com sucesso!");
                     Log.d(TAG, "Response: " + registerResponse);
 
-                    Apoio.salvarModel(context, Const.Prefs_Usuario, registerResponse);
+                    PreferencesHelper.saveModel(context, AppConstants.Prefs_Usuario, registerResponse);
                     callback.onSuccess(registerResponse);
                 }
                 else {

@@ -1,4 +1,4 @@
-package com.example.bemax.util;
+package com.example.bemax.util.helper;
 
 import android.content.Context;
 import com.example.bemax.R;
@@ -7,7 +7,7 @@ import java.util.Calendar;
 /**
  * Utilitários para manipulação de strings e formatação
  */
-public class StringUtils {
+public class StringHelper {
     public static String getGreeting(Context context) {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 

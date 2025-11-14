@@ -19,7 +19,7 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.BeMax">
         <activity
-            android:name=".ui.FrmSplash"
+            android:name=".ui.activity.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,35 +28,35 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.FrmLogin"
+            android:name=".ui.activity.LoginActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.FrmPrincipal"
+            android:name=".ui.activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.FrmCadastroLembretes"
+            android:name=".ui.activity.ReminderFormActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.FrmInfoPessoal"
+            android:name=".ui.activity.PersonalInfoActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.FrmInfoMedica"
+            android:name=".ui.activity.MedicalInfoActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.FrmInfoContatos"
+            android:name=".ui.activity.ContactInfoActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.FrmCadastroContatos"
+            android:name=".ui.activity.ContactFormActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.FrmCadastro"
+            android:name=".ui.activity.RegisterActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|uiMode|density|fontScale|layoutDirection|fontWeightAdjustment|navigation|colorMode|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
     </application>

@@ -1,4 +1,4 @@
-package com.example.bemax.model;
+package com.example.bemax.model.domain;
 
 import java.io.Serializable;
 

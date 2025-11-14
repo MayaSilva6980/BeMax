@@ -1,4 +1,4 @@
-package com.example.bemax.ui;
+package com.example.bemax.ui.activity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,12 +7,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.bemax.R;
-import com.example.bemax.model.Contato;
-import com.example.bemax.util.Apoio;
-import com.example.bemax.util.BaseActivity;
-import com.example.bemax.util.Const;
+import com.example.bemax.model.domain.Contato;
+import com.example.bemax.util.helper.InputMaskHelper;
+import com.example.bemax.ui.base.BaseActivity;
+import com.example.bemax.util.AppConstants;
 
-public class FrmCadastroContatos extends BaseActivity implements  View.OnClickListener {
+public class ContactFormActivity extends BaseActivity implements  View.OnClickListener {
     // Campos de texto
     private EditText txtNomeContato;
     private EditText txtParentesco;
@@ -59,7 +59,7 @@ public class FrmCadastroContatos extends BaseActivity implements  View.OnClickLi
         txtParentesco = findViewById(R.id.txtParentesco);
         txtObservacoesContato = findViewById(R.id.txtObservacoesContato);
 
-        Apoio.aplicarMascara(txtTelefoneContato, Const.mask_telefone);
+        InputMaskHelper.aplicarMascara(txtTelefoneContato, AppConstants.MASK_PHONE);
 
         btnSalvarContato = findViewById(R.id.btnSalvarContato);
         cmdCancelar = findViewById(R.id.cmdCancelar);

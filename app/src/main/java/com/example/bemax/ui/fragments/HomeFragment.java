@@ -1,6 +1,6 @@
-package com.example.bemax.ui;
+package com.example.bemax.ui.fragments;
 
-import static com.example.bemax.util.StringUtils.getGreeting;
+import static com.example.bemax.util.helper.StringHelper.getGreeting;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,12 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bemax.R;
 import com.example.bemax.adapter.LembreteAdapter;
-import com.example.bemax.model.Lembrete;
-import com.example.bemax.model.User;
+import com.example.bemax.model.domain.Lembrete;
+import com.example.bemax.model.domain.User;
+import com.example.bemax.ui.activity.ReminderFormActivity;
+import com.example.bemax.ui.activity.MainActivity;
 
 import java.util.ArrayList;
 
-public class FrmHome extends Fragment implements View.OnClickListener {
+public class HomeFragment extends Fragment implements View.OnClickListener {
     // controles
     private TextView lblSaudacao = null;
     private TextView lblBatimento = null;
@@ -33,11 +35,11 @@ public class FrmHome extends Fragment implements View.OnClickListener {
     private RecyclerView rcvLembretes = null;
     private LinearLayout lnlAdicionarLembrete = null;
 
-    FrmPrincipal frmPrincipal = null;
+    MainActivity mainActivity = null;
     User currentUser = null;
 
-    public FrmHome(FrmPrincipal principal, User user) {
-        frmPrincipal = principal;
+    public HomeFragment(MainActivity principal, User user) {
+        mainActivity = principal;
         currentUser = user;
     }
 
@@ -71,9 +73,9 @@ public class FrmHome extends Fragment implements View.OnClickListener {
          // Atualiza saudação com nome do usuário
          if (currentUser != null && currentUser.getFullName() != null) {
              String firstName = currentUser.getFullName().split(" ")[0];
-             lblSaudacao.setText(getGreeting(frmPrincipal) + ", " + firstName + "!");
+             lblSaudacao.setText(getGreeting(mainActivity) + ", " + firstName + "!");
          } else {
-             lblSaudacao.setText(getGreeting(frmPrincipal) + "!");
+             lblSaudacao.setText(getGreeting(mainActivity) + "!");
          }
 
          //preenche a lista de lembretes
@@ -83,7 +85,7 @@ public class FrmHome extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.lnlAdicionarLembrete) {
-            startActivity(new Intent(frmPrincipal, FrmCadastroLembretes.class));
+            startActivity(new Intent(mainActivity, ReminderFormActivity.class));
         }
     }
 
@@ -97,7 +99,7 @@ public class FrmHome extends Fragment implements View.OnClickListener {
         listaLembretes.add(new Lembrete("Exame de Sangue", "Quarta às 08:00", 3));
 
         LembreteAdapter adapter = new LembreteAdapter(listaLembretes);
-        rcvLembretes.setLayoutManager(new LinearLayoutManager(frmPrincipal));
+        rcvLembretes.setLayoutManager(new LinearLayoutManager(mainActivity));
         rcvLembretes.setAdapter(adapter);
     }
 }

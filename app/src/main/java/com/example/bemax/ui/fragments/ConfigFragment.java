@@ -1,4 +1,4 @@
-package com.example.bemax.ui;
+package com.example.bemax.ui.fragments;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -14,12 +14,17 @@ import androidx.fragment.app.Fragment;
 
 import com.example.bemax.R;
 import com.example.bemax.repository.AuthRepository;
-import com.example.bemax.util.SecureStorage;
+import com.example.bemax.ui.activity.ContactInfoActivity;
+import com.example.bemax.ui.activity.MedicalInfoActivity;
+import com.example.bemax.ui.activity.PersonalInfoActivity;
+import com.example.bemax.ui.activity.LoginActivity;
+import com.example.bemax.ui.activity.MainActivity;
+import com.example.bemax.util.storage.SecureStorage;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class FrmConfig extends Fragment implements View.OnClickListener {
+public class ConfigFragment extends Fragment implements View.OnClickListener {
     private MaterialCardView btnInfoPessoal = null;
     private MaterialCardView btnInfoMedica = null;
     private MaterialCardView btnEmergencySettings = null;
@@ -28,10 +33,10 @@ public class FrmConfig extends Fragment implements View.OnClickListener {
     private AuthRepository authRepository;
     private SecureStorage secureStorage;
 
-    FrmPrincipal frmPrincipal = null;
+    MainActivity mainActivity = null;
 
-    public FrmConfig(FrmPrincipal principal) {
-        frmPrincipal = principal;
+    public ConfigFragment(MainActivity principal) {
+        mainActivity = principal;
         authRepository = new AuthRepository();
         secureStorage = new SecureStorage(principal);
     }
@@ -63,13 +68,13 @@ public class FrmConfig extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnInfoPessoal) {
-            startActivity(new Intent(frmPrincipal, FrmInfoPessoal.class));
+            startActivity(new Intent(mainActivity, PersonalInfoActivity.class));
         }
         else if (v.getId() == R.id.btnInfoMedica) {
-            startActivity(new Intent(frmPrincipal, FrmInfoMedica.class));
+            startActivity(new Intent(mainActivity, MedicalInfoActivity.class));
         }
         else if (v.getId() == R.id.btnContatoFamilia) {
-            startActivity(new Intent(frmPrincipal, FrmInfoContatos.class));
+            startActivity(new Intent(mainActivity, ContactInfoActivity.class));
         }
         else if (v.getId() == R.id.btnLogout) {
             showLogoutConfirmation();
@@ -77,7 +82,7 @@ public class FrmConfig extends Fragment implements View.OnClickListener {
     }
 
     private void showLogoutConfirmation() {
-        new AlertDialog.Builder(frmPrincipal)
+        new AlertDialog.Builder(mainActivity)
                 .setTitle(R.string.logout_title)
                 .setMessage(R.string.logout_message)
                 .setPositiveButton(R.string.logout_confirm, (dialog, which) -> performLogout())
@@ -113,14 +118,14 @@ public class FrmConfig extends Fragment implements View.OnClickListener {
             FirebaseAuth.getInstance().signOut();
 
             // Ir para tela de login
-            Intent intent = new Intent(frmPrincipal, FrmLogin.class);
+            Intent intent = new Intent(mainActivity, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
 
-            Toast.makeText(frmPrincipal, R.string.logout_success, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mainActivity, R.string.logout_success, Toast.LENGTH_SHORT).show();
 
-            if (frmPrincipal != null) {
-                frmPrincipal.finish();
+            if (mainActivity != null) {
+                mainActivity.finish();
             }
         });
     }

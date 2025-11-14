@@ -1,4 +1,4 @@
-package com.example.bemax.ui;
+package com.example.bemax.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.bemax.R;
 
-public class FrmSplash extends AppCompatActivity
+public class SplashActivity extends AppCompatActivity
 {
 
     @Override
@@ -30,7 +30,7 @@ public class FrmSplash extends AppCompatActivity
 
         // Aguardar 3 segundos e abrir a tela inicial
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(this, FrmLogin.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish(); // finaliza a Splash
         }, 4000);

@@ -1,4 +1,5 @@
-package com.example.bemax.ui;
+package com.example.bemax.ui.activity;
+
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,28 +8,30 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.bemax.R;
-import com.example.bemax.util.BaseActivity;
+import com.example.bemax.ui.base.BaseActivity;
+import com.example.bemax.util.AppConstants;
+import com.example.bemax.util.helper.InputMaskHelper;
 
-public class FrmInfoMedica extends BaseActivity implements  View.OnClickListener
+public class PersonalInfoActivity extends BaseActivity implements  View.OnClickListener
 {
+
     // TextInputEditText
-    private EditText txtTipoSanguineo;
-    private EditText txtAlergias;
-    private EditText txtDoencasCronicas;
-    private EditText txtMedicamentos;
-    private EditText txtHistoricoMedico;
+    private EditText txtInfoNome;
+    private EditText txtInfoNascimento;
+    private EditText txtInfoGenero;
+    private EditText txtInfoEndereco;
+    private EditText txtCpf;
 
     // Buttons e TextViews
-    private Button btnSalvarMedico;
+    private Button btnSalvar;
     private TextView btnCancelar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         try
         {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.frm_info_medica);
+            setContentView(R.layout.frm_info_pessoal);
             iniciaControles();
         }
         catch (Exception e)
@@ -45,13 +48,16 @@ public class FrmInfoMedica extends BaseActivity implements  View.OnClickListener
     @Override
     public void iniciaControles() throws Exception
     {
-        txtTipoSanguineo = findViewById(R.id.txtTipoSanguineo);
-        txtAlergias = findViewById(R.id.txtAlergias);
-        txtDoencasCronicas = findViewById(R.id.txtDoencasCronicas);
-        txtMedicamentos = findViewById(R.id.txtMedicamentos);
-        txtHistoricoMedico = findViewById(R.id.txtHistoricoMedico);
+        txtInfoNome = findViewById(R.id.txtInfoNome);
+        txtInfoNascimento = findViewById(R.id.txtInfoNascimento);
+        txtInfoGenero = findViewById(R.id.txtInfoGenero);
+        txtInfoEndereco = findViewById(R.id.txtInfoEndereco);
+        txtCpf = findViewById(R.id.txtCpf);
 
-        btnSalvarMedico = findViewById(R.id.btnSalvarMedico);
+        InputMaskHelper.aplicarMascara(txtInfoNascimento, AppConstants.MASK_DATE);
+        InputMaskHelper.aplicarMascara(txtCpf, AppConstants.MASK_CPF);
+
+        btnSalvar = findViewById(R.id.btnSalvar);
         btnCancelar = findViewById(R.id.btnCancelar);
 
         btnCancelar.setOnClickListener(this);

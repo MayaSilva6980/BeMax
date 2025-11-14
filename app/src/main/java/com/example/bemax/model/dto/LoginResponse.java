@@ -1,6 +1,6 @@
 package com.example.bemax.model.dto;
 
-import com.example.bemax.model.User;
+import com.example.bemax.model.domain.User;
 import com.google.gson.annotations.SerializedName;
 
 public class LoginResponse {
