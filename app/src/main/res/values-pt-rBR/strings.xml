@@ -92,6 +92,10 @@
     <string name="auth_firebase_auth_error">Erro ao autenticar no Firebase</string>
     <string name="auth_google_login_success">Login com Google realizado com sucesso!</string>
     <string name="auth_complete_registration">Complete seu cadastro</string>
+    <string name="continue_with_google">Continuar com o Google</string>
+    <string name="other_login_options">Outras opções de login</string>
+    <string name="don_t_have_account_sign_up">Não tem uma conta? Cadastre-se</string>
+
 
     <!-- Cadastro -->
     <string name="register_registering">Cadastrando…</string>

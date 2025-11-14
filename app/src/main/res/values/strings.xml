@@ -92,6 +92,9 @@
     <string name="auth_firebase_auth_error">Firebase authentication error</string>
     <string name="auth_google_login_success">Login with Google successful!</string>
     <string name="auth_complete_registration">Complete your registration</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="other_login_options">Other login options</string>
+    <string name="don_t_have_account_sign_up">Don’t have account? Sign Up</string>
 
     <!-- Registration -->
     <string name="register_registering">Registering…</string>
