@@ -34,7 +34,7 @@ public class AlertFragment extends Fragment implements View.OnClickListener
 
     MainActivity mainActivity = null;
     private
-    String telefoneParente = "11999998888";
+    String telefoneParente = "11954000626";
     public AlertFragment(MainActivity principal)
     {
         mainActivity = principal;

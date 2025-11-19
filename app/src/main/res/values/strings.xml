@@ -368,15 +368,15 @@
     <!-- ============================================================ -->
     <string name="alert_emergency_title">Emergency Alert</string>
     <string name="alert_emergency_active">Active Emergency</string>
-    <string name="alert_user_summary">O+ | 72 years | Hypertensive</string>
+    <string name="alert_user_summary">AB+ | 21 years </string>
     <string name="alert_name_default">Name: Igor Santos</string>
-    <string name="alert_blood_type_default">Blood Type: O+</string>
-    <string name="alert_diseases_default">Chronic Diseases: Hypertension</string>
+    <string name="alert_blood_type_default">Blood Type: AB+</string>
+    <string name="alert_diseases_default">Chronic Diseases: None</string>
     <string name="alert_allergies_default">Allergies: None</string>
-    <string name="alert_location_default">Location: Av. Paulista, 1000 - São Paulo/SP</string>
+    <string name="alert_location_default">Location: Rua Cojuba, 136 - São Paulo/SP</string>
     <string name="alert_time_default">Elapsed time: 00:02:15</string>
-    <string name="alert_contact_default">Emergency Contact: Maria Souza - (11) 98888-0000</string>
-    
+    <string name="alert_contact_default">Emergency Contact: Mayara  - (11) 95400-0626</string>
+
     <!-- Alert Buttons -->
     <string name="alert_call_emergency">Call Emergency Contact</string>
     <string name="alert_send_message">Send Quick Message</string>
