@@ -21,7 +21,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.bemax.R;
 import com.example.bemax.model.domain.User;
 import com.example.bemax.repository.AuthRepository;
-import com.example.bemax.ui.activity.ContactInfoActivity;
+import com.example.bemax.ui.activity.EmergencyContactsActivity;
 import com.example.bemax.ui.activity.HealthProfileActivity;
 import com.example.bemax.ui.activity.PersonalInfoActivity;
 import com.example.bemax.ui.activity.PrivacySecurityActivity;
@@ -239,7 +239,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
             startActivity(new Intent(mainActivity, HealthProfileActivity.class));
         }
         else if (id == R.id.btnContatoFamilia) {
-            startActivity(new Intent(mainActivity, ContactInfoActivity.class));
+            startActivity(new Intent(mainActivity, EmergencyContactsActivity.class));
         }
         else if (id == R.id.btnNotifications) {
             // TODO: Implementar tela de notificações

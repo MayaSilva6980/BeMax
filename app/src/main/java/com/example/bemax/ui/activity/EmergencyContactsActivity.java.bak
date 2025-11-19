@@ -1,0 +1,214 @@
+package com.example.bemax.ui.activity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.bemax.R;
+import com.example.bemax.adapter.EmergencyContactAdapter;
+import com.example.bemax.model.domain.EmergencyContact;
+import com.example.bemax.network.repository.EmergencyContactRepository;
+import com.example.bemax.ui.base.BaseActivity;
+import com.example.bemax.util.helper.NotificationHelper;
+import com.example.bemax.util.security.TokenManager;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+
+import java.util.List;
+
+public class EmergencyContactsActivity extends BaseActivity implements EmergencyContactAdapter.OnContactInteractionListener {
+    private static final String TAG = "EmergencyContacts";
+    private static final int REQUEST_ADD_CONTACT = 100;
+    private static final int REQUEST_EDIT_CONTACT = 101;
+
+    private MaterialToolbar toolbar;
+    private RecyclerView recyclerContacts;
+    private View emptyState;
+    private ProgressBar progressBar;
+    private ExtendedFloatingActionButton fabAddContact;
+
+    private EmergencyContactAdapter adapter;
+    private EmergencyContactRepository repository;
+    private TokenManager tokenManager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_emergency_contacts);
+
+        repository = new EmergencyContactRepository();
+        tokenManager = TokenManager.getInstance(this);
+        tokenManager.setBiometricManager(this);
+
+        obtainParameters();
+        initializeControls();
+        loadData();
+    }
+
+    @Override
+    protected void obtainParameters() {
+        // No parameters needed
+    }
+
+    @Override
+    protected void initializeControls() {
+        toolbar = findViewById(R.id.toolbar);
+        recyclerContacts = findViewById(R.id.recyclerContacts);
+        emptyState = findViewById(R.id.emptyState);
+        progressBar = findViewById(R.id.progressBar);
+        fabAddContact = findViewById(R.id.fabAddContact);
+
+        toolbar.setNavigationOnClickListener(v -> finish());
+
+        adapter = new EmergencyContactAdapter(this);
+        adapter.setListener(this);
+        recyclerContacts.setLayoutManager(new LinearLayoutManager(this));
+        recyclerContacts.setAdapter(adapter);
+
+        fabAddContact.setOnClickListener(v -> openAddContactForm());
+
+        View btnAddFirstContact = emptyState.findViewById(R.id.btnAddFirstContact);
+        if (btnAddFirstContact != null) {
+            btnAddFirstContact.setOnClickListener(v -> openAddContactForm());
+        }
+    }
+
+    @Override
+    protected void loadData() {
+        showLoading();
+        tokenManager.getAccessToken(new TokenManager.TokenCallback() {
+            @Override
+            public void onSuccess(String token) {
+                repository.getEmergencyContacts(token, new EmergencyContactRepository.OnContactsLoadedCallback() {
+                @Override
+                public void onSuccess(List<EmergencyContact> contacts) {
+                    runOnUiThread(() -> {
+                        hideLoading();
+                        adapter.setContacts(contacts);
+                        updateEmptyState(contacts.isEmpty());
+                    });
+                }
+
+                @Override
+                public void onError(String errorMsg) {
+                    runOnUiThread(() -> {
+                        hideLoading();
+                        NotificationHelper.showError(EmergencyContactsActivity.this, 
+                            getString(R.string.contact_load_error));
+                        updateEmptyState(true);
+                    });
+                }
+            });
+            }
+
+            @Override
+            public void onError(String error) {
+                runOnUiThread(() -> {
+                    hideLoading();
+                    NotificationHelper.showError(EmergencyContactsActivity.this, error);
+                });
+            }
+        });
+    }
+
+    private void openAddContactForm() {
+        Intent intent = new Intent(this, EmergencyContactFormActivity.class);
+        startActivityForResult(intent, REQUEST_ADD_CONTACT);
+    }
+
+    @Override
+    public void onContactClick(EmergencyContact contact) {
+        // Optional: show contact details
+    }
+
+    @Override
+    public void onEditClick(EmergencyContact contact) {
+        Intent intent = new Intent(this, EmergencyContactFormActivity.class);
+        intent.putExtra("contact", contact);
+        startActivityForResult(intent, REQUEST_EDIT_CONTACT);
+    }
+
+    @Override
+    public void onDeleteClick(EmergencyContact contact) {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.emergency_contact_delete_confirm_title)
+                .setMessage(R.string.emergency_contact_delete_confirm_message)
+                .setPositiveButton(R.string.action_delete, (dialog, which) -> deleteContact(contact))
+                .setNegativeButton(R.string.action_cancel, null)
+                .show();
+    }
+
+    private void deleteContact(EmergencyContact contact) {
+        showLoading();
+        tokenManager.getAccessToken(new TokenManager.TokenCallback() {
+            @Override
+            public void onSuccess(String token) {
+                repository.deleteEmergencyContact(token, contact.getId(), 
+                    new EmergencyContactRepository.OnContactDeletedCallback() {
+                @Override
+                public void onSuccess() {
+                    runOnUiThread(() -> {
+                        hideLoading();
+                        NotificationHelper.showSuccess(EmergencyContactsActivity.this, 
+                            getString(R.string.contact_deleted_success));
+                        loadData();
+                    });
+                }
+
+                @Override
+                public void onError(String errorMsg) {
+                    runOnUiThread(() -> {
+                        hideLoading();
+                        NotificationHelper.showError(EmergencyContactsActivity.this, 
+                            getString(R.string.contact_delete_error));
+                    });
+                }
+            });
+            }
+
+            @Override
+            public void onError(String error) {
+                runOnUiThread(() -> {
+                    hideLoading();
+                    NotificationHelper.showError(EmergencyContactsActivity.this, error);
+                });
+            }
+        });
+    }
+
+    private void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerContacts.setVisibility(View.GONE);
+        emptyState.setVisibility(View.GONE);
+    }
+
+    private void hideLoading() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void updateEmptyState(boolean isEmpty) {
+        if (isEmpty) {
+            recyclerContacts.setVisibility(View.GONE);
+            emptyState.setVisibility(View.VISIBLE);
+        } else {
+            recyclerContacts.setVisibility(View.VISIBLE);
+            emptyState.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && (requestCode == REQUEST_ADD_CONTACT || requestCode == REQUEST_EDIT_CONTACT)) {
+            loadData();
+        }
+    }
+}
+

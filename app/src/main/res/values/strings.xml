@@ -373,6 +373,61 @@
     <string name="alert_emit_sound">Emit Alert Sound</string>
 
     <!-- ============================================================ -->
+    <!-- EMERGENCY CONTACTS -->
+    <!-- ============================================================ -->
+    <string name="emergency_contacts_title">Emergency Contacts</string>
+    <string name="emergency_contacts_subtitle">Manage your emergency contacts</string>
+    <string name="emergency_contacts_empty_title">No emergency contacts yet</string>
+    <string name="emergency_contacts_empty_subtitle">Add people who should be contacted in case of emergency</string>
+    <string name="emergency_contacts_add_first">Add First Contact</string>
+    <string name="emergency_contact_add">Add Emergency Contact</string>
+    <string name="emergency_contact_edit">Edit Contact</string>
+    <string name="emergency_contact_delete">Delete Contact</string>
+    <string name="emergency_contact_delete_confirm_title">Delete contact?</string>
+    <string name="emergency_contact_delete_confirm_message">Are you sure you want to delete this contact?</string>
+    <string name="emergency_contact_primary">Primary Contact</string>
+    <string name="emergency_contact_set_primary">Set as Primary</string>
+    <string name="emergency_contact_call">Call</string>
+    <string name="emergency_contact_message">Message</string>
+    <string name="emergency_contact_email_action">Email</string>
+    
+    <!-- Contact Form -->
+    <string name="contact_form_name">Contact Name</string>
+    <string name="contact_form_relationship">Relationship</string>
+    <string name="contact_form_phone">Phone Number</string>
+    <string name="contact_form_email">Email (optional)</string>
+    <string name="contact_form_notes">Notes (optional)</string>
+    <string name="contact_form_save">Save Contact</string>
+    <string name="contact_form_creating">Creating contact…</string>
+    <string name="contact_form_updating">Updating contact…</string>
+    
+    <!-- Contact Messages -->
+    <string name="contact_created_success">Contact created successfully!</string>
+    <string name="contact_updated_success">Contact updated successfully!</string>
+    <string name="contact_deleted_success">Contact deleted successfully!</string>
+    <string name="contact_create_error">Error creating contact</string>
+    <string name="contact_update_error">Error updating contact</string>
+    <string name="contact_delete_error">Error deleting contact</string>
+    <string name="contact_load_error">Error loading contacts</string>
+    
+    <!-- Contact Validation -->
+    <string name="error_contact_name_required">Contact name is required</string>
+    <string name="error_contact_relationship_required">Relationship is required</string>
+    <string name="error_contact_phone_required">Phone number is required</string>
+    <string name="error_contact_phone_invalid">Invalid phone number</string>
+    <string name="error_contact_email_invalid">Invalid email address</string>
+    
+    <!-- Relationship Types -->
+    <string name="relationship_spouse">Spouse</string>
+    <string name="relationship_parent">Parent</string>
+    <string name="relationship_child">Child</string>
+    <string name="relationship_sibling">Sibling</string>
+    <string name="relationship_friend">Friend</string>
+    <string name="relationship_doctor">Doctor</string>
+    <string name="relationship_caregiver">Caregiver</string>
+    <string name="relationship_other">Other</string>
+
+    <!-- ============================================================ -->
     <!-- OTHER SCREENS -->
     <!-- ============================================================ -->
     <string name="hydration">Hydration</string>
