@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,14 +69,19 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 
     public ConfigFragment(MainActivity principal) {
         mainActivity = principal;
-        authRepository = new AuthRepository();
-        secureStorage = new SecureStorage(principal);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frm_config2, container, false);
+
+        if (mainActivity == null) {
+            mainActivity = (MainActivity) requireActivity();
+        }
+        authRepository = new AuthRepository();
+        secureStorage = new SecureStorage(requireContext());
+        secureStorage.setBiometricManager(mainActivity);
 
         iniciaControles(view);
         loadUserData();
@@ -163,10 +169,10 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
         boolean biometricEnabled = secureStorage.isBiometricEnabled();
         if (biometricEnabled) {
             txtBiometricStatus.setText(R.string.biometric_enabled);
-            txtBiometricStatus.setTextColor(getResources().getColor(R.color.bemax_success));
+            txtBiometricStatus.setTextColor(requireContext().getColor(R.color.bemax_success));
         } else {
             txtBiometricStatus.setText(R.string.biometric_disabled);
-            txtBiometricStatus.setTextColor(getResources().getColor(R.color.bemax_gray_dark));
+            txtBiometricStatus.setTextColor(requireContext().getColor(R.color.bemax_gray_dark));
         }
     }
 
@@ -231,21 +237,142 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 
     private void performLogout() {
         btnLogout.setEnabled(false);
-
-        String accessToken = secureStorage.getAccessToken();
-        String refreshToken = secureStorage.getRefreshToken();
-
-        if (accessToken != null && !accessToken.isEmpty() &&
-                refreshToken != null && !refreshToken.isEmpty()) {
-            authRepository.logout(accessToken, refreshToken, new AuthRepository.LogoutCallback() {
-                @Override
-                public void onSuccess() {
-                    completeLogout();
-                }
+        
+        // Mostrar loading
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(() -> {
+                Toast.makeText(mainActivity, R.string.logout_in_progress, Toast.LENGTH_SHORT).show();
             });
-        } else {
-            completeLogout();
         }
+
+        // Recuperar access token PRIMEIRO (vai solicitar biometria UMA VEZ e cachear)
+        secureStorage.getAccessToken(new SecureStorage.TokenCallback() {
+            @Override
+            public void onTokenRetrieved(String accessToken) {
+                // Token recuperado E CACHEADO (se foi descriptografado)
+                // Agora buscar refresh token (deve vir do cache)
+                secureStorage.getRefreshToken(new SecureStorage.TokenCallback() {
+                    @Override
+                    public void onTokenRetrieved(String refreshToken) {
+                        // Ambos tokens recuperados, fazer logout no backend com retry
+                        Log.d("ConfigFragment", "Tokens recuperados: Access=" + (accessToken != null) + ", Refresh=" + (refreshToken != null));
+                        performLogoutWithRetry(accessToken, refreshToken, 0);
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        // Erro ao recuperar refresh token
+                        Log.w("ConfigFragment", "Erro ao recuperar refresh token: " + error);
+                        handleLogoutTokenError("refresh token");
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                // Erro ao recuperar access token
+                Log.w("ConfigFragment", "Erro ao recuperar access token: " + error);
+                handleLogoutTokenError("access token");
+            }
+        });
+    }
+    
+    /**
+     * Logout com retry automático
+     */
+    private void performLogoutWithRetry(String accessToken, String refreshToken, int attemptNumber) {
+        final int MAX_RETRIES = 3;
+        final int RETRY_DELAY_MS = 2000;
+        
+        Log.d("ConfigFragment", "Tentativa de logout " + (attemptNumber + 1) + "/" + MAX_RETRIES);
+        Log.d("ConfigFragment", "Access Token: " + (accessToken != null ? accessToken.substring(0, Math.min(20, accessToken.length())) + "..." : "null"));
+        Log.d("ConfigFragment", "Refresh Token: " + (refreshToken != null ? refreshToken.substring(0, Math.min(20, refreshToken.length())) + "..." : "null"));
+        
+        authRepository.logout(accessToken, refreshToken, new AuthRepository.LogoutCallback() {
+            @Override
+            public void onSuccess() {
+                // Logout no backend bem-sucedido
+                Log.d("ConfigFragment", "Logout no backend realizado com sucesso");
+                
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        Toast.makeText(mainActivity, R.string.logout_success, Toast.LENGTH_SHORT).show();
+                        completeLogout();
+                    });
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("ConfigFragment", "Erro no logout do backend (tentativa " + (attemptNumber + 1) + "): " + error);
+                
+                if (attemptNumber < MAX_RETRIES - 1) {
+                    //Ainda tem tentativas, retry
+                    Log.d("ConfigFragment", "⏳ Aguardando " + RETRY_DELAY_MS + "ms antes de retry...");
+                    
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            Toast.makeText(mainActivity, 
+                                "Tentando novamente... (" + (attemptNumber + 2) + "/" + MAX_RETRIES + ")", 
+                                Toast.LENGTH_SHORT).show();
+                        });
+                        
+                        // Retry após delay
+                        new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                            performLogoutWithRetry(accessToken, refreshToken, attemptNumber + 1);
+                        }, RETRY_DELAY_MS);
+                    }
+                } else {
+                    //Esgotou tentativas, perguntar ao usuário
+                    Log.e("ConfigFragment", "Esgotadas " + MAX_RETRIES + " tentativas de logout");
+                    handleLogoutBackendError(error);
+                }
+            }
+        });
+    }
+    
+    /**
+     * Erro ao recuperar tokens - pergunta ao usuário
+     */
+    private void handleLogoutTokenError(String tokenType) {
+        if (getActivity() == null) return;
+        
+        getActivity().runOnUiThread(() -> {
+            new AlertDialog.Builder(mainActivity)
+                    .setTitle(R.string.logout_error_title)
+                    .setMessage(getString(R.string.logout_token_error, tokenType))
+                    .setPositiveButton(R.string.logout_anyway, (dialog, which) -> {
+                        Log.w("ConfigFragment", "Usuário optou por logout local sem notificar backend");
+                        completeLogout();
+                    })
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                        btnLogout.setEnabled(true);
+                    })
+                    .setCancelable(false)
+                    .show();
+        });
+    }
+    
+    /**
+     * Erro no backend após retries - pergunta ao usuário
+     */
+    private void handleLogoutBackendError(String error) {
+        if (getActivity() == null) return;
+        
+        getActivity().runOnUiThread(() -> {
+            new AlertDialog.Builder(mainActivity)
+                    .setTitle(R.string.logout_backend_error_title)
+                    .setMessage(getString(R.string.logout_backend_error, error))
+                    .setPositiveButton(R.string.logout_anyway, (dialog, which) -> {
+                        Log.w("ConfigFragment", "Usuário optou por logout local após falhas no backend");
+                        completeLogout();
+                    })
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                        btnLogout.setEnabled(true);
+                    })
+                    .setCancelable(false)
+                    .show();
+        });
     }
 
     private void completeLogout() {

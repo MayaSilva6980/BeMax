@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============================================ -->
+    <!-- DARK MODE - COLOR SYSTEM                    -->
+    <!-- ============================================ -->
+
+    <!-- PRIMARY COLORS - Dark Mode -->
+    <color name="primary">#9B7EFF</color>                    <!-- Azul mais claro no dark -->
+    <color name="primary_dark">#7555E0</color>              <!-- Azul médio -->
+    <color name="primary_light">#C4ADFF</color>             <!-- Azul bem claro -->
+    <color name="primary_container">#2D1380</color>         <!-- Container escuro -->
+    <color name="on_primary">#1A0050</color>                <!-- Texto escuro sobre primary -->
+    <color name="on_primary_container">#E8DEFF</color>      <!-- Texto claro sobre container -->
+
+    <!-- SECONDARY COLORS - Dark Mode -->
+    <color name="secondary">#FFB4AB</color>                 <!-- Vermelho mais suave -->
+    <color name="secondary_dark">#E56B66</color>            <!-- Vermelho médio -->
+    <color name="secondary_light">#FFDAD6</color>           <!-- Vermelho claro -->
+    <color name="secondary_container">#A02822</color>       <!-- Container escuro -->
+    <color name="on_secondary">#690005</color>              <!-- Texto escuro sobre secondary -->
+    <color name="on_secondary_container">#FFDAD6</color>    <!-- Texto claro sobre container -->
+
+    <!-- TERTIARY COLORS - Dark Mode -->
+    <color name="tertiary">#E6DFD2</color>                  <!-- Off-white mais escuro -->
+    <color name="tertiary_dark">#CDC6BA</color>             <!-- Off-white ainda mais escuro -->
+    <color name="tertiary_light">#FFF8EB</color>            <!-- Off-white claro -->
+    <color name="on_tertiary">#FFFBF5</color>               <!-- Texto claro sobre tertiary -->
+
+    <!-- SURFACE COLORS - Dark Mode -->
+    <color name="surface">#1C1B1F</color>                   <!-- Fundo escuro principal -->
+    <color name="surface_variant">#242326</color>           <!-- Fundo alternativo escuro -->
+    <color name="surface_dim">#141318</color>               <!-- Fundo mais escuro -->
+    <color name="surface_bright">#3B3A3F</color>            <!-- Fundo mais claro -->
+    <color name="surface_container">#282729</color>         <!-- Container -->
+    <color name="surface_container_low">#1C1B1F</color>     <!-- Container baixo -->
+    <color name="surface_container_high">#323136</color>    <!-- Container alto -->
+    <color name="on_surface">#E6E1E5</color>                <!-- Texto claro sobre surface -->
+    <color name="on_surface_variant">#CAC4D0</color>        <!-- Texto secundário claro -->
+
+    <!-- BACKGROUND COLORS - Dark Mode -->
+    <color name="background">#141318</color>                <!-- Fundo geral escuro -->
+    <color name="background_alt">#1C1B1F</color>            <!-- Fundo alternativo -->
+    <color name="on_background">#E6E1E5</color>             <!-- Texto claro sobre background -->
+
+    <!-- OUTLINE COLORS - Dark Mode -->
+    <color name="outline">#49454F</color>                   <!-- Borda escura -->
+    <color name="outline_variant">#3B3740</color>           <!-- Borda variante -->
+
+    <!-- ERROR COLORS - Dark Mode -->
+    <color name="error">#FFB4AB</color>                     <!-- Erro mais suave -->
+    <color name="error_container">#93000A</color>           <!-- Container de erro escuro -->
+    <color name="on_error">#690005</color>                  <!-- Texto sobre erro -->
+    <color name="on_error_container">#FFDAD6</color>        <!-- Texto sobre container -->
+
+    <!-- SUCCESS COLORS - Dark Mode -->
+    <color name="success">#69F0AE</color>                   <!-- Verde mais brilhante -->
+    <color name="success_container">#003822</color>         <!-- Container escuro -->
+    <color name="on_success">#003822</color>                <!-- Texto escuro sobre sucesso -->
+    <color name="on_success_container">#C8F5DC</color>      <!-- Texto claro sobre container -->
+
+    <!-- WARNING COLORS - Dark Mode -->
+    <color name="warning">#FFD54F</color>                   <!-- Amarelo mais brilhante -->
+    <color name="warning_container">#4A3800</color>         <!-- Container escuro -->
+    <color name="on_warning">#4A3800</color>                <!-- Texto escuro sobre warning -->
+    <color name="on_warning_container">#FFEFC6</color>      <!-- Texto claro sobre container -->
+
+    <!-- INFO COLORS - Dark Mode -->
+    <color name="info">#4FC3F7</color>                      <!-- Azul mais brilhante -->
+    <color name="info_container">#014361</color>            <!-- Container escuro -->
+    <color name="on_info">#003549</color>                   <!-- Texto escuro sobre info -->
+
+    <!-- NEUTRAL COLORS - Dark Mode (invertidos) -->
+    <color name="neutral_0">#000000</color>                 <!-- Preto puro -->
+    <color name="neutral_10">#141318</color>                <!-- Cinza 10 escuro -->
+    <color name="neutral_20">#1C1B1F</color>                <!-- Cinza 20 escuro -->
+    <color name="neutral_30">#242326</color>                <!-- Cinza 30 escuro -->
+    <color name="neutral_40">#3B3A3F</color>                <!-- Cinza 40 escuro -->
+    <color name="neutral_50">#5E5D62</color>                <!-- Cinza 50 escuro -->
+    <color name="neutral_60">#8A8A8A</color>                <!-- Cinza 60 médio -->
+    <color name="neutral_70">#CAC4D0</color>                <!-- Cinza 70 claro -->
+    <color name="neutral_80">#D6D6D6</color>                <!-- Cinza 80 claro -->
+    <color name="neutral_90">#E6E1E5</color>                <!-- Cinza 90 claro -->
+    <color name="neutral_100">#FFFFFF</color>               <!-- Branco puro -->
+
+    <!-- SPECIAL COLORS - Dark Mode -->
+    <color name="transparent">#00000000</color>             <!-- Transparente -->
+    <color name="scrim">#B3000000</color>                   <!-- Overlay mais escuro (70% alpha) -->
+    <color name="shadow">#40000000</color>                  <!-- Sombra mais forte (25% alpha) -->
+
+    <!-- SOCIAL MEDIA COLORS - Mesmas no dark mode -->
+    <color name="whatsapp">#25D366</color>
+    <color name="facebook">#1877F2</color>
+    <color name="google">#DB4437</color>
+
+    <!-- ALIASES - Dark Mode (mesmos nomes, cores diferentes) -->
+    <color name="bemax_primary">@color/primary</color>
+    <color name="bemax_secondary">@color/secondary</color>
+    <color name="bemax_red">@color/secondary</color>
+    <color name="bemax_blue">@color/primary</color>
+    <color name="bemax_offwhite">@color/tertiary</color>
+    <color name="bemax_gray">@color/neutral_60</color>
+    <color name="bemax_black">@color/neutral_90</color>
+    <color name="bemax_white">@color/neutral_10</color>
+    <color name="bemax_gray_dark">@color/neutral_70</color>
+    <color name="bemax_gray_light">@color/neutral_30</color>
+    <color name="bemax_success">@color/success</color>
+    <color name="bemax_warning">@color/warning</color>
+    <color name="bemax_error">@color/error</color>
+    <color name="bemax_whatsapp">@color/whatsapp</color>
+    <color name="bemax_transparent">@color/transparent</color>
+    
+    <!-- Aliases antigos (dark mode) -->
+    <color name="black">@color/neutral_100</color>
+    <color name="white">@color/neutral_0</color>
+    <color name="gray">@color/neutral_60</color>
+    <color name="cor_transparente">@color/transparent</color>
+    <color name="cor_cinza">@color/neutral_60</color>
+    <color name="cor_cinza_mais_escuro">@color/neutral_70</color>
+    <color name="cor_cinza_transparente">@color/scrim</color>
+    <color name="cor_cinza_linhas">@color/outline</color>
+    <color name="cor_cinza_claro">@color/neutral_50</color>
+    <color name="cor_cinza_escuro">@color/neutral_30</color>
+    <color name="cor_whatsapp">@color/whatsapp</color>
+    <color name="cor_cinza_fundo">@color/surface_variant</color>
+
+</resources>
+

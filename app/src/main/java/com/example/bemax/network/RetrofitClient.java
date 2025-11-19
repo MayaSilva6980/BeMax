@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -16,8 +17,8 @@ public class RetrofitClient {
     private final Retrofit retrofit;
     private final AuthInterceptor authInterceptor;
 
-//    private static final String BASE_URL = "http://localhost:3000/";
-    private static final String BASE_URL = "http://10.0.2.2:3000/";
+   private static final String BASE_URL = "http://localhost:3000/";
+   // private static final String BASE_URL = "http://10.0.2.2:3000/";
 
     private RetrofitClient() {
         // Configuração do Gson
@@ -33,14 +34,27 @@ public class RetrofitClient {
         // Auth Interceptor
         authInterceptor = new AuthInterceptor();
 
-        // Configuração do OkHttpClient
+        // Configuração do OkHttpClient com correções para EOF
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(authInterceptor)
                 .addInterceptor(loggingInterceptor)
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
+                // ✅ Timeouts aumentados para evitar EOF prematuro
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .callTimeout(90, TimeUnit.SECONDS)  // Timeout total da chamada
+                // ✅ Retry automático em caso de falha
                 .retryOnConnectionFailure(true)
+                // ✅ Forçar HTTP/1.1 (mais estável para localhost)
+                .protocols(java.util.Collections.singletonList(okhttp3.Protocol.HTTP_1_1))
+                // ✅ Desabilitar compressão automática (pode causar EOF)
+                .addNetworkInterceptor(chain -> {
+                    Request originalRequest = chain.request();
+                    Request newRequest = originalRequest.newBuilder()
+                            .removeHeader("Accept-Encoding")  // Remove compressão gzip
+                            .build();
+                    return chain.proceed(newRequest);
+                })
                 .build();
 
         // Configuração do Retrofit

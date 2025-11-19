@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,60 +33,189 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
-public class MainActivity extends BaseActivity  implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG = "MainActivity";
+
     private SecureStorage secureStorage;
     private User currentUser;
     private String accessToken;
     private UserRepository userRepository;
     private MeResponse meData;
-
+    private ProgressBar loadingIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frm_principal2);
 
+        loadingIndicator = findViewById(R.id.loading_indicator);
+        
         secureStorage = new SecureStorage(this);
+        secureStorage.setBiometricManager(this); // Configurar biometria
         userRepository = new UserRepository();
 
-        obtemParametros();
-        loadUserData();
-        iniciaControles();
+        // SEMPRE inicializar BottomNavigation primeiro
+        setupBottomNavigation();
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        // Verificar se acabou de fazer login (não precisa biometria)
+        boolean skipBiometric = getIntent().getBooleanExtra("SKIP_BIOMETRIC", false);
+        
+        if (skipBiometric) {
+            Log.d(TAG, "✅ Login recente - pulando biometria");
+            
+            // Tentar carregar do cache primeiro (instantâneo)
+            loadUserDataFromCache();
+            
+            // Obter token SEM pedir biometria (acabou de salvar)
+            obtainTokenWithoutBiometric();
+        } else {
+            Log.d(TAG, "🔐 Reabertura do app - pode requerer biometria");
+            
+            // Tentar carregar do cache primeiro (instantâneo)
+            loadUserDataFromCache();
 
-        // tela inicial
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new HomeFragment(this, currentUser, meData))
-                    .commit();
+            // Obter token (pode requerer biometria)
+            obtainTokenAndLoadData();
         }
+    }
 
+    /**
+     * Carrega dados do cache local primeiro (instantâneo)
+     */
+    private void loadUserDataFromCache() {
+        String userJson = secureStorage.getUserData();
+        if (userJson != null && !userJson.isEmpty()) {
+            try {
+                Gson gson = new Gson();
+                currentUser = gson.fromJson(userJson, User.class);
+                
+                // Aplicar foto do Google se existir no storage
+                String savedPhotoUrl = secureStorage.getUserPhotoUrl();
+                if (savedPhotoUrl != null && !savedPhotoUrl.isEmpty()) {
+                    currentUser.setPhotoUrl(savedPhotoUrl);
+                }
+                
+                Log.d(TAG, "Dados do cache carregados: " + currentUser.getFullName());
+                
+                // Inicializar UI com dados do cache
+                iniciaControles();
+                
+                // Carregar HomeFragment com dados do cache
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new HomeFragment(this, currentUser, meData))
+                        .commit();
+                        
+            } catch (Exception e) {
+                Log.e(TAG, "Erro ao carregar cache: " + e.getMessage());
+            }
+        } else {
+            Log.d(TAG, "Nenhum cache disponível");
+        }
+    }
+
+    /**
+     * Obtém token com biometria (se ativada) e carrega dados
+     */
+    private void obtainTokenAndLoadData() {
+        showLoading(true);
+        
+        if (secureStorage.isBiometricEnabled()) {
+            // Requer biometria para acessar token
+            Log.d(TAG, "Biometria ativada, solicitando autenticação...");
+            
+            secureStorage.getAccessToken(new SecureStorage.TokenCallback() {
+                @Override
+                public void onTokenRetrieved(String token) {
+                    runOnUiThread(() -> {
+                        accessToken = token;
+                        Log.d(TAG, "Token recuperado com biometria com sucesso");
+                        loadUserDataFromBackend();
+                    });
+                }
+
+                @Override
+                public void onError(String error) {
+                    runOnUiThread(() -> {
+                        showLoading(false);
+                        Log.e(TAG, "Erro ao recuperar token: " + error);
+                        Toast.makeText(MainActivity.this, error, Toast.LENGTH_SHORT).show();
+                        redirectToLogin();
+                    });
+                }
+            });
+        } else {
+            // Sem biometria, busca token diretamente
+            secureStorage.getAccessToken(new SecureStorage.TokenCallback() {
+                @Override
+                public void onTokenRetrieved(String token) {
+                    accessToken = token;
+                    
+                    if (accessToken == null || accessToken.isEmpty()) {
+                        Log.w(TAG, "Token não disponível");
+                        showLoading(false);
+                        redirectToLogin();
+                        return;
+                    }
+                    
+                    loadUserDataFromBackend();
+                }
+
+                @Override
+                public void onError(String error) {
+                    showLoading(false);
+                    Log.e(TAG, "Erro ao obter token: " + error);
+                    redirectToLogin();
+                }
+            });
+        }
+    }
+
+    /**
+     * Obtém token SEM pedir biometria (usado após login recente)
+     */
+    private void obtainTokenWithoutBiometric() {
+        showLoading(true);
+        
+        // Busca token diretamente (SEM biometria, mesmo se estiver ativada)
+        secureStorage.getAccessToken(true, new SecureStorage.TokenCallback() {
+            @Override
+            public void onTokenRetrieved(String token) {
+                accessToken = token;
+                
+                if (accessToken == null || accessToken.isEmpty()) {
+                    Log.w(TAG, "Token não disponível após login");
+                    showLoading(false);
+                    redirectToLogin();
+                    return;
+                }
+                
+                Log.d(TAG, "✅ Token obtido sem biometria (login recente)");
+                loadUserDataFromBackend();
+            }
+
+            @Override
+            public void onError(String error) {
+                showLoading(false);
+                Log.e(TAG, "Erro ao obter token após login: " + error);
+                redirectToLogin();
+            }
+        });
+    }
+
+    private void setupBottomNavigation() {
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
+    }
+
+    private void showLoading(boolean show) {
+        if (loadingIndicator != null) {
+            loadingIndicator.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
     }
 
     @Override
     public void obtemParametros() {
-        Intent intent = getIntent();
-        currentUser = (User) intent.getSerializableExtra("user");
-
-        if (currentUser == null) {
-            // Tentar recuperar do SecureStorage
-            String userJson = secureStorage.getUserData();
-            if (userJson != null) {
-                Gson gson = new Gson();
-                currentUser = gson.fromJson(userJson, User.class);
-            }
-        }
-
-        if (intent.hasExtra("access_token")) {
-            accessToken = intent.getStringExtra("access_token");
-        }
-
-        // Fallback: tenta obter do SecureStorage
-        if (accessToken == null) {
-            accessToken = secureStorage.getAccessToken();
-        }
+        // Não usado - token obtido via biometria em obtainTokenAndLoadData()
     }
 
     @Override
@@ -108,6 +238,7 @@ public class MainActivity extends BaseActivity  implements NavigationView.OnNavi
             } else {
                 toolbarSubtitle.setText(R.string.profile_incomplete);
             }
+            
             // Carregar foto do usuário se existir
             if (currentUser.getPhotoUrl() != null && !currentUser.getPhotoUrl().isEmpty()) {
                 Glide.with(this)
@@ -135,43 +266,92 @@ public class MainActivity extends BaseActivity  implements NavigationView.OnNavi
 
     @Override
     public void carregaDados() throws Exception {
-
     }
 
-    private void loadUserData() {
+    /**
+     * Carrega dados do backend via /me
+     */
+    private void loadUserDataFromBackend() {
         if (accessToken != null && !accessToken.isEmpty()) {
+            Log.d(TAG, "Carregando dados do backend via /me...");
+            
             userRepository.getMe(accessToken, new UserRepository.MeCallback() {
                 @Override
                 public void onSuccess(MeResponse response) {
-                    meData = response;
-
-                    // Atualizar o currentUser com os dados mais recentes
-                    if (response.getUser() != null) {
-                        currentUser = response.getUser();
-
-                        // Salvar dados atualizados no storage
-                        Gson gson = new Gson();
-                        secureStorage.saveUserData(gson.toJson(currentUser));
-                    }
-
-                    // Atualizar a UI se necessário
                     runOnUiThread(() -> {
+                        showLoading(false);
+                        meData = response;
+
+                        // Atualizar o currentUser com os dados mais recentes
+                        if (response.getUser() != null) {
+                            currentUser = response.getUser();
+                            
+                            // Aplicar foto do Google se existir no storage
+                            String savedPhotoUrl = secureStorage.getUserPhotoUrl();
+                            if (savedPhotoUrl != null && !savedPhotoUrl.isEmpty()) {
+                                currentUser.setPhotoUrl(savedPhotoUrl);
+                            }
+
+                            // Salvar dados atualizados no storage
+                            Gson gson = new Gson();
+                            secureStorage.saveUserData(gson.toJson(currentUser), new SecureStorage.TokenCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    Log.d(TAG, "Cache atualizado com sucesso");
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    Log.w(TAG, "Erro ao salvar cache: " + error);
+                                }
+                            });
+                            
+                            Log.d(TAG, "Dados do backend carregados com sucesso");
+                            Log.d(TAG, "  Nome: " + currentUser.getFullName());
+                            Log.d(TAG, "  Email: " + currentUser.getEmail());
+                            if (meData.getReminders() != null) {
+                                Log.d(TAG, "  Lembretes: " + meData.getReminders().size());
+                            }
+                        }
+
+                        // Atualizar a UI
                         iniciaControles();
                         updateActiveFragment();
                     });
-
-                    Log.d("MainActivity", "Dados do usuário carregados com sucesso");
                 }
 
                 @Override
                 public void onError(String error) {
-                    Log.e("MainActivity", "Erro ao carregar dados: " + error);
-                    Toast.makeText(MainActivity.this,
-                            "Erro ao carregar dados do usuário",
-                            Toast.LENGTH_SHORT).show();
+                    runOnUiThread(() -> {
+                        showLoading(false);
+                        Log.e(TAG, "Erro ao carregar dados do backend: " + error);
+                        
+                        // Se já tem dados do cache, continuar usando
+                        if (currentUser != null) {
+                            Log.d(TAG, "Continuando com dados do cache");
+                            Toast.makeText(MainActivity.this,
+                                getString(R.string.error_loading_user_data) + " (usando cache)", 
+                                Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Sem cache, mostrar erro
+                            Toast.makeText(MainActivity.this,
+                                getString(R.string.error_loading_user_data), 
+                                Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
+        } else {
+            showLoading(false);
+            Log.w(TAG, "AccessToken não disponível, redirecionando para login");
+            redirectToLogin();
         }
+    }
+
+    private void redirectToLogin() {
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void updateActiveFragment() {
@@ -179,10 +359,15 @@ public class MainActivity extends BaseActivity  implements NavigationView.OnNavi
                 .findFragmentById(R.id.fragment_container);
 
         if (currentFragment instanceof HomeFragment) {
-            // Recriar o HomeFragment com dados atualizados
+            // Atualizar dados do fragment existente (sem recriar)
+            ((HomeFragment) currentFragment).updateData(currentUser, meData);
+            Log.d(TAG, "HomeFragment atualizado dinamicamente");
+        } else if (currentFragment == null) {
+            // Criar novo HomeFragment se não existir
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new HomeFragment(this, currentUser, meData))
                     .commit();
+            Log.d(TAG, "HomeFragment criado com novos dados");
         }
     }
 

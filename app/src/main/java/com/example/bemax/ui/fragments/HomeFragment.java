@@ -41,6 +41,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView lblHidratacao = null;
     private RecyclerView rcvLembretes = null;
     private LinearLayout lnlAdicionarLembrete = null;
+    private View emptyStateReminders = null;
+    private com.google.android.material.button.MaterialButton btnAddFirstReminder = null;
 
     MainActivity mainActivity = null;
     User currentUser = null;
@@ -75,8 +77,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         lblHidratacao = view.findViewById(R.id.lblHidratacao);
         rcvLembretes = view.findViewById(R.id.rcvLembretes);
         lnlAdicionarLembrete = view.findViewById(R.id.lnlAdicionarLembrete);
+        emptyStateReminders = view.findViewById(R.id.emptyStateReminders);
+        btnAddFirstReminder = view.findViewById(R.id.btnAddFirstReminder);
 
         lnlAdicionarLembrete.setOnClickListener(this);
+        btnAddFirstReminder.setOnClickListener(this);
 
         carregaDados();
     }
@@ -100,12 +105,29 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
          if (meData != null && meData.getHealthProfile() != null) {
              atualizarDadosSaude(meData.getHealthProfile());
          }
-
      }
+
+    /**
+     * Atualiza dados do fragment quando novos dados chegam do backend
+     */
+    public void updateData(User user, MeResponse newMeData) {
+        if (user != null) {
+            this.currentUser = user;
+        }
+        if (newMeData != null) {
+            this.meData = newMeData;
+        }
+        
+        // Recarregar UI com novos dados
+        if (getView() != null) {
+            carregaDados();
+            Log.d(TAG, "✅ HomeFragment atualizado com novos dados");
+        }
+    }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.lnlAdicionarLembrete) {
+        if (view.getId() == R.id.lnlAdicionarLembrete || view.getId() == R.id.btnAddFirstReminder) {
             startActivity(new Intent(mainActivity, ReminderFormActivity.class));
         }
     }
@@ -121,13 +143,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             Log.d(TAG, "Nenhum lembrete disponível do backend");
         }
 
-        ReminderAdapter adapter = new ReminderAdapter(listaLembretes, reminder -> {
-            // Click no lembrete - pode implementar depois para abrir detalhes
-            Log.d(TAG, "Lembrete clicado: " + reminder.getTitle());
-        });
-        
-        rcvLembretes.setLayoutManager(new LinearLayoutManager(mainActivity));
-        rcvLembretes.setAdapter(adapter);
+        // Verificar se há lembretes
+        if (listaLembretes.isEmpty()) {
+            // Mostrar empty state
+            rcvLembretes.setVisibility(View.GONE);
+            emptyStateReminders.setVisibility(View.VISIBLE);
+            Log.d(TAG, "Exibindo empty state - nenhum lembrete encontrado");
+        } else {
+            // Mostrar lista
+            rcvLembretes.setVisibility(View.VISIBLE);
+            emptyStateReminders.setVisibility(View.GONE);
+            
+            ReminderAdapter adapter = new ReminderAdapter(listaLembretes, reminder -> {
+                // Click no lembrete - pode implementar depois para abrir detalhes
+                Log.d(TAG, "Lembrete clicado: " + reminder.getTitle());
+            });
+            
+            rcvLembretes.setLayoutManager(new LinearLayoutManager(mainActivity));
+            rcvLembretes.setAdapter(adapter);
+        }
     }
     // NOVO MÉTODO para atualizar stats
     private void atualizarStats(Stats stats) {

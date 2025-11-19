@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="40dp">
+
+    <!-- Ícone grande -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:cardCornerRadius="60dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#F0F4FF"
+        android:layout_marginBottom="24dp">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_medicamento"
+            app:tint="@color/secondary" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Título -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty_reminders_title"
+        android:textColor="@color/bemax_black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Subtítulo -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty_reminders_subtitle"
+        android:textColor="@color/bemax_gray_dark"
+        android:textSize="15sp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_marginBottom="32dp"
+        android:lineSpacingExtra="4dp" />
+
+    <!-- Botão de adicionar -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAddFirstReminder"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:text="@string/add_first_reminder"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/bemax_white"
+        app:cornerRadius="30dp"
+        app:icon="@drawable/ic_mais"
+        app:iconTint="@color/bemax_white"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:backgroundTint="@color/secondary"
+        app:elevation="4dp" />
+
+</LinearLayout>
+

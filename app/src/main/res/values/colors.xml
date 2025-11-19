@@ -1,39 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="gray">#505050</color>
+    <!-- ============================================ -->
+    <!-- MATERIAL DESIGN 3 - COLOR SYSTEM            -->
+    <!-- ============================================ -->
 
-    <color name="cor_transparente">#00000000</color>
-    <color name="cor_cinza">#CECECE</color>
-    <color name="cor_cinza_mais_escuro">#585858</color>
-    <color name="cor_cinza_transparente">#80585858</color>
-    <color name="cor_cinza_linhas">#e0e0e0</color>
-    <color name="cor_cinza_claro">#AFAFAF</color>
-    <color name="cor_cinza_escuro">#555555</color>
-    <color name="cor_whatsapp">#25D366</color>
-    <color name="cor_cinza_fundo">#F9F9F9</color>
+    <!-- PRIMARY COLORS - Cor principal da marca (Azul BeMax) -->
+    <color name="primary">#411DBA</color>                    <!-- Azul principal -->
+    <color name="primary_dark">#2D1380</color>              <!-- Azul escuro (para gradientes) -->
+    <color name="primary_light">#6B4FD8</color>             <!-- Azul claro (para hover/pressed) -->
+    <color name="primary_container">#E8DEFF</color>         <!-- Container de primary -->
+    <color name="on_primary">#FFFFFF</color>                <!-- Texto sobre primary -->
+    <color name="on_primary_container">#1A0050</color>      <!-- Texto sobre container -->
 
+    <!-- SECONDARY COLORS - Cor secundária (Vermelho BeMax) -->
+    <color name="secondary">#DB3A34</color>                 <!-- Vermelho secundário -->
+    <color name="secondary_dark">#A02822</color>            <!-- Vermelho escuro -->
+    <color name="secondary_light">#E56B66</color>           <!-- Vermelho claro -->
+    <color name="secondary_container">#FFDAD6</color>       <!-- Container de secondary -->
+    <color name="on_secondary">#FFFFFF</color>              <!-- Texto sobre secondary -->
+    <color name="on_secondary_container">#410002</color>    <!-- Texto sobre container -->
 
-    <!-- Cores principais da identidade BeMax -->
-    <color name="bemax_red">#DB3A34</color>         <!-- Vermelho -->
-    <color name="bemax_offwhite">#FFF8EB</color>    <!-- Off-white -->
-    <color name="bemax_gray">#D6D6D6</color>        <!-- Cinza -->
-    <color name="bemax_blue">#411DBA</color>        <!-- Azul -->
-    <color name="bemax_black">#040212</color>       <!-- Preto -->
+    <!-- TERTIARY COLORS - Cor terciária (Off-white BeMax) -->
+    <color name="tertiary">#FFF8EB</color>                  <!-- Off-white -->
+    <color name="tertiary_dark">#E6DFD2</color>             <!-- Off-white escuro -->
+    <color name="tertiary_light">#FFFBF5</color>            <!-- Off-white mais claro -->
+    <color name="on_tertiary">#2B2109</color>               <!-- Texto sobre tertiary -->
 
-    <!-- Cores auxiliares (para estados, fundos e textos secundários) -->
-    <color name="bemax_white">#FFFFFFFF</color>     <!-- Branco puro -->
-    <color name="bemax_gray_dark">#8A8A8A</color>   <!-- Cinza escuro para texto secundário -->
-    <color name="bemax_gray_light">#F2F2F2</color>  <!-- Fundo claro / separadores -->
-    <color name="bemax_transparent">#00000000</color> <!-- Transparente -->
+    <!-- SURFACE COLORS - Fundos e superfícies -->
+    <color name="surface">#FFFFFF</color>                   <!-- Fundo principal (cards, dialogs) -->
+    <color name="surface_variant">#F9F9F9</color>           <!-- Fundo alternativo -->
+    <color name="surface_dim">#F2F2F2</color>               <!-- Fundo suave -->
+    <color name="surface_bright">#FFFFFF</color>            <!-- Fundo brilhante -->
+    <color name="surface_container">#F5F5F5</color>         <!-- Container de surface -->
+    <color name="surface_container_low">#FAFAFA</color>     <!-- Container baixo -->
+    <color name="surface_container_high">#ECECEC</color>    <!-- Container alto -->
+    <color name="on_surface">#040212</color>                <!-- Texto sobre surface -->
+    <color name="on_surface_variant">#585858</color>        <!-- Texto secundário -->
 
-    <!-- Estados -->
-    <color name="bemax_success">#00B759</color>     <!-- Verde sucesso -->
-    <color name="bemax_warning">#FFB300</color>     <!-- Amarelo alerta -->
-    <color name="bemax_error">#C80605</color>       <!-- Vermelho erro (variação mais forte) -->
+    <!-- BACKGROUND COLORS - Fundo da aplicação -->
+    <color name="background">#FAFAFA</color>                <!-- Fundo geral do app -->
+    <color name="background_alt">#F9F9F9</color>            <!-- Fundo alternativo -->
+    <color name="on_background">#040212</color>             <!-- Texto sobre background -->
 
-    <!-- Social (se precisar integração futura) -->
-    <color name="bemax_whatsapp">#25D366</color>
+    <!-- OUTLINE COLORS - Bordas e divisores -->
+    <color name="outline">#E0E0E0</color>                   <!-- Borda padrão -->
+    <color name="outline_variant">#CECECE</color>           <!-- Borda variante -->
+
+    <!-- ERROR COLORS - Estados de erro -->
+    <color name="error">#C80605</color>                     <!-- Vermelho de erro -->
+    <color name="error_container">#FFDAD6</color>           <!-- Container de erro -->
+    <color name="on_error">#FFFFFF</color>                  <!-- Texto sobre erro -->
+    <color name="on_error_container">#410002</color>        <!-- Texto sobre container de erro -->
+
+    <!-- SUCCESS COLORS - Estados de sucesso -->
+    <color name="success">#00B759</color>                   <!-- Verde de sucesso -->
+    <color name="success_container">#C8F5DC</color>         <!-- Container de sucesso -->
+    <color name="on_success">#FFFFFF</color>                <!-- Texto sobre sucesso -->
+    <color name="on_success_container">#002114</color>      <!-- Texto sobre container de sucesso -->
+
+    <!-- WARNING COLORS - Estados de alerta -->
+    <color name="warning">#FFB300</color>                   <!-- Amarelo de alerta -->
+    <color name="warning_container">#FFEFC6</color>         <!-- Container de alerta -->
+    <color name="on_warning">#2B2109</color>                <!-- Texto sobre alerta -->
+    <color name="on_warning_container">#271900</color>      <!-- Texto sobre container de alerta -->
+
+    <!-- INFO COLORS - Estados informativos -->
+    <color name="info">#0288D1</color>                      <!-- Azul informativo -->
+    <color name="info_container">#B3E5FC</color>            <!-- Container informativo -->
+    <color name="on_info">#FFFFFF</color>                   <!-- Texto sobre info -->
+
+    <!-- NEUTRAL COLORS - Escala de cinzas -->
+    <color name="neutral_0">#FFFFFF</color>                 <!-- Branco puro -->
+    <color name="neutral_10">#FAFAFA</color>                <!-- Cinza 10 -->
+    <color name="neutral_20">#F5F5F5</color>                <!-- Cinza 20 -->
+    <color name="neutral_30">#ECECEC</color>                <!-- Cinza 30 -->
+    <color name="neutral_40">#D6D6D6</color>                <!-- Cinza 40 -->
+    <color name="neutral_50">#AFAFAF</color>                <!-- Cinza 50 -->
+    <color name="neutral_60">#8A8A8A</color>                <!-- Cinza 60 -->
+    <color name="neutral_70">#585858</color>                <!-- Cinza 70 -->
+    <color name="neutral_80">#505050</color>                <!-- Cinza 80 -->
+    <color name="neutral_90">#2B2B2B</color>                <!-- Cinza 90 -->
+    <color name="neutral_100">#040212</color>               <!-- Preto (quase) -->
+
+    <!-- SPECIAL COLORS - Cores especiais -->
+    <color name="transparent">#00000000</color>             <!-- Transparente -->
+    <color name="scrim">#80000000</color>                   <!-- Overlay escuro (50% alpha) -->
+    <color name="shadow">#1A000000</color>                  <!-- Sombra (10% alpha) -->
+
+    <!-- SOCIAL MEDIA COLORS - Integração com redes sociais -->
+    <color name="whatsapp">#25D366</color>                  <!-- WhatsApp verde -->
+    <color name="facebook">#1877F2</color>                  <!-- Facebook azul -->
+    <color name="google">#DB4437</color>                    <!-- Google vermelho -->
+
+    <!-- ============================================ -->
+    <!-- ALIASES - Para compatibilidade              -->
+    <!-- ============================================ -->
+    
+    <!-- Aliases para manter compatibilidade com código existente -->
+    <color name="bemax_primary">@color/primary</color>
+    <color name="bemax_secondary">@color/secondary</color>
+    <color name="bemax_red">@color/secondary</color>
+    <color name="bemax_blue">@color/primary</color>
+    <color name="bemax_offwhite">@color/tertiary</color>
+    <color name="bemax_gray">@color/neutral_40</color>
+    <color name="bemax_black">@color/neutral_100</color>
+    <color name="bemax_white">@color/neutral_0</color>
+    <color name="bemax_gray_dark">@color/neutral_60</color>
+    <color name="bemax_gray_light">@color/neutral_20</color>
+    <color name="bemax_success">@color/success</color>
+    <color name="bemax_warning">@color/warning</color>
+    <color name="bemax_error">@color/error</color>
+    <color name="bemax_whatsapp">@color/whatsapp</color>
+    <color name="bemax_transparent">@color/transparent</color>
+    
+    <!-- Aliases antigos (deprecados, mas mantidos para compatibilidade) -->
+    <color name="black">@color/neutral_100</color>
+    <color name="white">@color/neutral_0</color>
+    <color name="gray">@color/neutral_80</color>
+    <color name="cor_transparente">@color/transparent</color>
+    <color name="cor_cinza">@color/neutral_40</color>
+    <color name="cor_cinza_mais_escuro">@color/neutral_70</color>
+    <color name="cor_cinza_transparente">@color/scrim</color>
+    <color name="cor_cinza_linhas">@color/outline</color>
+    <color name="cor_cinza_claro">@color/neutral_50</color>
+    <color name="cor_cinza_escuro">@color/neutral_80</color>
+    <color name="cor_whatsapp">@color/whatsapp</color>
+    <color name="cor_cinza_fundo">@color/surface_variant</color>
 
 </resources>

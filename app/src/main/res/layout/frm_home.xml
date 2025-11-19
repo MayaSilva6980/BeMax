@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cor_cinza_fundo">
-
+    android:background="@color/background">
 
     <!-- Conteúdo scrollável -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:fillViewport="true"
+        android:fillViewport="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -74,7 +75,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Frequência Cardíaca"
-                            android:textColor="@color/cor_cinza_mais_escuro"
+                            android:textColor="@color/on_surface_variant"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -114,7 +115,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Pressão"
-                            android:textColor="@color/cor_cinza_mais_escuro"
+                            android:textColor="@color/on_surface_variant"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -154,7 +155,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Sono"
-                            android:textColor="@color/cor_cinza_mais_escuro"
+                            android:textColor="@color/on_surface_variant"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -194,7 +195,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Hidratação"
-                            android:textColor="@color/cor_cinza_mais_escuro"
+                            android:textColor="@color/on_surface_variant"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -234,10 +235,27 @@
 
             </LinearLayout>
 
-           <androidx.recyclerview.widget.RecyclerView
-               android:id="@+id/rcvLembretes"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content" />
+            <!-- Container para Lista de Lembretes -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- RecyclerView de Lembretes -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvLembretes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible" />
+
+                <!-- Empty State -->
+                <include
+                    android:id="@+id/emptyStateReminders"
+                    layout="@layout/empty_state_reminders"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+            </FrameLayout>
 
         </LinearLayout>
     </ScrollView>

@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/cor_cinza_fundo"
+    android:background="@color/background"
     android:id="@+id/root_layout">
 
         <LinearLayout
@@ -76,7 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_centerVertical="true"
-                    android:background="@color/cor_cinza_linhas"/>
+                    android:background="@color/outline"/>
 
                 <!-- Container dos pickers -->
                 <LinearLayout
@@ -126,7 +126,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/cor_cinza_linhas"
+                android:background="@color/outline"
                android:layout_marginTop="100dp"/>
 
             <!-- Label Option -->

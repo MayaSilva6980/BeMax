@@ -46,7 +46,7 @@
 
     <!-- Alert screen -->
     <string name="titulo_alerta_emergencia">Emergency Alert</string>
-    <string name="status_emergencia_ativa">⚠️ Active Emergency</string>
+    <string name="status_emergencia_ativa">Active Emergency</string>
     <string name="resumo_usuario">O+ | 72 years | Hypertensive</string>
     <string name="nome_padrao">Name: Igor Santos</string>
     <string name="tipo_sanguineo_padrao">Blood Type: O+</string>
@@ -70,16 +70,11 @@
     <string name="editar">Edit</string>
     <string name="voltar">Back</string>
     <string name="salvar">Save</string>
-    <string name="cancelar">Cancel</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Messages -->
     <string name="msg_informacoes_salvas">Information saved successfully!</string>
     <string name="msg_preencha_campos">Please fill in all required fields.</string>
-    <string name="error_loading_user_data">Error loading user data</string>
-    <string name="loading_data">Loading data...</string>
-    <string name="no_reminders">No reminders yet</string>
-    <string name="reminders_today">Today: %d reminders</string>
-    <string name="total_reminders">Total: %d reminders</string>
 
     <!-- Authentication -->
     <string name="email">Email</string>
@@ -115,7 +110,7 @@
     <!-- Biometric -->
     <string name="biometric_title">Biometric Authentication</string>
     <string name="biometric_subtitle">Use your fingerprint or face to continue</string>
-    <string name="biometric_description">Confirm your identity to access the app</string>
+    <string name="biometric_description">Confirm your identity to access the app, your tokens are protected by hardware-backed encryption</string>
     <string name="biometric_negative_button">Use password</string>
     <string name="biometric_enable_title">Enable biometric login?</string>
     <string name="biometric_enable_message">Next time you can log in using your fingerprint or face recognition</string>
@@ -126,6 +121,7 @@
     <string name="biometric_failed">Biometric not recognized. Try again</string>
     <string name="biometric_not_available">Biometric not available on this device</string>
     <string name="biometric_not_enrolled">No biometric enrolled. Set up in device settings</string>
+    <string name="biometric_security_update">Security update required for biometric authentication</string>
 
     <!-- Seções -->
     <string name="section_health_info">Informações de Saúde</string>
@@ -160,6 +156,12 @@
     <string name="logout_confirm">Yes</string>
     <string name="logout_cancel">Cancel</string>
     <string name="logout_success">Successfully signed out</string>
+    <string name="logout_in_progress">Signing out...</string>
+    <string name="logout_anyway">Sign Out Anyway</string>
+    <string name="logout_error_title">Logout Error</string>
+    <string name="logout_token_error">Could not retrieve %s for secure logout.\n\nDo you want to sign out locally?</string>
+    <string name="logout_backend_error_title">Server Communication Error</string>
+    <string name="logout_backend_error">Failed to notify server after 3 attempts:\n%s\n\nYour session may remain active on the server. Do you want to sign out locally?</string>
 
     <!-- Errors -->
     <string name="error_session_expired">Session expired. Please login again.</string>
@@ -176,4 +178,16 @@
     <string name="error_passwords_different">Passwords don\'t match</string>
     <string name="error_birthdate_required">Date of birth is required</string>
     <string name="error_password_min_length">Password must be at least 6 characters</string>
+
+    <!-- User Data -->
+    <string name="error_loading_user_data">Error loading user data</string>
+    <string name="loading_data">Loading data...</string>
+    <string name="no_reminders">No reminders yet</string>
+    <string name="reminders_today">Today: %d reminders</string>
+    <string name="total_reminders">Total: %d reminders</string>
+
+    <!-- Empty State -->
+    <string name="empty_reminders_title">No reminders yet</string>
+    <string name="empty_reminders_subtitle">Create your first reminder to keep track of your medications, appointments and health routines</string>
+    <string name="add_first_reminder">Add First Reminder</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.example.bemax.model.dto;
 
-import com.example.bemax.model.domain.User;
 import com.google.gson.annotations.SerializedName;
 
 public class LoginResponse {
@@ -16,8 +15,7 @@ public class LoginResponse {
     @SerializedName("expires_in")
     private long expiresIn;
 
-    @SerializedName("user")
-    private User user;
+    // REMOVIDO: Campo 'user' para forçar busca via /me
 
     public String getAccessToken() {
         return accessToken;
@@ -57,14 +55,5 @@ public class LoginResponse {
 
     public String getBearerToken() {
         return tokenType + " " + accessToken;
-    }
-
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }
