@@ -28,10 +28,19 @@ public class RegisterRepository {
     }
 
         public void register (RegisterRequest request, RegisterCallback callback){
+        // Log request details
+        Log.d(TAG, "=== REGISTER REQUEST ===");
+        Log.d(TAG, "Email: " + request.getEmail());
+        Log.d(TAG, "FullName: " + request.getFullName());
+        Log.d(TAG, "CPF: " + request.getCpf());
+        Log.d(TAG, "Phone: " + request.getPhone());
+        Log.d(TAG, "DateBirth: " + request.getDateBirth());
+        
         callApi.register(request).enqueue(new Callback<RegisterResponse>() {
 
             @Override
             public void onResponse(@NonNull Call<RegisterResponse> call, @NonNull Response<RegisterResponse> response) {
+                Log.d(TAG, "Response code: " + response.code());
                 if (response.isSuccessful() && response.body() != null) {
                     RegisterResponse registerResponse = response.body();
 

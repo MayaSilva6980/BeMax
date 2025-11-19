@@ -93,6 +93,7 @@
     <color name="transparent">#00000000</color>             <!-- Transparente -->
     <color name="scrim">#80000000</color>                   <!-- Overlay escuro (50% alpha) -->
     <color name="shadow">#1A000000</color>                  <!-- Sombra (10% alpha) -->
+    <color name="bemax_loading_overlay">#99000000</color>   <!-- Loading overlay (60% alpha) -->
 
     <!-- SOCIAL MEDIA COLORS - Integração com redes sociais -->
     <color name="whatsapp">#25D366</color>                  <!-- WhatsApp verde -->
@@ -135,3 +136,6 @@
     <color name="cor_cinza_fundo">@color/surface_variant</color>
 
 </resources>
+
+
+

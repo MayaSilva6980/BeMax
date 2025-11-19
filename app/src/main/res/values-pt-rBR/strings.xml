@@ -48,6 +48,11 @@
     <string name="auth_continue_with_google">Continuar com Google</string>
     <string name="auth_logging_in">Entrando…</string>
     <string name="auth_registering">Cadastrando…</string>
+    <string name="create_account">Criar Conta</string>
+    <string name="user_registration_subtitle">Preencha as informações abaixo para criar sua conta</string>
+    <string name="personal_info">Informações Pessoais</string>
+    <string name="contact_info">Informações de Contato</string>
+    <string name="security_settings">Segurança</string>
     
     <!-- Mensagens de Sucesso -->
     <string name="auth_login_success">Login realizado com sucesso!</string>
@@ -163,10 +168,15 @@
     <!-- ============================================================ -->
     <string name="error_name_required">Nome é obrigatório</string>
     <string name="error_email_required">E-mail é obrigatório</string>
+    <string name="error_email_invalid">E-mail inválido</string>
     <string name="error_cpf_required">CPF é obrigatório</string>
     <string name="error_cpf_invalid">CPF inválido</string>
     <string name="error_phone_required">Telefone é obrigatório</string>
+    <string name="error_phone_invalid">Telefone inválido</string>
+    <string name="error_birthdate_invalid">Data inválida (use DD/MM/AAAA)</string>
     <string name="error_password_required">Senha é obrigatória</string>
+    <string name="error_password_too_short">A senha deve ter no mínimo 6 caracteres</string>
+    <string name="error_confirm_password_required">Por favor, confirme sua senha</string>
     <string name="error_passwords_different">As senhas não coincidem</string>
     <string name="error_birthdate_required">Data de nascimento é obrigatória</string>
     <string name="error_password_min_length">A senha deve ter pelo menos 6 caracteres</string>
@@ -426,6 +436,11 @@
     <string name="relationship_doctor">Médico(a)</string>
     <string name="relationship_caregiver">Cuidador(a)</string>
     <string name="relationship_other">Outro</string>
+    
+    <!-- Formatação de Data/Hora -->
+    <string name="date_today_at">Hoje às %1$s</string>
+    <string name="date_tomorrow_at">Amanhã às %1$s</string>
+    <string name="date_full_at">%1$s às %2$s</string>
 
     <!-- ============================================================ -->
     <!-- OUTRAS TELAS -->

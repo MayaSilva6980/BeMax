@@ -3,74 +3,92 @@ package com.example.bemax.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
 import com.example.bemax.R;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.example.bemax.model.dto.RegisterRequest;
 import com.example.bemax.model.dto.RegisterResponse;
 import com.example.bemax.repository.RegisterRepository;
-import com.example.bemax.util.helper.ErrorHelper;
 import com.example.bemax.util.helper.InputMaskHelper;
 import com.example.bemax.util.helper.NotificationHelper;
 import com.example.bemax.ui.base.BaseActivity;
 import com.example.bemax.util.AppConstants;
 
-public class RegisterActivity extends BaseActivity implements  View.OnClickListener {
-    // Campos de texto
-    private EditText txtNome;
-    private EditText txtEmail;
-    private EditText txtSenha;
-    private EditText txtConfirmarSenha;
-    private EditText txtTelefone;
-    private EditText txtCpf;
-    private EditText txtDataNasc;
-    private Button btnSalvarUsuario;
-    private TextView btnCancelar;
+public class RegisterActivity extends BaseActivity {
+    private static final String TAG = "RegisterActivity";
+    
+    // UI Components
+    private MaterialToolbar toolbar;
+    private TextInputLayout layoutNome;
+    private TextInputLayout layoutEmail;
+    private TextInputLayout layoutCpf;
+    private TextInputLayout layoutTelefone;
+    private TextInputLayout layoutDataNasc;
+    private TextInputLayout layoutSenha;
+    private TextInputLayout layoutConfirmarSenha;
+    
+    private TextInputEditText txtNome;
+    private TextInputEditText txtEmail;
+    private TextInputEditText txtSenha;
+    private TextInputEditText txtConfirmarSenha;
+    private TextInputEditText txtTelefone;
+    private TextInputEditText txtCpf;
+    private TextInputEditText txtDataNasc;
+    
+    private MaterialButton btnSalvarUsuario;
+    private MaterialButton btnCancelar;
+    private FrameLayout lnlAreaProgressBar;
 
-    private LinearLayout lnlAreaProgressBar;
-
-    //Variaveis de classe
+    // Repository
     private RegisterRepository registerRepository;
-    private RegisterRequest registerRequest;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        try
-        {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.frm_cadastro);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.frm_cadastro);
 
-            registerRepository = new RegisterRepository(this);
-
-            initializeControls();
-            obtainParameters();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        registerRepository = new RegisterRepository(this);
+        initializeControls();
+        obtainParameters();
     }
 
     @Override
     public void obtainParameters() {
         // Preenche os campos com dados vindos da Intent (se houver)
-        if (getIntent().getSerializableExtra("email") != null)
-            txtEmail.setText((String) getIntent().getSerializableExtra("email"));
-        
-        if (getIntent().getSerializableExtra("nome") != null)
-            txtNome.setText((String) getIntent().getSerializableExtra("nome"));
-        
-        if (getIntent().getSerializableExtra("telefone") != null)
-            txtTelefone.setText((String) getIntent().getSerializableExtra("telefone"));
+        if (getIntent().hasExtra("email")) {
+            txtEmail.setText(getIntent().getStringExtra("email"));
+        }
+        if (getIntent().hasExtra("nome")) {
+            txtNome.setText(getIntent().getStringExtra("nome"));
+        }
+        if (getIntent().hasExtra("telefone")) {
+            txtTelefone.setText(getIntent().getStringExtra("telefone"));
+        }
     }
 
     @Override
-    public void initializeControls() throws Exception {
+    public void initializeControls() {
+        // Toolbar
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.user_registration_title);
+        toolbar.setNavigationOnClickListener(v -> finish());
+        
+        // TextInputLayouts
+        layoutNome = findViewById(R.id.layoutNome);
+        layoutEmail = findViewById(R.id.layoutEmail);
+        layoutCpf = findViewById(R.id.textInputLayoutInfoCpf);
+        layoutTelefone = findViewById(R.id.layoutTelefone);
+        layoutDataNasc = findViewById(R.id.layoutInfoNascimento);
+        layoutSenha = findViewById(R.id.layoutSenha);
+        layoutConfirmarSenha = findViewById(R.id.layoutConfirmarSenha);
+        
+        // EditTexts
         txtNome = findViewById(R.id.txtNome);
         txtEmail = findViewById(R.id.txtEmail);
         txtSenha = findViewById(R.id.txtSenha);
@@ -78,133 +96,194 @@ public class RegisterActivity extends BaseActivity implements  View.OnClickListe
         txtTelefone = findViewById(R.id.txtTelefone);
         txtCpf = findViewById(R.id.txtCpf);
         txtDataNasc = findViewById(R.id.txtDataNasc);
-        lnlAreaProgressBar = findViewById(R.id.lnlAreaProgressBar);
+        
+        // Buttons
         btnSalvarUsuario = findViewById(R.id.btnSalvarUsuario);
         btnCancelar = findViewById(R.id.btnCancelar);
+        lnlAreaProgressBar = findViewById(R.id.lnlAreaProgressBar);
 
+        // Apply input masks
         InputMaskHelper.aplicarMascara(txtTelefone, AppConstants.MASK_PHONE);
         InputMaskHelper.aplicarMascara(txtCpf, AppConstants.MASK_CPF);
         InputMaskHelper.aplicarMascara(txtDataNasc, AppConstants.MASK_DATE);
 
-        btnCancelar.setOnClickListener(this);
-        btnSalvarUsuario.setOnClickListener(this);
-
-        loadData();
+        // Set click listeners
+        btnCancelar.setOnClickListener(v -> finish());
+        btnSalvarUsuario.setOnClickListener(v -> performRegistration());
     }
 
     @Override
-    public void loadData() throws Exception {
+    public void loadData() {
+        // Not needed
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view.getId() == R.id.btnCancelar)
-        {
-            getOnBackPressedDispatcher().onBackPressed();
-        }
-        else if (view.getId() == R.id.btnSalvarUsuario)
-        {
-            performRegistration();
-        }
-    }
+    private boolean validateFields() {
+        // Clear previous errors
+        layoutNome.setError(null);
+        layoutEmail.setError(null);
+        layoutCpf.setError(null);
+        layoutTelefone.setError(null);
+        layoutDataNasc.setError(null);
+        layoutSenha.setError(null);
+        layoutConfirmarSenha.setError(null);
+        
+        String nome = txtNome.getText().toString().trim();
+        String email = txtEmail.getText().toString().trim();
+        String cpf = txtCpf.getText().toString().trim();
+        String telefone = txtTelefone.getText().toString().trim();
+        String senha = txtSenha.getText().toString();
+        String senhaConfirma = txtConfirmarSenha.getText().toString();
+        String dataNasc = txtDataNasc.getText().toString().trim();
 
-    public boolean validaCampos() {
-        String sNome = txtNome.getText().toString();
-        String sEmail = txtEmail.getText().toString();
-        String sCpf = txtCpf.getText().toString();
-        String sTelefone = txtTelefone.getText().toString();
-        String sSenha = txtSenha.getText().toString();
-        String sSenhaConfirma = txtConfirmarSenha.getText().toString();
-        String sDataNasc = txtDataNasc.getText().toString();
-
-        if ( sNome.isEmpty())
-        {
-            txtNome.setError(getString(R.string.error_name_required));
+        // Validate Nome
+        if (nome.isEmpty()) {
+            layoutNome.setError(getString(R.string.error_name_required));
             txtNome.requestFocus();
             return false;
         }
-        else if ( sEmail.isEmpty())
-        {
-            txtEmail.setError(getString(R.string.error_email_required));
+        
+        // Validate Email
+        if (email.isEmpty()) {
+            layoutEmail.setError(getString(R.string.error_email_required));
             txtEmail.requestFocus();
             return false;
         }
-        else if (sCpf.isEmpty())
-        {
-            txtCpf.setError(getString(R.string.error_cpf_required));
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            layoutEmail.setError(getString(R.string.error_email_invalid));
+            txtEmail.requestFocus();
+            return false;
+        }
+        
+        // Validate CPF
+        if (cpf.isEmpty()) {
+            layoutCpf.setError(getString(R.string.error_cpf_required));
             txtCpf.requestFocus();
             return false;
         }
-        else if ( sCpf.length() < 11 )
-        {
-            txtCpf.setError(getString(R.string.error_cpf_invalid));
+        String cpfClean = cpf.replaceAll("[^0-9]", "");
+        if (cpfClean.length() != 11) {
+            layoutCpf.setError(getString(R.string.error_cpf_invalid));
             txtCpf.requestFocus();
             return false;
         }
-        else if ( sTelefone.isEmpty())
-        {
-            txtTelefone.setError(getString(R.string.error_phone_required));
-            txtTelefone.requestFocus();
-            return false;
-        }
-        else if ( sTelefone.length() < 11)
-        {
-            txtTelefone.setError(getString(R.string.error_phone_required));
-            txtTelefone.requestFocus();
-            return false;
-        }
-        else if ( sSenha.isEmpty())
-        {
-            txtSenha.setError(getString(R.string.error_password_required));
-            txtSenha.requestFocus();
-            return false;
-        }
-        else if ( !sSenha.equals(sSenhaConfirma))
-        {
-            txtConfirmarSenha.setError(getString(R.string.error_passwords_different));
-            txtConfirmarSenha.requestFocus();
-            return false;
-        }
-        else if ( sDataNasc.isEmpty())
-        {
-            txtDataNasc.setError(getString(R.string.error_birthdate_required));
+        
+        // Validate Data Nascimento
+        if (dataNasc.isEmpty()) {
+            layoutDataNasc.setError(getString(R.string.error_birthdate_required));
             txtDataNasc.requestFocus();
             return false;
         }
+        if (dataNasc.length() != 10) {
+            layoutDataNasc.setError(getString(R.string.error_birthdate_invalid));
+            txtDataNasc.requestFocus();
+            return false;
+        }
+        
+        // Validate Telefone
+        if (telefone.isEmpty()) {
+            layoutTelefone.setError(getString(R.string.error_phone_required));
+            txtTelefone.requestFocus();
+            return false;
+        }
+        // Validate phone length (with mask: (##) #####-#### = 15 chars)
+        String telefoneClean = telefone.replaceAll("[^0-9]", "");
+        if (telefoneClean.length() < 10 || telefoneClean.length() > 11) {
+            layoutTelefone.setError(getString(R.string.error_phone_invalid));
+            txtTelefone.requestFocus();
+            return false;
+        }
+        
+        // Validate Senha
+        if (senha.isEmpty()) {
+            layoutSenha.setError(getString(R.string.error_password_required));
+            txtSenha.requestFocus();
+            return false;
+        }
+        if (senha.length() < 6) {
+            layoutSenha.setError(getString(R.string.error_password_too_short));
+            txtSenha.requestFocus();
+            return false;
+        }
+        
+        // Validate Confirmar Senha
+        if (senhaConfirma.isEmpty()) {
+            layoutConfirmarSenha.setError(getString(R.string.error_confirm_password_required));
+            txtConfirmarSenha.requestFocus();
+            return false;
+        }
+        if (!senha.equals(senhaConfirma)) {
+            layoutConfirmarSenha.setError(getString(R.string.error_passwords_different));
+            txtConfirmarSenha.requestFocus();
+            return false;
+        }
 
-        registerRequest = new RegisterRequest(sEmail,sNome,sSenha,sCpf,sTelefone,sDataNasc);
         return true;
     }
 
     private void performRegistration() {
-
-        if (!validaCampos())
-        {
+        if (!validateFields()) {
+            Log.e(TAG, "Validation failed!");
             return;
         }
 
+        // Get data (keeping masks for phone and date)
+        String email = txtEmail.getText().toString().trim();
+        String nome = txtNome.getText().toString().trim();
+        String senha = txtSenha.getText().toString();
+        String cpfClean = txtCpf.getText().toString().trim().replaceAll("[^0-9]", "");
+        String telefone = txtTelefone.getText().toString().trim(); // WITH mask
+        String dataNasc = txtDataNasc.getText().toString().trim(); // WITH mask
+
+        // Debug log
+        Log.d(TAG, "=== VALIDATION SUCCESS ===");
+        Log.d(TAG, "Email: " + email);
+        Log.d(TAG, "Nome: " + nome);
+        Log.d(TAG, "CPF (cleaned): " + cpfClean);
+        Log.d(TAG, "Telefone (with mask): " + telefone);
+        Log.d(TAG, "Data Nascimento (with mask): " + dataNasc);
+
+        // Create request
+        RegisterRequest request = new RegisterRequest(
+            email,
+            nome,
+            senha,
+            cpfClean,    // CPF without mask
+            telefone,    // Phone WITH mask (##) #####-####
+            dataNasc     // Date WITH mask DD/MM/YYYY
+        );
+
+        // Debug request
+        Log.d(TAG, "=== SENDING REQUEST ===");
+        Log.d(TAG, "Request Email: " + request.getEmail());
+        Log.d(TAG, "Request FullName: " + request.getFullName());
+        Log.d(TAG, "Request CPF: " + request.getCpf());
+        Log.d(TAG, "Request Phone: " + request.getPhone());
+        Log.d(TAG, "Request DateBirth: " + request.getDateBirth());
+
+        // Show loading
         btnSalvarUsuario.setEnabled(false);
-        btnSalvarUsuario.setText(R.string.register_registering);
+        btnSalvarUsuario.setText(R.string.auth_registering);
         lnlAreaProgressBar.setVisibility(View.VISIBLE);
 
-        registerRepository.register(registerRequest, new RegisterRepository.RegisterCallback() {
+        // Call API
+        registerRepository.register(request, new RegisterRepository.RegisterCallback() {
             @Override
             public void onSuccess(RegisterResponse response) {
                 runOnUiThread(() -> {
                     btnSalvarUsuario.setEnabled(true);
-                    btnSalvarUsuario.setText(R.string.register_save);
+                    btnSalvarUsuario.setText(R.string.create_account);
                     lnlAreaProgressBar.setVisibility(View.GONE);
 
                     NotificationHelper.showSuccess(
                         RegisterActivity.this,
-                        getString(R.string.register_success)
+                        getString(R.string.auth_register_success)
                     );
 
-                    // Log debug
-                    Log.d("FrmCadastro", "Cadastro realizado com sucesso!");
-                    Log.d("FrmCadastro", "Response: " + response);
+                    Log.d(TAG, "Registration successful!");
 
+                    // Navigate to main activity
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
                 });
@@ -214,16 +293,15 @@ public class RegisterActivity extends BaseActivity implements  View.OnClickListe
             public void onError(String error) {
                 runOnUiThread(() -> {
                     btnSalvarUsuario.setEnabled(true);
-                    btnSalvarUsuario.setText(R.string.register_save);
+                    btnSalvarUsuario.setText(R.string.create_account);
                     lnlAreaProgressBar.setVisibility(View.GONE);
 
-                    ErrorHelper.handleRegistrationError(
-                        findViewById(android.R.id.content),
-                        error
+                    NotificationHelper.showError(
+                        RegisterActivity.this,
+                        getString(R.string.auth_register_error, error)
                     );
 
-                    // Log debug
-                    Log.e("FrmCadastro", "Erro no cadastro: " + error);
+                    Log.e(TAG, "Registration error: " + error);
                 });
             }
         });

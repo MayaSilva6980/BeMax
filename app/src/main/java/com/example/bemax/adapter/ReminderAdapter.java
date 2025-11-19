@@ -14,16 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bemax.R;
 import com.example.bemax.model.domain.Reminder;
+import com.example.bemax.util.DateTimeHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminderViewHolder> {
 
@@ -85,8 +81,8 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
             holder.imgCategoryIcon.setImageResource(R.drawable.ic_medicamento);
         }
         
-        // Próxima ocorrência
-        String nextOccurrence = formatarProximaOcorrencia(reminder.getNextOccurrence());
+        // Próxima ocorrência (converted from UTC to local time)
+        String nextOccurrence = DateTimeHelper.formatReminderDateTime(context, reminder.getNextOccurrence());
         holder.txtNextOccurrence.setText(nextOccurrence);
         
         // Frequência
@@ -126,44 +122,6 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
         }
     }
 
-    private String formatarProximaOcorrencia(String isoDateTime) {
-        if (isoDateTime == null || isoDateTime.isEmpty()) {
-            return context.getString(R.string.reminder_select_time);
-        }
-
-        try {
-            SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
-            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            
-            Date date = isoFormat.parse(isoDateTime);
-            if (date != null) {
-                Calendar now = Calendar.getInstance();
-                Calendar reminderDate = Calendar.getInstance();
-                reminderDate.setTime(date);
-                
-                // Verificar se é hoje
-                if (now.get(Calendar.YEAR) == reminderDate.get(Calendar.YEAR) &&
-                    now.get(Calendar.DAY_OF_YEAR) == reminderDate.get(Calendar.DAY_OF_YEAR)) {
-                    return "Hoje às " + timeFormat.format(date);
-                }
-                
-                // Verificar se é amanhã
-                now.add(Calendar.DAY_OF_YEAR, 1);
-                if (now.get(Calendar.YEAR) == reminderDate.get(Calendar.YEAR) &&
-                    now.get(Calendar.DAY_OF_YEAR) == reminderDate.get(Calendar.DAY_OF_YEAR)) {
-                    return "Amanhã às " + timeFormat.format(date);
-                }
-                
-                // Data completa
-                return dateFormat.format(date) + " às " + timeFormat.format(date);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return isoDateTime;
-    }
 
     private String getFrequencyText(String frequency) {
         if (frequency == null) return "";
