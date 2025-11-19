@@ -361,6 +361,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:cornerRadius="16dp"
+        app:backgroundTint="@color/bemax_red"
         app:icon="@drawable/ic_check_circle"
         app:iconGravity="textStart" />
 

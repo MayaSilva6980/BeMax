@@ -45,9 +45,13 @@ public class EmergencyContactRepository {
         api.getEmergencyContacts(authHeader).enqueue(new Callback<List<EmergencyContact>>() {
             @Override
             public void onResponse(Call<List<EmergencyContact>> call, Response<List<EmergencyContact>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Log.d(TAG, "Contacts loaded successfully: " + response.body().size());
-                    callback.onSuccess(response.body());
+                if (response.isSuccessful()) {
+                    List<EmergencyContact> contacts = response.body();
+                    if (contacts == null) {
+                        contacts = new java.util.ArrayList<>();
+                    }
+                    Log.d(TAG, "Contacts loaded successfully: " + contacts.size() + " contacts");
+                    callback.onSuccess(contacts);
                 } else {
                     String error = "Error: " + response.code();
                     Log.e(TAG, error);

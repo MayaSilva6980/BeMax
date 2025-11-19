@@ -93,6 +93,8 @@ public class EmergencyContactsActivity extends BaseActivity implements Emergency
                         hideLoading();
                         adapter.setContacts(contacts);
                         updateEmptyState(contacts.isEmpty());
+                        // Don't show error for empty list - it's a valid state
+                        Log.d(TAG, "Contacts loaded: " + contacts.size() + " contacts found");
                     });
                 }
 
@@ -100,9 +102,12 @@ public class EmergencyContactsActivity extends BaseActivity implements Emergency
                 public void onError(String errorMsg) {
                     runOnUiThread(() -> {
                         hideLoading();
+                        // Show error notification for actual errors
                         NotificationHelper.showError(EmergencyContactsActivity.this, 
                             getString(R.string.contact_load_error));
+                        // Show empty state but with error context
                         updateEmptyState(true);
+                        Log.e(TAG, "Error loading contacts: " + errorMsg);
                     });
                 }
             });
@@ -113,6 +118,8 @@ public class EmergencyContactsActivity extends BaseActivity implements Emergency
                 runOnUiThread(() -> {
                     hideLoading();
                     NotificationHelper.showError(EmergencyContactsActivity.this, error);
+                    updateEmptyState(true);
+                    Log.e(TAG, "Token error: " + error);
                 });
             }
         });
