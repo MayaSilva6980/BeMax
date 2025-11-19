@@ -38,16 +38,16 @@ public class RetrofitClient {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(authInterceptor)
                 .addInterceptor(loggingInterceptor)
-                // ✅ Timeouts aumentados para evitar EOF prematuro
+                //  Timeouts aumentados para evitar EOF prematuro
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)
                 .callTimeout(90, TimeUnit.SECONDS)  // Timeout total da chamada
-                // ✅ Retry automático em caso de falha
+                //  Retry automático em caso de falha
                 .retryOnConnectionFailure(true)
-                // ✅ Forçar HTTP/1.1 (mais estável para localhost)
+                //  Forçar HTTP/1.1 (mais estável para localhost)
                 .protocols(java.util.Collections.singletonList(okhttp3.Protocol.HTTP_1_1))
-                // ✅ Desabilitar compressão automática (pode causar EOF)
+                //  Desabilitar compressão automática (pode causar EOF)
                 .addNetworkInterceptor(chain -> {
                     Request originalRequest = chain.request();
                     Request newRequest = originalRequest.newBuilder()

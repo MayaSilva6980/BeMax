@@ -246,4 +246,43 @@
     <string name="profile_picture">Foto de Perfil</string>
     <string name="profile_complete">Perfil Completo</string>
     <string name="search_reminders">Buscar lembretes...</string>
+
+    <!-- Perfil de Saúde -->
+    <string name="health_profile_title">Perfil de Saúde</string>
+    <string name="health_profile_edit">Editar Perfil de Saúde</string>
+    <string name="health_profile_save">Salvar Alterações</string>
+    <string name="health_profile_create">Criar Perfil de Saúde</string>
+    <string name="health_profile_basic_info">Informações Básicas</string>
+    <string name="health_profile_allergies">Alergias</string>
+    <string name="health_profile_medications">Medicamentos Atuais</string>
+    <string name="health_profile_notes">Observações Adicionais</string>
+    <string name="health_profile_no_allergies">Nenhuma alergia registrada</string>
+    <string name="health_profile_no_medications">Nenhum medicamento registrado</string>
+    <string name="health_profile_empty_title">Perfil de Saúde Não Criado</string>
+    <string name="health_profile_empty_subtitle">Crie seu perfil de saúde para ajudar profissionais de saúde a te atenderem melhor em emergências</string>
+    <string name="health_profile_allergies_hint">Liste suas alergias (uma por linha)</string>
+    <string name="health_profile_medications_hint">Liste seus medicamentos (um por linha)</string>
+    <string name="health_profile_notes_hint">Adicione qualquer informação médica relevante</string>
+    <string name="health_profile_allergies_example">Exemplo: Penicilina, Amendoim, Lactose</string>
+    <string name="health_profile_medications_example">Exemplo: Losartana 50mg (manhã), Metformina 850mg (2x ao dia)</string>
+    <string name="health_profile_saved">Perfil de saúde atualizado com sucesso!</string>
+    <string name="health_profile_error">Erro ao atualizar perfil de saúde</string>
+    <string name="health_profile_loading_error">Erro ao carregar perfil de saúde</string>
+    <string name="blood_type">Tipo Sanguíneo</string>
+    <string name="height">Altura</string>
+    <string name="weight">Peso</string>
+    <string name="height_hint">Altura (em cm)</string>
+    <string name="weight_hint">Peso (em kg)</string>
+    <string name="blood_type_a_positive">A+</string>
+    <string name="blood_type_a_negative">A-</string>
+    <string name="blood_type_b_positive">B+</string>
+    <string name="blood_type_b_negative">B-</string>
+    <string name="blood_type_ab_positive">AB+</string>
+    <string name="blood_type_ab_negative">AB-</string>
+    <string name="blood_type_o_positive">O+</string>
+    <string name="blood_type_o_negative">O-</string>
+    <string name="height_cm">%d cm</string>
+    <string name="weight_kg">%d kg</string>
+    <string name="health_profile_subtitle">Visualize e gerencie suas informações médicas</string>
+    <string name="not_available">N/D</string>
 </resources>

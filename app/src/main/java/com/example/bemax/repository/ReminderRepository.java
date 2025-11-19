@@ -180,24 +180,24 @@ public class ReminderRepository {
     public void getReminders(String accessToken, GetRemindersCallback callback) {
         String authHeader = "Bearer " + accessToken;
 
-        Log.d(TAG, "📋 Buscando lembretes do usuário...");
+        Log.d(TAG, "Buscando lembretes do usuário...");
 
         callApi.getReminders(authHeader).enqueue(new Callback<List<Reminder>>() {
             @Override
             public void onResponse(@NonNull Call<List<Reminder>> call, @NonNull Response<List<Reminder>> response) {
-                Log.d(TAG, "📡 Resposta recebida: HTTP " + response.code());
+                Log.d(TAG, "Resposta recebida: HTTP " + response.code());
 
                 if (response.isSuccessful() && response.body() != null) {
                     List<Reminder> reminders = response.body();
-                    Log.d(TAG, "✅ Lembretes obtidos com sucesso: " + reminders.size());
+                    Log.d(TAG, "Lembretes obtidos com sucesso: " + reminders.size());
                     callback.onSuccess(reminders);
                 } else {
                     try {
                         String errorBody = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
-                        Log.e(TAG, "❌ Erro ao buscar lembretes (code: " + response.code() + "): " + errorBody);
+                        Log.e(TAG, "Erro ao buscar lembretes (code: " + response.code() + "): " + errorBody);
                         callback.onError("Erro ao buscar lembretes (código: " + response.code() + ")");
                     } catch (IOException e) {
-                        Log.e(TAG, "❌ Erro ao ler resposta de erro", e);
+                        Log.e(TAG, "Erro ao ler resposta de erro", e);
                         callback.onError("Erro ao buscar lembretes");
                     }
                 }
@@ -206,7 +206,7 @@ public class ReminderRepository {
             @Override
             public void onFailure(@NonNull Call<List<Reminder>> call, @NonNull Throwable t) {
                 String errorMsg = "Erro de conexão ao buscar lembretes: " + t.getMessage();
-                Log.e(TAG, "❌ " + errorMsg, t);
+                Log.e(TAG, "" + errorMsg, t);
                 callback.onError(errorMsg);
             }
         });

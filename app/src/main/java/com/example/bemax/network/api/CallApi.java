@@ -72,4 +72,14 @@ public interface CallApi {
 
     @GET("reminder-categories")
     Call<List<Category>> getReminderCategories(@Header("Authorization") String authHeader);
+
+    // Health Profile Endpoints
+    @GET("health-profile")
+    Call<com.example.bemax.model.domain.HealthProfile> getHealthProfile(@Header("Authorization") String authHeader);
+
+    @PUT("health-profile")
+    Call<com.example.bemax.model.domain.HealthProfile> updateHealthProfile(
+            @Header("Authorization") String authHeader,
+            @Body com.example.bemax.model.dto.HealthProfileRequest request
+    );
 }

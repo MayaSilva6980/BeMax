@@ -46,6 +46,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private LinearLayout lnlAdicionarLembrete = null;
     private View emptyStateReminders = null;
     private com.google.android.material.button.MaterialButton btnAddFirstReminder = null;
+    
+    // Health Cards
+    private com.google.android.material.card.MaterialCardView cardHeartRate = null;
+    private com.google.android.material.card.MaterialCardView cardBloodPressure = null;
+    private com.google.android.material.card.MaterialCardView cardSleep = null;
+    private com.google.android.material.card.MaterialCardView cardHydration = null;
 
     MainActivity mainActivity = null;
     User currentUser = null;
@@ -99,9 +105,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         lnlAdicionarLembrete = view.findViewById(R.id.lnlAdicionarLembrete);
         emptyStateReminders = view.findViewById(R.id.emptyStateReminders);
         btnAddFirstReminder = view.findViewById(R.id.btnAddFirstReminder);
+        
+        // Health Cards
+        cardHeartRate = view.findViewById(R.id.cardHeartRate);
+        cardBloodPressure = view.findViewById(R.id.cardBloodPressure);
+        cardSleep = view.findViewById(R.id.cardSleep);
+        cardHydration = view.findViewById(R.id.cardHydration);
 
         lnlAdicionarLembrete.setOnClickListener(this);
         btnAddFirstReminder.setOnClickListener(this);
+        
+        // Health Cards Click Listeners
+        cardHeartRate.setOnClickListener(this);
+        cardBloodPressure.setOnClickListener(this);
+        cardSleep.setOnClickListener(this);
+        cardHydration.setOnClickListener(this);
 
         carregaDados();
     }
@@ -150,8 +168,26 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.lnlAdicionarLembrete || view.getId() == R.id.btnAddFirstReminder) {
+        int id = view.getId();
+        
+        if (id == R.id.lnlAdicionarLembrete || id == R.id.btnAddFirstReminder) {
             startActivity(new Intent(mainActivity, ReminderFormActivity.class));
+        }
+        else if (id == R.id.cardHeartRate) {
+            // TODO: Abrir tela de detalhes de frequência cardíaca
+            NotificationHelper.showInfo(mainActivity, "Funcionalidade em desenvolvimento");
+        }
+        else if (id == R.id.cardBloodPressure) {
+            // TODO: Abrir tela de detalhes de pressão arterial
+            NotificationHelper.showInfo(mainActivity, "Funcionalidade em desenvolvimento");
+        }
+        else if (id == R.id.cardSleep) {
+            // TODO: Abrir tela de detalhes de sono
+            NotificationHelper.showInfo(mainActivity, "Funcionalidade em desenvolvimento");
+        }
+        else if (id == R.id.cardHydration) {
+            // TODO: Abrir tela de detalhes de hidratação
+            NotificationHelper.showInfo(mainActivity, "Funcionalidade em desenvolvimento");
         }
     }
 
@@ -159,7 +195,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // Usar dados dos lembretes vindos do endpoint /reminders
         List<Reminder> listaLembretes = reminders != null ? new ArrayList<>(reminders) : new ArrayList<>();
         
-        Log.d(TAG, "📋 Carregando " + listaLembretes.size() + " lembretes do endpoint /reminders");
+        Log.d(TAG, "Carregando " + listaLembretes.size() + " lembretes do endpoint /reminders");
 
         // Verificar se há lembretes
         if (listaLembretes.isEmpty()) {

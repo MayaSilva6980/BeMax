@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -56,7 +55,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.frm_principal2);
+        setContentView(R.layout.frm_principal);
 
         loadingIndicator = findViewById(R.id.loading_indicator);
         
@@ -332,9 +331,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                 }
                             });
                             
-                            Log.d(TAG, "✅ Dados do /me carregados com sucesso");
-                            Log.d(TAG, "  Nome: " + currentUser.getFullName());
-                            Log.d(TAG, "  Email: " + currentUser.getEmail());
+                            Log.d(TAG, "Dados do /me carregados com sucesso");
+                            Log.d(TAG, " Nome: " + currentUser.getFullName());
+                            Log.d(TAG, " Email: " + currentUser.getEmail());
                         }
 
                         // Atualizar a UI
@@ -379,7 +378,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     private void loadReminders() {
         if (accessToken != null && !accessToken.isEmpty()) {
-            Log.d(TAG, "📋 Buscando lembretes do endpoint /reminders...");
+            Log.d(TAG, "Buscando lembretes do endpoint /reminders...");
             
             reminderRepository.getReminders(accessToken, new ReminderRepository.GetRemindersCallback() {
                 @Override
@@ -388,7 +387,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         showLoading(false);
                         reminders = loadedReminders != null ? loadedReminders : new ArrayList<>();
                         
-                        Log.d(TAG, "✅ Lembretes carregados: " + reminders.size());
+                        Log.d(TAG, "Lembretes carregados: " + reminders.size());
                         
                         // Atualizar fragment com os lembretes
                         updateActiveFragment();
@@ -399,7 +398,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 public void onError(String error) {
                     runOnUiThread(() -> {
                         showLoading(false);
-                        Log.e(TAG, "❌ Erro ao carregar lembretes: " + error);
+                        Log.e(TAG, "Erro ao carregar lembretes: " + error);
                         
                         // Inicializar lista vazia
                         reminders = new ArrayList<>();

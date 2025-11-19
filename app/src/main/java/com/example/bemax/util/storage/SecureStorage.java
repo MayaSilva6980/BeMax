@@ -500,9 +500,16 @@ public class SecureStorage {
                 .remove(KEY_USER_DATA_ENCRYPTED)
                 .remove(KEY_TOKEN_EXPIRATION)
                 .remove(KEY_USER_EMAIL)
+                .remove(KEY_USER_PHOTO_URL) // IMPORTANTE: Limpar foto também!
                 .apply();
         setBiometricEnabled(biometricEnabled);
-        Log.d(TAG, "Tokens limpos");
+        
+        // Limpar cache de tokens na memória
+        cachedAccessToken = null;
+        cachedRefreshToken = null;
+        cacheTimestamp = 0;
+        
+        Log.d(TAG, "Tokens e dados do usuário limpos (incluindo foto)");
     }
 
     /**

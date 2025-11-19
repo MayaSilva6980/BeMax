@@ -36,10 +36,14 @@
 
             <!-- Card Frequência Cardíaca -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardHeartRate"
                 android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="6dp"
                 app:cardBackgroundColor="@color/bemax_white">
@@ -76,10 +80,14 @@
 
             <!-- Card Oxigênio -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardBloodPressure"
                 android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="6dp"
                 app:cardBackgroundColor="@color/bemax_white">
@@ -116,10 +124,14 @@
 
             <!-- Card Sono -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSleep"
                 android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="6dp"
                 app:cardBackgroundColor="@color/bemax_white">
@@ -156,10 +168,14 @@
 
             <!-- Card Hidratação -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardHydration"
                 android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="6dp"
                 app:cardBackgroundColor="@color/bemax_white">

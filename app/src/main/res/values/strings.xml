@@ -244,5 +244,44 @@
     <string name="profile_picture">Profile Picture</string>
     <string name="profile_complete">Profile Complete</string>
     <string name="search_reminders">Search reminders...</string>
+
+    <!-- Health Profile -->
+    <string name="health_profile_title">Health Profile</string>
+    <string name="health_profile_edit">Edit Health Profile</string>
+    <string name="health_profile_save">Save Changes</string>
+    <string name="health_profile_create">Create Health Profile</string>
+    <string name="health_profile_basic_info">Basic Information</string>
+    <string name="health_profile_allergies">Allergies</string>
+    <string name="health_profile_medications">Current Medications</string>
+    <string name="health_profile_notes">Additional Notes</string>
+    <string name="health_profile_no_allergies">No allergies registered</string>
+    <string name="health_profile_no_medications">No medications registered</string>
+    <string name="health_profile_empty_title">Health Profile Not Created</string>
+    <string name="health_profile_empty_subtitle">Create your health profile to help healthcare professionals better assist you in emergencies</string>
+    <string name="health_profile_allergies_hint">List your allergies (one per line)</string>
+    <string name="health_profile_medications_hint">List your medications (one per line)</string>
+    <string name="health_profile_notes_hint">Add any relevant medical information</string>
+    <string name="health_profile_allergies_example">Example: Penicillin, Peanuts, Lactose</string>
+    <string name="health_profile_medications_example">Example: Losartan 50mg (morning), Metformin 850mg (2x daily)</string>
+    <string name="health_profile_saved">Health profile updated successfully!</string>
+    <string name="health_profile_error">Error updating health profile</string>
+    <string name="health_profile_loading_error">Error loading health profile</string>
+    <string name="blood_type">Blood Type</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="height_hint">Height (in cm)</string>
+    <string name="weight_hint">Weight (in kg)</string>
+    <string name="blood_type_a_positive">A+</string>
+    <string name="blood_type_a_negative">A-</string>
+    <string name="blood_type_b_positive">B+</string>
+    <string name="blood_type_b_negative">B-</string>
+    <string name="blood_type_ab_positive">AB+</string>
+    <string name="blood_type_ab_negative">AB-</string>
+    <string name="blood_type_o_positive">O+</string>
+    <string name="blood_type_o_negative">O-</string>
+    <string name="height_cm">%d cm</string>
+    <string name="weight_kg">%d kg</string>
+    <string name="health_profile_subtitle">View and manage your medical information</string>
+    <string name="not_available">N/A</string>
 </resources>
 

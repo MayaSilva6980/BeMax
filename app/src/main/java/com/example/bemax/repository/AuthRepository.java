@@ -182,26 +182,26 @@ public class AuthRepository {
         String authHeader = "Bearer " + accessToken;
         RefreshTokenRequest request = new RefreshTokenRequest(refreshToken);
 
-        Log.d(TAG, "🔐 Fazendo logout no backend...");
-        Log.d(TAG, "📋 Authorization Header: " + authHeader.substring(0, Math.min(30, authHeader.length())) + "...");
-        Log.d(TAG, "📋 Refresh Token no body: " + (refreshToken != null ? refreshToken.substring(0, Math.min(20, refreshToken.length())) + "..." : "null"));
+        Log.d(TAG, "Fazendo logout no backend...");
+        Log.d(TAG, "Authorization Header: " + authHeader.substring(0, Math.min(30, authHeader.length())) + "...");
+        Log.d(TAG, "Refresh Token no body: " + (refreshToken != null ? refreshToken.substring(0, Math.min(20, refreshToken.length())) + "..." : "null"));
 
         callApi.logout(authHeader, request).enqueue(new Callback<ApiResponse<Void>>() {
             @Override
             public void onResponse(@NonNull Call<ApiResponse<Void>> call, @NonNull Response<ApiResponse<Void>> response) {
-                Log.d(TAG, "📡 Resposta do backend recebida: HTTP " + response.code());
+                Log.d(TAG, "Resposta do backend recebida: HTTP " + response.code());
                 
                 if (response.isSuccessful()) {
                     RetrofitClient.getInstance().clearAuthToken();
-                    Log.d(TAG, "✅ Logout realizado com sucesso no backend");
+                    Log.d(TAG, "Logout realizado com sucesso no backend");
                     callback.onSuccess();
                 } else {
                     try {
                         String errorBody = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
-                        Log.e(TAG, "❌ Erro no logout do backend (code: " + response.code() + "): " + errorBody);
+                        Log.e(TAG, "Erro no logout do backend (code: " + response.code() + "): " + errorBody);
                         callback.onError("Erro ao fazer logout no servidor (código: " + response.code() + ") - " + errorBody);
                     } catch (IOException e) {
-                        Log.e(TAG, "❌ Erro ao ler resposta de erro", e);
+                        Log.e(TAG, "Erro ao ler resposta de erro", e);
                         callback.onError("Erro ao fazer logout no servidor");
                     }
                 }
@@ -210,7 +210,7 @@ public class AuthRepository {
             @Override
             public void onFailure(@NonNull Call<ApiResponse<Void>> call, @NonNull Throwable t) {
                 String errorMsg = "Erro de conexão ao fazer logout: " + t.getMessage();
-                Log.e(TAG, "❌ " + errorMsg, t);
+                Log.e(TAG, "" + errorMsg, t);
                 Log.e(TAG, "Tipo do erro: " + t.getClass().getName());
                 callback.onError(errorMsg);
             }

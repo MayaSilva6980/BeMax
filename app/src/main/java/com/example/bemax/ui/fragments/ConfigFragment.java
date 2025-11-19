@@ -22,18 +22,16 @@ import com.example.bemax.R;
 import com.example.bemax.model.domain.User;
 import com.example.bemax.repository.AuthRepository;
 import com.example.bemax.ui.activity.ContactInfoActivity;
-import com.example.bemax.ui.activity.MedicalInfoActivity;
+import com.example.bemax.ui.activity.HealthProfileActivity;
 import com.example.bemax.ui.activity.PersonalInfoActivity;
 import com.example.bemax.ui.activity.LoginActivity;
 import com.example.bemax.ui.activity.MainActivity;
-import com.example.bemax.util.helper.ErrorHelper;
 import com.example.bemax.util.helper.NotificationHelper;
 import com.example.bemax.util.manager.TokenManager;
 import com.example.bemax.util.storage.SecureStorage;
 import com.example.bemax.util.helper.StringHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
@@ -50,7 +48,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 
     // Cards de Saúde
     private MaterialCardView btnInfoPessoal;
-    private MaterialCardView btnInfoMedica;
+    private MaterialCardView btnHealthProfile;
     private MaterialCardView btnContatoFamilia;
 
     // Cards de Preferências
@@ -77,7 +75,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frm_config2, container, false);
+        View view = inflater.inflate(R.layout.frm_config, container, false);
 
         if (mainActivity == null) {
             mainActivity = (MainActivity) requireActivity();
@@ -106,7 +104,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 
         // Cards de Saúde
         btnInfoPessoal = view.findViewById(R.id.btnInfoPessoal);
-        btnInfoMedica = view.findViewById(R.id.btnInfoMedica);
+        btnHealthProfile = view.findViewById(R.id.btnHealthProfile);
         btnContatoFamilia = view.findViewById(R.id.btnContatoFamilia);
 
         // Cards de Preferências
@@ -122,7 +120,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 
         // Listeners
         btnInfoPessoal.setOnClickListener(this);
-        btnInfoMedica.setOnClickListener(this);
+        btnHealthProfile.setOnClickListener(this);
         btnContatoFamilia.setOnClickListener(this);
         btnNotifications.setOnClickListener(this);
         btnPrivacy.setOnClickListener(this);
@@ -153,14 +151,26 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
                 // Email
                 txtUserEmail.setText(currentUser.getEmail());
 
-                // Foto
-                if (currentUser.getPhotoUrl() != null && !currentUser.getPhotoUrl().isEmpty()) {
+                // Foto - tentar do SecureStorage primeiro (Google login)
+                String photoUrl = secureStorage.getUserPhotoUrl();
+                if (photoUrl != null && !photoUrl.isEmpty()) {
+                    Glide.with(this)
+                            .load(photoUrl)
+                            .transform(new CircleCrop())
+                            .placeholder(R.drawable.ic_profile)
+                            .error(R.drawable.ic_profile)
+                            .into(imgUserPhoto);
+                } else if (currentUser.getPhotoUrl() != null && !currentUser.getPhotoUrl().isEmpty()) {
+                    // Fallback para foto do User object
                     Glide.with(this)
                             .load(currentUser.getPhotoUrl())
                             .transform(new CircleCrop())
                             .placeholder(R.drawable.ic_profile)
                             .error(R.drawable.ic_profile)
                             .into(imgUserPhoto);
+                } else {
+                    // Sem foto, usar placeholder
+                    imgUserPhoto.setImageResource(R.drawable.ic_profile);
                 }
 
                 // Progresso do Perfil (calcular baseado nos dados preenchidos)
@@ -204,8 +214,8 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
         if (id == R.id.btnInfoPessoal) {
             startActivity(new Intent(mainActivity, PersonalInfoActivity.class));
         }
-        else if (id == R.id.btnInfoMedica) {
-            startActivity(new Intent(mainActivity, MedicalInfoActivity.class));
+        else if (id == R.id.btnHealthProfile) {
+            startActivity(new Intent(mainActivity, HealthProfileActivity.class));
         }
         else if (id == R.id.btnContatoFamilia) {
             startActivity(new Intent(mainActivity, ContactInfoActivity.class));
@@ -312,7 +322,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
                 
                 if (attemptNumber < MAX_RETRIES - 1) {
                     //Ainda tem tentativas, retry
-                    Log.d("ConfigFragment", "⏳ Aguardando " + RETRY_DELAY_MS + "ms antes de retry...");
+                    Log.d("ConfigFragment", " Aguardando " + RETRY_DELAY_MS + "ms antes de retry...");
                     
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
@@ -382,9 +392,23 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
         if (getActivity() == null) return;
 
         getActivity().runOnUiThread(() -> {
-            // Limpar tokens do TokenManager (memória + storage)
+            Log.d("ConfigFragment", "Realizando logout completo...");
+            
+            // Limpar cache de imagens do Glide
+            try {
+                Glide.get(requireContext()).clearMemory();
+                Log.d("ConfigFragment", "Cache de imagens limpo (memória)");
+            } catch (Exception e) {
+                Log.e("ConfigFragment", "Erro ao limpar cache do Glide: " + e.getMessage());
+            }
+            
+            // Limpar tokens do TokenManager (memória + storage + foto)
             tokenManager.clearTokens();
+            Log.d("ConfigFragment", "Tokens limpos");
+            
+            // Logout do Firebase
             FirebaseAuth.getInstance().signOut();
+            Log.d("ConfigFragment", "Firebase logout");
 
             Intent intent = new Intent(mainActivity, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -393,6 +417,8 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
             if (mainActivity != null) {
                 mainActivity.finish();
             }
+            
+            Log.d("ConfigFragment", "Redirecionando para tela de login");
         });
     }
 }

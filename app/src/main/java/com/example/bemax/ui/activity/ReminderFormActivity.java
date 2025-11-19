@@ -184,7 +184,7 @@ public class ReminderFormActivity extends BaseActivity implements View.OnClickLi
                             
                             // Log das categorias
                             for (Category cat : categories) {
-                                Log.d(TAG, "  - " + cat.getName() + " (" + cat.getId() + ")");
+                                Log.d(TAG, " - " + cat.getName() + " (" + cat.getId() + ")");
                             }
                         });
                     }
@@ -398,12 +398,12 @@ public class ReminderFormActivity extends BaseActivity implements View.OnClickLi
 
         String action = isEditMode ? "Atualizando" : "Criando";
         Log.d(TAG, action + " lembrete:");
-        Log.d(TAG, "  Título: " + title);
-        Log.d(TAG, "  Categoria: " + selectedCategoryId);
-        Log.d(TAG, "  Frequência: " + selectedFrequency);
-        Log.d(TAG, "  Data início: " + startDate);
-        Log.d(TAG, "  Data fim: " + endDate);
-        Log.d(TAG, "  Horário: " + reminderAt);
+        Log.d(TAG, " Título: " + title);
+        Log.d(TAG, " Categoria: " + selectedCategoryId);
+        Log.d(TAG, " Frequência: " + selectedFrequency);
+        Log.d(TAG, " Data início: " + startDate);
+        Log.d(TAG, " Data fim: " + endDate);
+        Log.d(TAG, " Horário: " + reminderAt);
 
         // Obter token e salvar lembrete
         showLoading(true);
