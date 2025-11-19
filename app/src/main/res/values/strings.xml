@@ -1,121 +1,88 @@
 <resources>
-    <!-- App Info -->
+    <!-- ============================================================ -->
+    <!-- APP INFORMATION -->
+    <!-- ============================================================ -->
     <string name="app_name">BeMax</string>
+    <string name="app_version">Version %s</string>
     <string name="default_web_client_id">1037514636295-pl4iudcs1n8oin3b4gnfv0574vgevp3i.apps.googleusercontent.com</string>
 
-    <!-- Greetings -->
-    <string name="good_morning">Good Morning</string>
-    <string name="good_dawn">Good Dawn</string>
-    <string name="good_afternoon">Good Afternoon</string>
-    <string name="good_evening">Good Evening</string>
+    <!-- ============================================================ -->
+    <!-- COMMON ACTIONS -->
+    <!-- ============================================================ -->
+    <string name="action_save">Save</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_back">Back</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_activate">Activate</string>
+    <string name="action_deactivate">Deactivate</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_yes">Yes</string>
+    <string name="action_no">No</string>
+    
+    <!-- Common actions without prefix (for compatibility) -->
+    <string name="activate">Activate</string>
+    <string name="deactivate">Deactivate</string>
+    <string name="clear">Clear</string>
+    <string name="delete">Delete</string>
+    <string name="cancelar">Cancel</string>
 
-    <!-- Main screen -->
-    <string name="titulo_categorias_saude">Health Categories</string>
-    <string name="categoria_info_pessoal">Personal Information</string>
-    <string name="categoria_info_medica">Medical Information</string>
-    <string name="categoria_config_emergencia">Emergency Settings</string>
-    <string name="categoria_contatos_familia">Family Contacts</string>
+    <!-- ============================================================ -->
+    <!-- GREETINGS -->
+    <!-- ============================================================ -->
+    <string name="greeting_good_morning">Good Morning</string>
+    <string name="greeting_good_dawn">Good Dawn</string>
+    <string name="greeting_good_afternoon">Good Afternoon</string>
+    <string name="greeting_good_evening">Good Evening</string>
 
-    <!-- Form fields -->
-    <string name="full_name">Full name</string>
-    <string name="data_nascimento">Date of Birth</string>
-    <string name="idade">Age</string>
-    <string name="cpf">CPF</string>
-    <string name="genero">Gender</string>
-    <string name="endereco">Address</string>
-    <string name="tipo_sanguineo">Blood Type</string>
-    <string name="alergias">Allergies</string>
-    <string name="doencas_cronicas">Chronic Diseases</string>
-    <string name="medicamentos_uso">Medications in Use</string>
-    <string name="historico_medico">Medical History</string>
-    <string name="contato_emergencia">Emergency Contacts</string>
-    <string name="palavra_emergencia">Emergency Word</string>
-    <string name="enviar_localizacao">Send location automatically</string>
-    <string name="salvar_informacoes">Save Information</string>
-    <string name="categoria_info_contatos">Family Contacts</string>
-    <string name="nome_contato">Contact Name</string>
-    <string name="parentesco">Relationship</string>
-    <string name="telefone_contato">Phone</string>
-    <string name="email_contato">Email</string>
-    <string name="observacoes_contato">Notes</string>
-    <string name="titulo_cadastro_usuario">User Registration</string>
-    <string name="cmd_cancelar">Cancel</string>
-    <string name="confirmar_senha">Confirm Password</string>
-    <string name="telefone">Phone</string>
-    <string name="btn_salvar">Save</string>
-
-    <!-- Alert screen -->
-    <string name="titulo_alerta_emergencia">Emergency Alert</string>
-    <string name="status_emergencia_ativa">Active Emergency</string>
-    <string name="resumo_usuario">O+ | 72 years | Hypertensive</string>
-    <string name="nome_padrao">Name: Igor Santos</string>
-    <string name="tipo_sanguineo_padrao">Blood Type: O+</string>
-    <string name="doencas_padrao">Chronic Diseases: Hypertension</string>
-    <string name="alergias_padrao">Allergies: None</string>
-    <string name="localizacao_padrao">Location: Av. Paulista, 1000 - São Paulo/SP</string>
-    <string name="tempo_padrao">Elapsed time: 00:02:15</string>
-    <string name="contato_emergencia_padrao">Emergency Contact: Maria Souza - (11) 98888-0000</string>
-
-    <!-- Buttons -->
-    <string name="btn_ligar_emergencia">Call Emergency Contact</string>
-    <string name="btn_enviar_mensagem">Send Quick Message</string>
-    <string name="btn_som_alerta">Emit Alert Sound</string>
-
-    <!-- Other screens -->
-    <string name="hidratacao">Hydration</string>
-    <string name="sinais_vitais">Vital Signs</string>
-    <string name="lembretes_pessoais">Personal Reminders</string>
-
-    <!-- Actions -->
-    <string name="editar">Edit</string>
-    <string name="voltar">Back</string>
-    <string name="salvar">Save</string>
-    <string name="cancel">Cancel</string>
-
-    <!-- Messages -->
-    <string name="msg_informacoes_salvas">Information saved successfully!</string>
-    <string name="msg_preencha_campos">Please fill in all required fields.</string>
-
-    <!-- Authentication -->
-    <string name="email">Email</string>
-    <string name="senha">Password</string>
-    <string name="others_options_login">Other login options</string>
-    <string name="sign_up">Don\'t have account? Sign Up</string>
-    <string name="auth_logging_in">Logging in…</string>
+    <!-- ============================================================ -->
+    <!-- AUTHENTICATION -->
+    <!-- ============================================================ -->
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_confirm_password">Confirm Password</string>
     <string name="auth_continue">Continue</string>
+    <string name="auth_sign_up">Don\'t have account? Sign Up</string>
+    <string name="auth_other_options">Other login options</string>
+    <string name="auth_continue_with_google">Continue with Google</string>
+    <string name="auth_logging_in">Logging in…</string>
+    <string name="auth_registering">Registering…</string>
+    
+    <!-- Auth Success Messages -->
     <string name="auth_login_success">Login successful!</string>
+    <string name="auth_register_success">Registration successful!</string>
+    <string name="auth_google_login_success">Login with Google successful!</string>
+    <string name="auth_complete_registration">Complete your registration</string>
+    
+    <!-- Auth Error Messages -->
     <string name="auth_login_error">Login error: %1$s</string>
-    <string name="auth_biometric_activated">Biometric activated!</string>
-    <string name="auth_biometric_quick_login">Use your biometric to log in quickly</string>
+    <string name="auth_register_error">Registration error: %1$s</string>
     <string name="auth_google_signin_failed">Google SignIn failed: %1$s</string>
     <string name="auth_firebase_token_error">Firebase token error</string>
     <string name="auth_firebase_auth_error">Firebase authentication error</string>
-    <string name="auth_google_login_success">Login with Google successful!</string>
-    <string name="auth_complete_registration">Complete your registration</string>
-    <string name="continue_with_google">Continue with Google</string>
-    <string name="other_login_options">Other login options</string>
-    <string name="don_t_have_account_sign_up">Don’t have account? Sign Up</string>
 
-    <!-- Registration -->
-    <string name="register_registering">Registering…</string>
-    <string name="register_save">Save</string>
-    <string name="register_success">Registration successful!</string>
-    <string name="register_error">Registration error: %1$s</string>
-
-    <!-- Profile -->
-    <string name="profile_complete_check">Complete profile ✓</string>
-    <string name="profile_incomplete">Complete your profile</string>
-    <string name="profile_toolbar_title">BeMax</string>
-
-    <!-- Biometric -->
+    <!-- ============================================================ -->
+    <!-- BIOMETRIC AUTHENTICATION -->
+    <!-- ============================================================ -->
     <string name="biometric_title">Biometric Authentication</string>
     <string name="biometric_subtitle">Use your fingerprint or face to continue</string>
     <string name="biometric_description">Confirm your identity to access the app, your tokens are protected by hardware-backed encryption</string>
     <string name="biometric_negative_button">Use password</string>
+    <string name="biometric_quick_login">Use your biometric to log in quickly</string>
+    
+    <!-- Biometric Enable/Disable -->
     <string name="biometric_enable_title">Enable biometric login?</string>
     <string name="biometric_enable_message">Next time you can log in using your fingerprint or face recognition</string>
     <string name="biometric_enable_positive">Enable</string>
     <string name="biometric_enable_negative">Not now</string>
+    <string name="biometric_enabled">Biometric enabled</string>
+    <string name="biometric_disabled">Biometric disabled</string>
+    <string name="biometric_activated">Biometric activated!</string>
+    <string name="auth_biometric_activated">Biometric activated!</string>
+    <string name="auth_biometric_quick_login">Use your biometric to log in quickly</string>
+    
+    <!-- Biometric Status Messages -->
     <string name="biometric_success">Authentication successful!</string>
     <string name="biometric_error">Biometric authentication error</string>
     <string name="biometric_failed">Biometric not recognized. Try again</string>
@@ -123,34 +90,105 @@
     <string name="biometric_not_enrolled">No biometric enrolled. Set up in device settings</string>
     <string name="biometric_security_update">Security update required for biometric authentication</string>
 
-    <!-- Seções -->
-    <string name="section_health_info">Informações de Saúde</string>
-    <string name="section_preferences">Preferências</string>
-    <string name="section_about">Sobre</string>
+    <!-- ============================================================ -->
+    <!-- PROFILE -->
+    <!-- ============================================================ -->
+    <string name="profile_toolbar_title">BeMax</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="profile_edit">Edit Profile</string>
+    <string name="profile_complete">Profile Complete</string>
+    <string name="profile_complete_check">Complete profile ✓</string>
+    <string name="profile_incomplete">Complete your profile</string>
+    <string name="profile_completion">Profile %d%% complete</string>
 
-    <!-- Subtítulos dos Cards -->
-    <string name="subtitle_info_pessoal">Nome, CPF, telefone e endereço</string>
-    <string name="subtitle_info_medica">Alergias, medicações e condições</string>
-    <string name="subtitle_contatos_familia">Pessoas para contato de emergência</string>
+    <!-- ============================================================ -->
+    <!-- FORM FIELDS -->
+    <!-- ============================================================ -->
+    <string name="full_name">Full name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="birth_date">Date of Birth</string>
+    <string name="age">Age</string>
+    <string name="cpf">CPF</string>
+    <string name="gender">Gender</string>
+    <string name="address">Address</string>
+    <string name="blood_type">Blood Type</string>
+    <string name="field_full_name">Full name</string>
+    <string name="field_email">Email</string>
+    <string name="field_phone">Phone</string>
+    <string name="field_birth_date">Date of Birth</string>
+    <string name="field_age">Age</string>
+    <string name="field_cpf">CPF</string>
+    <string name="field_gender">Gender</string>
+    <string name="field_address">Address</string>
+    <string name="field_blood_type">Blood Type</string>
+    <string name="field_allergies">Allergies</string>
+    <string name="field_chronic_diseases">Chronic Diseases</string>
+    <string name="field_medications">Medications in Use</string>
+    <string name="field_medical_history">Medical History</string>
+    <string name="field_emergency_contact">Emergency Contacts</string>
+    <string name="field_emergency_word">Emergency Word</string>
+    <string name="field_send_location">Send location automatically</string>
+    <string name="field_contact_name">Contact Name</string>
+    <string name="field_relationship">Relationship</string>
+    <string name="field_contact_phone">Phone</string>
+    <string name="field_contact_email">Email</string>
+    <string name="field_contact_notes">Notes</string>
+    <string name="field_height">Height</string>
+    <string name="field_weight">Weight</string>
+    <string name="field_height_hint">Height (in cm)</string>
+    <string name="field_weight_hint">Weight (in kg)</string>
+    <string name="field_height_cm">%d cm</string>
+    <string name="field_weight_kg">%d kg</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="height_hint">Height (in cm)</string>
+    <string name="weight_hint">Weight (in kg)</string>
+    <string name="height_cm">%d cm</string>
+    <string name="weight_kg">%d kg</string>
+    <string name="confirm_password">Confirm Password</string>
 
-    <!-- Configurações -->
-    <string name="config_notifications">Notificações</string>
-    <string name="config_privacy">Privacidade e Segurança</string>
-    <string name="config_terms">Termos e Políticas</string>
-    <string name="config_help">Ajuda e Suporte</string>
+    <!-- Blood Types -->
+    <string name="blood_type_a_positive">A+</string>
+    <string name="blood_type_a_negative">A-</string>
+    <string name="blood_type_b_positive">B+</string>
+    <string name="blood_type_b_negative">B-</string>
+    <string name="blood_type_ab_positive">AB+</string>
+    <string name="blood_type_ab_negative">AB-</string>
+    <string name="blood_type_o_positive">O+</string>
+    <string name="blood_type_o_negative">O-</string>
 
-    <!-- Perfil -->
-    <string name="edit_profile">Editar Perfil</string>
-    <string name="profile_completion">Perfil %d%% completo</string>
+    <!-- ============================================================ -->
+    <!-- FORM VALIDATION ERRORS -->
+    <!-- ============================================================ -->
+    <string name="error_name_required">Name is required</string>
+    <string name="error_email_required">Email is required</string>
+    <string name="error_cpf_required">CPF is required</string>
+    <string name="error_cpf_invalid">Invalid CPF</string>
+    <string name="error_phone_required">Phone is required</string>
+    <string name="error_password_required">Password is required</string>
+    <string name="error_passwords_different">Passwords don\'t match</string>
+    <string name="error_birthdate_required">Date of birth is required</string>
+    <string name="error_password_min_length">Password must be at least 6 characters</string>
+    <string name="error_title_required">Title is required</string>
+    <string name="error_category_required">Select a category</string>
+    <string name="error_frequency_required">Select a frequency</string>
+    <string name="error_start_date_required">Select a start date</string>
+    <string name="error_reminder_time_required">Select a reminder time</string>
+    <string name="error_fill_all_fields">Please fill in all required fields</string>
 
-    <!-- Status Biometria -->
-    <string name="biometric_enabled">Biometria ativada</string>
-    <string name="biometric_disabled">Biometria desativada</string>
+    <!-- ============================================================ -->
+    <!-- GENERAL ERRORS -->
+    <!-- ============================================================ -->
+    <string name="error_session_expired">Session expired. Please login again.</string>
+    <string name="error_network">Network error</string>
+    <string name="error_generic">An error occurred</string>
+    <string name="error_loading_user_data">Error loading user data</string>
 
-    <!-- Versão -->
-    <string name="app_version">Version %s</string>
-    <!-- Logout -->
-    <string name="btn_logout">Logout</string>
+    <!-- ============================================================ -->
+    <!-- LOGOUT -->
+    <!-- ============================================================ -->
+    <string name="logout_button">Logout</string>
     <string name="logout_title">Sign Out</string>
     <string name="logout_message">Are you sure you want to sign out?</string>
     <string name="logout_confirm">Yes</string>
@@ -163,35 +201,98 @@
     <string name="logout_backend_error_title">Server Communication Error</string>
     <string name="logout_backend_error">Failed to notify server after 3 attempts:\n%s\n\nYour session may remain active on the server. Do you want to sign out locally?</string>
 
-    <!-- Errors -->
-    <string name="error_session_expired">Session expired. Please login again.</string>
-    <string name="error_network">Network error</string>
-    <string name="error_generic">An error occurred</string>
+    <!-- ============================================================ -->
+    <!-- HEALTH CATEGORIES & SECTIONS -->
+    <!-- ============================================================ -->
+    <string name="section_health_info">Health Information</string>
+    <string name="section_preferences">Preferences</string>
+    <string name="section_about">About</string>
+    
+    <string name="category_personal_info">Personal Information</string>
+    <string name="category_medical_info">Medical Information</string>
+    <string name="category_emergency_settings">Emergency Settings</string>
+    <string name="category_family_contacts">Family Contacts</string>
+    
+    <string name="subtitle_personal_info">Name, CPF, phone and address</string>
+    <string name="subtitle_medical_info">Allergies, medications and conditions</string>
+    <string name="subtitle_family_contacts">People for emergency contact</string>
 
-    <!-- Form Validation Errors -->
-    <string name="error_name_required">Name is required</string>
-    <string name="error_email_required">Email is required</string>
-    <string name="error_cpf_required">CPF is required</string>
-    <string name="error_cpf_invalid">Invalid CPF</string>
-    <string name="error_phone_required">Phone is required</string>
-    <string name="error_password_required">Password is required</string>
-    <string name="error_passwords_different">Passwords don\'t match</string>
-    <string name="error_birthdate_required">Date of birth is required</string>
-    <string name="error_password_min_length">Password must be at least 6 characters</string>
+    <!-- ============================================================ -->
+    <!-- SETTINGS/CONFIG -->
+    <!-- ============================================================ -->
+    <string name="config_notifications">Notifications</string>
+    <string name="config_privacy">Privacy and Security</string>
+    <string name="config_terms">Terms and Policies</string>
+    <string name="config_help">Help and Support</string>
 
-    <!-- User Data -->
-    <string name="error_loading_user_data">Error loading user data</string>
-    <string name="loading_data">Loading data...</string>
-    <string name="no_reminders">No reminders yet</string>
+    <!-- ============================================================ -->
+    <!-- HEALTH PROFILE -->
+    <!-- ============================================================ -->
+    <string name="health_profile_title">Health Profile</string>
+    <string name="health_profile_subtitle">View and manage your medical information</string>
+    <string name="health_profile_edit">Edit Health Profile</string>
+    <string name="health_profile_save">Save Changes</string>
+    <string name="health_profile_create">Create Health Profile</string>
+    <string name="health_profile_basic_info">Basic Information</string>
+    <string name="health_profile_allergies">Allergies</string>
+    <string name="health_profile_medications">Current Medications</string>
+    <string name="health_profile_notes">Additional Notes</string>
+    <string name="health_profile_no_allergies">No allergies registered</string>
+    <string name="health_profile_no_medications">No medications registered</string>
+    <string name="health_profile_empty_title">Health Profile Not Created</string>
+    <string name="health_profile_empty_subtitle">Create your health profile to help healthcare professionals better assist you in emergencies</string>
+    <string name="health_profile_allergies_hint">List your allergies (one per line)</string>
+    <string name="health_profile_medications_hint">List your medications (one per line)</string>
+    <string name="health_profile_notes_hint">Add any relevant medical information</string>
+    <string name="health_profile_allergies_example">Example: Penicillin, Peanuts, Lactose</string>
+    <string name="health_profile_medications_example">Example: Losartan 50mg (morning), Metformin 850mg (2x daily)</string>
+    <string name="health_profile_saved">Health profile updated successfully!</string>
+    <string name="health_profile_error">Error updating health profile</string>
+    <string name="health_profile_loading_error">Error loading health profile</string>
+
+    <!-- ============================================================ -->
+    <!-- PRIVACY & SECURITY -->
+    <!-- ============================================================ -->
+    <string name="privacy_security_title">Privacy and Security</string>
+    <string name="privacy_biometric_auth">Biometric Authentication</string>
+    <string name="privacy_enable_biometric">Enable Biometric</string>
+    <string name="privacy_disable_biometric">Disable Biometric</string>
+    <string name="privacy_biometric_desc">Use your fingerprint or face to access the app</string>
+    <string name="privacy_biometric_enable_message">Biometrics will be configured at the next login. You will need to authenticate with your fingerprint or face.</string>
+    <string name="privacy_biometric_disable_message">By disabling, you will need to enter your email and password every time you log in. Continue?</string>
+    <string name="privacy_biometric_will_enable">Biometric will be enabled at next login</string>
+    <string name="privacy_biometric_disabled_success">Biometric disabled successfully</string>
+    
+    <string name="privacy_data_cache">Data and Cache</string>
+    <string name="privacy_clear_cache">Clear Cache</string>
+    <string name="privacy_clear_cache_desc">Remove temporary files and cached images</string>
+    <string name="privacy_clear_cache_confirm">Do you want to clear all cached files? This can improve app performance.</string>
+    <string name="privacy_cache_cleared">Cache cleared successfully</string>
+    <string name="privacy_cache_error">Error clearing cache</string>
+    
+    <string name="privacy_manage_data">Manage Data</string>
+    <string name="privacy_manage_data_desc">View, export or delete your data</string>
+    <string name="privacy_manage_data_message">Choose an option:</string>
+    <string name="privacy_view_data">View Data</string>
+    <string name="privacy_export_data">Export Data</string>
+    <string name="privacy_delete_data">Delete All Data</string>
+    <string name="privacy_delete_data_warning">WARNING: This action is irreversible! All your local data will be removed and you will be logged out.</string>
+    <string name="privacy_data_deleted">Data deleted. Please login again.</string>
+    
+    <string name="privacy_policies">Policies and Terms</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_of_use">Terms of Use</string>
+
+    <!-- ============================================================ -->
+    <!-- REMINDERS -->
+    <!-- ============================================================ -->
+    <string name="reminders_title">Reminders</string>
     <string name="reminders_today">Today: %d reminders</string>
-    <string name="total_reminders">Total: %d reminders</string>
-
-    <!-- Empty State -->
-    <string name="empty_reminders_title">No reminders yet</string>
-    <string name="empty_reminders_subtitle">Create your first reminder to keep track of your medications, appointments and health routines</string>
-    <string name="add_first_reminder">Add First Reminder</string>
-    <string name="empty_reminders_tip">Never forget your medications and appointments again!</string>
-
+    <string name="reminders_total">Total: %d reminders</string>
+    <string name="reminders_search">Search reminders...</string>
+    <string name="search_reminders">Search reminders...</string>
+    <string name="reminders_no_reminders">No reminders yet</string>
+    
     <!-- Reminder Form -->
     <string name="reminder_new">New Reminder</string>
     <string name="reminder_edit">Edit Reminder</string>
@@ -216,7 +317,7 @@
     <string name="reminder_error">Error creating reminder</string>
     <string name="reminder_update_error">Error updating reminder</string>
     <string name="reminder_delete_error">Error deleting reminder</string>
-
+    
     <!-- Reminder Options -->
     <string name="reminder_option_edit">Edit</string>
     <string name="reminder_option_delete">Delete</string>
@@ -225,14 +326,7 @@
     <string name="reminder_delete_confirm_message">This action cannot be undone</string>
     <string name="reminder_delete_confirm_yes">Delete</string>
     <string name="reminder_delete_confirm_no">Cancel</string>
-
-    <!-- Validation Errors -->
-    <string name="error_title_required">Title is required</string>
-    <string name="error_category_required">Select a category</string>
-    <string name="error_frequency_required">Select a frequency</string>
-    <string name="error_start_date_required">Select a start date</string>
-    <string name="error_reminder_time_required">Select a reminder time</string>
-
+    
     <!-- Frequencies -->
     <string name="frequency_once">Once</string>
     <string name="frequency_daily">Daily</string>
@@ -240,48 +334,52 @@
     <string name="frequency_monthly">Monthly</string>
     <string name="frequency_yearly">Yearly</string>
 
-    <!-- Toolbar -->
-    <string name="profile_picture">Profile Picture</string>
-    <string name="profile_complete">Profile Complete</string>
-    <string name="search_reminders">Search reminders...</string>
+    <!-- ============================================================ -->
+    <!-- REGISTRATION & USER FORMS -->
+    <!-- ============================================================ -->
+    <string name="user_registration_title">User Registration</string>
+    <string name="cancel_command">Cancel</string>
+    <string name="save_button">Save</string>
+    <string name="register_registering">Registering…</string>
+    <string name="register_save">Save</string>
+    <string name="register_success">Registration successful!</string>
 
-    <!-- Health Profile -->
-    <string name="health_profile_title">Health Profile</string>
-    <string name="health_profile_edit">Edit Health Profile</string>
-    <string name="health_profile_save">Save Changes</string>
-    <string name="health_profile_create">Create Health Profile</string>
-    <string name="health_profile_basic_info">Basic Information</string>
-    <string name="health_profile_allergies">Allergies</string>
-    <string name="health_profile_medications">Current Medications</string>
-    <string name="health_profile_notes">Additional Notes</string>
-    <string name="health_profile_no_allergies">No allergies registered</string>
-    <string name="health_profile_no_medications">No medications registered</string>
-    <string name="health_profile_empty_title">Health Profile Not Created</string>
-    <string name="health_profile_empty_subtitle">Create your health profile to help healthcare professionals better assist you in emergencies</string>
-    <string name="health_profile_allergies_hint">List your allergies (one per line)</string>
-    <string name="health_profile_medications_hint">List your medications (one per line)</string>
-    <string name="health_profile_notes_hint">Add any relevant medical information</string>
-    <string name="health_profile_allergies_example">Example: Penicillin, Peanuts, Lactose</string>
-    <string name="health_profile_medications_example">Example: Losartan 50mg (morning), Metformin 850mg (2x daily)</string>
-    <string name="health_profile_saved">Health profile updated successfully!</string>
-    <string name="health_profile_error">Error updating health profile</string>
-    <string name="health_profile_loading_error">Error loading health profile</string>
-    <string name="blood_type">Blood Type</string>
-    <string name="height">Height</string>
-    <string name="weight">Weight</string>
-    <string name="height_hint">Height (in cm)</string>
-    <string name="weight_hint">Weight (in kg)</string>
-    <string name="blood_type_a_positive">A+</string>
-    <string name="blood_type_a_negative">A-</string>
-    <string name="blood_type_b_positive">B+</string>
-    <string name="blood_type_b_negative">B-</string>
-    <string name="blood_type_ab_positive">AB+</string>
-    <string name="blood_type_ab_negative">AB-</string>
-    <string name="blood_type_o_positive">O+</string>
-    <string name="blood_type_o_negative">O-</string>
-    <string name="height_cm">%d cm</string>
-    <string name="weight_kg">%d kg</string>
-    <string name="health_profile_subtitle">View and manage your medical information</string>
+    <!-- ============================================================ -->
+    <!-- EMPTY STATES -->
+    <!-- ============================================================ -->
+    <string name="empty_reminders_title">No reminders yet</string>
+    <string name="empty_reminders_subtitle">Create your first reminder to keep track of your medications, appointments and health routines</string>
+    <string name="empty_add_first_reminder">Add First Reminder</string>
+    <string name="empty_reminders_tip">Never forget your medications and appointments again!</string>
+    <string name="add_first_reminder">Add First Reminder</string>
+
+    <!-- ============================================================ -->
+    <!-- EMERGENCY ALERT -->
+    <!-- ============================================================ -->
+    <string name="alert_emergency_title">Emergency Alert</string>
+    <string name="alert_emergency_active">Active Emergency</string>
+    <string name="alert_user_summary">O+ | 72 years | Hypertensive</string>
+    <string name="alert_name_default">Name: Igor Santos</string>
+    <string name="alert_blood_type_default">Blood Type: O+</string>
+    <string name="alert_diseases_default">Chronic Diseases: Hypertension</string>
+    <string name="alert_allergies_default">Allergies: None</string>
+    <string name="alert_location_default">Location: Av. Paulista, 1000 - São Paulo/SP</string>
+    <string name="alert_time_default">Elapsed time: 00:02:15</string>
+    <string name="alert_contact_default">Emergency Contact: Maria Souza - (11) 98888-0000</string>
+    
+    <!-- Alert Buttons -->
+    <string name="alert_call_emergency">Call Emergency Contact</string>
+    <string name="alert_send_message">Send Quick Message</string>
+    <string name="alert_emit_sound">Emit Alert Sound</string>
+
+    <!-- ============================================================ -->
+    <!-- OTHER SCREENS -->
+    <!-- ============================================================ -->
+    <string name="hydration">Hydration</string>
+    <string name="vital_signs">Vital Signs</string>
+    <string name="personal_reminders">Personal Reminders</string>
+    <string name="loading_data">Loading data...</string>
     <string name="not_available">N/A</string>
-</resources>
+    <string name="info_saved_success">Information saved successfully!</string>
 
+</resources>

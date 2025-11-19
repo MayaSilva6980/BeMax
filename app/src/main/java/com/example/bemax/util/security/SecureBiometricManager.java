@@ -267,7 +267,7 @@ public class SecureBiometricManager {
                 .setTitle(context.getString(R.string.biometric_title))
                 .setSubtitle(context.getString(R.string.biometric_subtitle))
                 .setDescription(context.getString(R.string.biometric_description))
-                .setNegativeButtonText(context.getString(R.string.cancel))
+                .setNegativeButtonText(context.getString(R.string.action_cancel))
                 // Apenas BIOMETRIC_STRONG, sem fallback para PIN
                 .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
                 .setConfirmationRequired(true) // Requer confirmação explícita

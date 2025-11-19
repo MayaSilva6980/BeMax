@@ -62,10 +62,10 @@ public class AlertFragment extends Fragment implements View.OnClickListener
 
         btnLigarEmergencia = view.findViewById(R.id.btnLigarEmergencia);
 
-        carregaDados();
+        loadData();
     }
 
-    public void carregaDados()
+    public void loadData()
     {
         //preenche campos da tela
 

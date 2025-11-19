@@ -57,16 +57,16 @@ public class HealthProfileFormActivity extends BaseActivity {
         tokenManager.setBiometricManager(this);
 
         try {
-            obtemParametros();
-            iniciaControles();
-            carregaDados();
+            obtainParameters();
+            initializeControls();
+            loadData();
         } catch (Exception e) {
             Log.e(TAG, "Erro no onCreate: " + e.getMessage(), e);
         }
     }
 
     @Override
-    public void obtemParametros() {
+    public void obtainParameters() {
         // Verificar se está editando perfil existente
         if (getIntent().hasExtra("health_profile")) {
             existingProfile = (HealthProfile) getIntent().getSerializableExtra("health_profile");
@@ -74,14 +74,14 @@ public class HealthProfileFormActivity extends BaseActivity {
     }
 
     @Override
-    public void iniciaControles() throws Exception {
+    public void initializeControls() throws Exception {
         initViews();
         setupBloodTypeDropdown();
         setupListeners();
     }
 
     @Override
-    public void carregaDados() throws Exception {
+    public void loadData() throws Exception {
         if (existingProfile != null) {
             prefillFields();
         }

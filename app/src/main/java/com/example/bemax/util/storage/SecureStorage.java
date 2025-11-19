@@ -464,6 +464,14 @@ public class SecureStorage {
         return encryptedPrefs.getBoolean(KEY_BIOMETRIC_ENABLED, false);
     }
 
+    /**
+     * Verifica se existem dados criptografados salvos (tokens com biometria)
+     */
+    public boolean hasEncryptedUserData() {
+        String encryptedData = encryptedPrefs.getString(KEY_USER_DATA_ENCRYPTED, null);
+        return encryptedData != null && !encryptedData.isEmpty();
+    }
+
     public void saveSessionTimeout(long timeoutMs) {
         encryptedPrefs.edit().putLong(KEY_SESSION_TIMEOUT, timeoutMs).apply();
     }
@@ -500,7 +508,7 @@ public class SecureStorage {
                 .remove(KEY_USER_DATA_ENCRYPTED)
                 .remove(KEY_TOKEN_EXPIRATION)
                 .remove(KEY_USER_EMAIL)
-                .remove(KEY_USER_PHOTO_URL) // IMPORTANTE: Limpar foto também!
+                .remove(KEY_USER_PHOTO_URL)
                 .apply();
         setBiometricEnabled(biometricEnabled);
         
@@ -509,7 +517,7 @@ public class SecureStorage {
         cachedRefreshToken = null;
         cacheTimestamp = 0;
         
-        Log.d(TAG, "Tokens e dados do usuário limpos (incluindo foto)");
+        Log.d(TAG, "Tokens e dados do usuário limpos");
     }
 
     /**
@@ -524,6 +532,32 @@ public class SecureStorage {
         }
         
         Log.d(TAG, "Todos os dados limpos");
+    }
+
+    /**
+     * Remove apenas dados biométricos (tokens criptografados)
+     */
+    public void clearBiometricData() {
+        encryptedPrefs.edit()
+                .remove(KEY_USER_DATA_ENCRYPTED)
+                .apply();
+        
+        // Remover chave biométrica do Keystore
+        if (biometricManager != null) {
+            biometricManager.deleteBiometricKey();
+        }
+        
+        Log.d(TAG, "Dados biométricos removidos");
+    }
+
+    /**
+     * Define preferência de uso de biometria (será usada no próximo login)
+     */
+    public void setBiometricPreference(boolean enabled) {
+        encryptedPrefs.edit()
+                .putBoolean(KEY_BIOMETRIC_ENABLED, enabled)
+                .apply();
+        Log.d(TAG, "Preferência de biometria definida: " + enabled);
     }
 
     // ========================================================================

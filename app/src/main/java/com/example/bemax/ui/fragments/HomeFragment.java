@@ -121,10 +121,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         cardSleep.setOnClickListener(this);
         cardHydration.setOnClickListener(this);
 
-        carregaDados();
+        loadData();
     }
 
-     public void carregaDados() {
+     public void loadData() {
          // Atualiza saudação com nome do usuário
          if (currentUser != null && currentUser.getFullName() != null) {
              String firstName = currentUser.getFullName().split(" ")[0];
@@ -137,11 +137,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
          preencheListaLembretes();
 
          if (meData != null && meData.getStats() != null) {
-             atualizarStats(meData.getStats());
+             updateStats(meData.getStats());
          }
 
          if (meData != null && meData.getHealthProfile() != null) {
-             atualizarDadosSaude(meData.getHealthProfile());
+             updateHealthData(meData.getHealthProfile());
          }
      }
 
@@ -161,7 +161,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         
         // Recarregar UI com novos dados
         if (getView() != null) {
-            carregaDados();
+            loadData();
             Log.d(TAG, "HomeFragment atualizado com novos dados (" + (reminders != null ? reminders.size() : 0) + " lembretes)");
         }
     }
@@ -233,7 +233,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
     // NOVO MÉTODO para atualizar stats
-    private void atualizarStats(Stats stats) {
+    private void updateStats(Stats stats) {
         // Exibir estatísticas de lembretes
         Log.d(TAG, "Total de lembretes: " + stats.getTotalReminders());
         Log.d(TAG, "Lembretes ativos: " + stats.getActiveReminders());
@@ -245,7 +245,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     // NOVO MÉTODO para atualizar dados de saúde
-    private void atualizarDadosSaude(HealthProfile healthProfile) {
+    private void updateHealthData(HealthProfile healthProfile) {
         // Atualizar os cards de saúde com dados reais
         Log.d(TAG, "=== DADOS DE SAÚDE ===");
         Log.d(TAG, "Tipo sanguíneo: " + healthProfile.getBloodType());

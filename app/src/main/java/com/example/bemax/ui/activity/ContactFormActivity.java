@@ -35,8 +35,8 @@ public class ContactFormActivity extends BaseActivity implements  View.OnClickLi
             super.onCreate(savedInstanceState);
             setContentView(R.layout.frm_cadastro_contatos);
 
-            obtemParametros();
-            iniciaControles();
+            obtainParameters();
+            initializeControls();
         }
         catch (Exception e)
         {
@@ -45,13 +45,13 @@ public class ContactFormActivity extends BaseActivity implements  View.OnClickLi
     }
 
     @Override
-    public void obtemParametros()
+    public void obtainParameters()
     {
         contatoEditar = (Contato) getIntent().getSerializableExtra("contato");
     }
 
     @Override
-    public void iniciaControles() throws Exception
+    public void initializeControls() throws Exception
     {
         txtTelefoneContato = findViewById(R.id.txtTelefoneContato);
         txtNomeContato = findViewById(R.id.txtNomeContato);
@@ -66,11 +66,11 @@ public class ContactFormActivity extends BaseActivity implements  View.OnClickLi
 
         cmdCancelar.setOnClickListener(this);
 
-        carregaDados();
+        loadData();
     }
 
     @Override
-    public void carregaDados() throws Exception
+    public void loadData() throws Exception
     {
         if (contatoEditar != null)
         {

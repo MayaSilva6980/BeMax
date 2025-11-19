@@ -77,7 +77,7 @@ public class ReminderFormActivity extends BaseActivity implements View.OnClickLi
             // Verificar modo de edição
             checkEditMode();
             
-            iniciaControles();
+            initializeControls();
             loadCategories(); 
             
             // Se é modo de edição, pré-preencher campos
@@ -91,7 +91,7 @@ public class ReminderFormActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
-    public void obtemParametros() {
+    public void obtainParameters() {
         // Verificar modo de edição será feito em checkEditMode()
     }
 
@@ -111,7 +111,7 @@ public class ReminderFormActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
-    public void iniciaControles() throws Exception {
+    public void initializeControls() throws Exception {
         // Toolbar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -158,7 +158,7 @@ public class ReminderFormActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
-    public void carregaDados() throws Exception {
+    public void loadData() throws Exception {
         // Não há dados para carregar
     }
 

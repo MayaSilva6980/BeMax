@@ -113,7 +113,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 reminders = new ArrayList<>();
                 
                 // Inicializar UI com dados do cache
-                iniciaControles();
+                initializeControls();
                 
                 // Carregar HomeFragment com dados do cache
                 getSupportFragmentManager().beginTransaction()
@@ -201,12 +201,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     @Override
-    public void obtemParametros() {
+    public void obtainParameters() {
         // Não usado - token obtido via biometria em obtainTokenAndLoadData()
     }
 
     @Override
-    public void iniciaControles() {
+    public void initializeControls() {
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         TextView toolbarSubtitle = findViewById(R.id.toolbar_subtitle);
         ImageView toolbarProfile = findViewById(R.id.toolbar_profile);
@@ -291,7 +291,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     @Override
-    public void carregaDados() throws Exception {
+    public void loadData() throws Exception {
     }
 
     /**
@@ -337,7 +337,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         }
 
                         // Atualizar a UI
-                        iniciaControles();
+                        initializeControls();
                         
                         // Agora buscar lembretes separadamente do endpoint /reminders
                         loadReminders();

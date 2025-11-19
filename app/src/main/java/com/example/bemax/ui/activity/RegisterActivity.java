@@ -47,8 +47,8 @@ public class RegisterActivity extends BaseActivity implements  View.OnClickListe
 
             registerRepository = new RegisterRepository(this);
 
-            iniciaControles();
-            obtemParametros();
+            initializeControls();
+            obtainParameters();
         }
         catch (Exception e)
         {
@@ -57,7 +57,7 @@ public class RegisterActivity extends BaseActivity implements  View.OnClickListe
     }
 
     @Override
-    public void obtemParametros() {
+    public void obtainParameters() {
         // Preenche os campos com dados vindos da Intent (se houver)
         if (getIntent().getSerializableExtra("email") != null)
             txtEmail.setText((String) getIntent().getSerializableExtra("email"));
@@ -70,7 +70,7 @@ public class RegisterActivity extends BaseActivity implements  View.OnClickListe
     }
 
     @Override
-    public void iniciaControles() throws Exception {
+    public void initializeControls() throws Exception {
         txtNome = findViewById(R.id.txtNome);
         txtEmail = findViewById(R.id.txtEmail);
         txtSenha = findViewById(R.id.txtSenha);
@@ -89,11 +89,11 @@ public class RegisterActivity extends BaseActivity implements  View.OnClickListe
         btnCancelar.setOnClickListener(this);
         btnSalvarUsuario.setOnClickListener(this);
 
-        carregaDados();
+        loadData();
     }
 
     @Override
-    public void carregaDados() throws Exception {
+    public void loadData() throws Exception {
     }
 
     @Override
@@ -104,7 +104,7 @@ public class RegisterActivity extends BaseActivity implements  View.OnClickListe
         }
         else if (view.getId() == R.id.btnSalvarUsuario)
         {
-            realizarCadastroRetrofit();
+            performRegistration();
         }
     }
 
@@ -176,7 +176,7 @@ public class RegisterActivity extends BaseActivity implements  View.OnClickListe
         return true;
     }
 
-    private void realizarCadastroRetrofit() {
+    private void performRegistration() {
 
         if (!validaCampos())
         {

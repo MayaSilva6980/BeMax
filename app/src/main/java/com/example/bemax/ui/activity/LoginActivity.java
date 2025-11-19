@@ -65,18 +65,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tokenManager = TokenManager.getInstance(this);
         tokenManager.setBiometricManager(this);
         
-        iniciaControles();
+        initializeControls();
         
         // Verificar se há login salvo com biometria
         checkSavedLogin();
     }
 
     @Override
-    public void obtemParametros() {
+    public void obtainParameters() {
     }
 
     @Override
-    public void iniciaControles() {
+    public void initializeControls() {
         editTextEmail = findViewById(R.id.textInputEditTextLoginEmail);
         editTextSenha = findViewById(R.id.textInputEditTextLoginSenha);
         btnContinue = findViewById(R.id.btnContinue);
@@ -100,13 +100,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
-    public void carregaDados() throws Exception {
+    public void loadData() throws Exception {
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btnContinue) {
-            realizarLoginRetrofit();
+            performLogin();
         }
         else if (view.getId() == R.id.btnGoogle) {
             signIn();
@@ -120,7 +120,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      * Verifica se há login salvo e oferece biometria
      */
     private void checkSavedLogin() {
-        if (secureStorage.isBiometricEnabled() && secureStorage.hasValidToken()) {
+        // Verificar se biometria está ativada E se existem dados criptografados salvos
+        boolean biometricEnabled = secureStorage.isBiometricEnabled();
+        boolean hasEncryptedData = secureStorage.hasEncryptedUserData();
+        
+        Log.d(TAG, "checkSavedLogin - Biometria ativada: " + biometricEnabled + ", Dados criptografados: " + hasEncryptedData);
+        
+        if (biometricEnabled && hasEncryptedData) {
             String savedEmail = secureStorage.getUserEmail();
             
             if (savedEmail != null) {
@@ -133,6 +139,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 
                 editTextEmail.postDelayed(this::authenticateWithBiometric, 500);
             }
+        } else if (biometricEnabled && !hasEncryptedData) {
+            // Biometria está ativada mas não há dados salvos
+            // Isso significa que o usuário ativou nas configs mas ainda não fez login
+            Log.d(TAG, "Biometria ativada mas sem dados salvos. Aguardando login para configurar.");
         }
     }
 
@@ -238,7 +248,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         });
     }
 
-    private void realizarLoginRetrofit() {
+    private void performLogin() {
         String email = editTextEmail.getText().toString().trim();
         String senha = editTextSenha.getText().toString().trim();
 

@@ -12,17 +12,17 @@ public class StringHelper {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
         if (hour >= 0 && hour < 6) {
-            // 00:00 - 05:59 = Madrugada
-            return context.getString(R.string.good_dawn);
+            // 00:00 - 05:59 = Dawn
+            return context.getString(R.string.greeting_good_dawn);
         } else if (hour >= 6 && hour < 12) {
-            // 06:00 - 11:59 = Manhã
-            return context.getString(R.string.good_morning);
+            // 06:00 - 11:59 = Morning
+            return context.getString(R.string.greeting_good_morning);
         } else if (hour >= 12 && hour < 18) {
-            // 12:00 - 17:59 = Tarde
-            return context.getString(R.string.good_afternoon);
+            // 12:00 - 17:59 = Afternoon
+            return context.getString(R.string.greeting_good_afternoon);
         } else {
-            // 18:00 - 23:59 = Noite
-            return context.getString(R.string.good_evening);
+            // 18:00 - 23:59 = Evening
+            return context.getString(R.string.greeting_good_evening);
         }
     }
 

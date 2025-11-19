@@ -35,7 +35,7 @@ public class ContactInfoActivity extends BaseActivity implements  View.OnClickLi
             setContentView(R.layout.frm_info_contatos);
 
             //inicia os controles
-            iniciaControles();
+            initializeControls();
         }
         catch (Exception e)
         {
@@ -44,13 +44,13 @@ public class ContactInfoActivity extends BaseActivity implements  View.OnClickLi
     }
 
     @Override
-    public void obtemParametros()
+    public void obtainParameters()
     {
 
     }
 
     @Override
-    public void iniciaControles() throws Exception
+    public void initializeControls() throws Exception
     {
         recyclerContatos = findViewById(R.id.recyclerContatos);
         btnCancelar = findViewById(R.id.btnCancelar);
@@ -59,11 +59,11 @@ public class ContactInfoActivity extends BaseActivity implements  View.OnClickLi
         btnCancelar.setOnClickListener(this);
         btnNovoContato.setOnClickListener(this);
 
-        carregaDados();
+        loadData();
     }
 
     @Override
-    public void carregaDados() throws Exception
+    public void loadData() throws Exception
     {
         //prenche lista de contatos
         carregaListaContatos();

@@ -32,7 +32,7 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
         {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.frm_info_pessoal);
-            iniciaControles();
+            initializeControls();
         }
         catch (Exception e)
         {
@@ -41,12 +41,12 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
     }
 
     @Override
-    public void obtemParametros() {
+    public void obtainParameters() {
 
     }
 
     @Override
-    public void iniciaControles() throws Exception
+    public void initializeControls() throws Exception
     {
         txtInfoNome = findViewById(R.id.txtInfoNome);
         txtInfoNascimento = findViewById(R.id.txtInfoNascimento);
@@ -64,7 +64,7 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
     }
 
     @Override
-    public void carregaDados() throws Exception {
+    public void loadData() throws Exception {
 
     }
 

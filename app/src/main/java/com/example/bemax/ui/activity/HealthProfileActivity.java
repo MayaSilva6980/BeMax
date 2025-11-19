@@ -59,27 +59,27 @@ public class HealthProfileActivity extends BaseActivity {
         tokenManager.setBiometricManager(this);
 
         try {
-            obtemParametros();
-            iniciaControles();
-            carregaDados();
+            obtainParameters();
+            initializeControls();
+            loadData();
         } catch (Exception e) {
             Log.e(TAG, "Erro no onCreate: " + e.getMessage(), e);
         }
     }
 
     @Override
-    public void obtemParametros() {
+    public void obtainParameters() {
         // Sem parâmetros extras para esta Activity
     }
 
     @Override
-    public void iniciaControles() throws Exception {
+    public void initializeControls() throws Exception {
         initViews();
         setupListeners();
     }
 
     @Override
-    public void carregaDados() throws Exception {
+    public void loadData() throws Exception {
         loadHealthProfile();
     }
 

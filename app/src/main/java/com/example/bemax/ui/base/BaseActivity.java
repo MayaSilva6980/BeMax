@@ -41,10 +41,20 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
 
-    public abstract  void obtemParametros();
+    /**
+     * Initialize activity parameters and dependencies
+     */
+    public abstract void obtainParameters();
 
-    public abstract  void iniciaControles()throws Exception;
-    public abstract  void carregaDados() throws Exception;
+    /**
+     * Initialize UI controls and set up listeners
+     */
+    public abstract void initializeControls() throws Exception;
+
+    /**
+     * Load initial data required by the activity
+     */
+    public abstract void loadData() throws Exception;
 
     public int getStatusBarHeight(Activity activity) {
         int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");

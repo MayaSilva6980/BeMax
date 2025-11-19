@@ -21,7 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/contato_emergencia"
+            android:text="@string/field_emergency_contact"
             android:textSize="28sp"
             android:textColor="@color/bemax_black"
             android:textStyle="bold" />
@@ -39,7 +39,7 @@
             android:id="@+id/btnCancelar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/voltar"
+            android:text="@string/action_back"
             android:layout_weight="30"
             android:textSize="18sp"
             android:textColor="@color/bemax_red"

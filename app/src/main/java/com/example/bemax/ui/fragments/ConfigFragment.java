@@ -24,6 +24,7 @@ import com.example.bemax.repository.AuthRepository;
 import com.example.bemax.ui.activity.ContactInfoActivity;
 import com.example.bemax.ui.activity.HealthProfileActivity;
 import com.example.bemax.ui.activity.PersonalInfoActivity;
+import com.example.bemax.ui.activity.PrivacySecurityActivity;
 import com.example.bemax.ui.activity.LoginActivity;
 import com.example.bemax.ui.activity.MainActivity;
 import com.example.bemax.util.helper.NotificationHelper;
@@ -90,6 +91,15 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
         loadUserData();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Atualizar status da biometria quando voltar para o fragment
+        if (secureStorage != null && txtBiometricStatus != null) {
+            updateBiometricStatus();
+        }
     }
 
     public void iniciaControles(View view) {
@@ -181,13 +191,24 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
         }
 
         // Status da biometria
+        updateBiometricStatus();
+    }
+
+    /**
+     * Atualiza o status da biometria no card de Privacidade e Segurança
+     */
+    private void updateBiometricStatus() {
         boolean biometricEnabled = secureStorage.isBiometricEnabled();
         if (biometricEnabled) {
             txtBiometricStatus.setText(R.string.biometric_enabled);
             txtBiometricStatus.setTextColor(requireContext().getColor(R.color.bemax_success));
+            txtBiometricStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_small, 0, 0, 0);
+            txtBiometricStatus.setCompoundDrawableTintList(requireContext().getColorStateList(R.color.bemax_success));
         } else {
             txtBiometricStatus.setText(R.string.biometric_disabled);
             txtBiometricStatus.setTextColor(requireContext().getColor(R.color.bemax_gray_dark));
+            txtBiometricStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_block, 0, 0, 0);
+            txtBiometricStatus.setCompoundDrawableTintList(requireContext().getColorStateList(R.color.bemax_gray_dark));
         }
     }
 
@@ -225,8 +246,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
             NotificationHelper.showInfo(mainActivity, "Em desenvolvimento");
         }
         else if (id == R.id.btnPrivacy) {
-            // TODO: Implementar tela de privacidade
-            NotificationHelper.showInfo(mainActivity, "Em desenvolvimento");
+            startActivity(new Intent(mainActivity, PrivacySecurityActivity.class));
         }
         else if (id == R.id.btnTerms) {
             // TODO: Abrir termos e políticas (WebView ou Intent)
@@ -358,7 +378,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
                         Log.w("ConfigFragment", "Usuário optou por logout local sem notificar backend");
                         completeLogout();
                     })
-                    .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                    .setNegativeButton(R.string.action_cancel, (dialog, which) -> {
                         btnLogout.setEnabled(true);
                     })
                     .setCancelable(false)
@@ -380,7 +400,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
                         Log.w("ConfigFragment", "Usuário optou por logout local após falhas no backend");
                         completeLogout();
                     })
-                    .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                    .setNegativeButton(R.string.action_cancel, (dialog, which) -> {
                         btnLogout.setEnabled(true);
                     })
                     .setCancelable(false)
