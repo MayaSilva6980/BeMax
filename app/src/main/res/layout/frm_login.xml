@@ -7,7 +7,7 @@
     android:padding="24dp"
     android:gravity="center_horizontal"
     android:id="@+id/root_layout"
-    android:background="@color/cor_cinza_fundo">
+    android:background="@color/background">
 
     <!-- Logo -->
     <ImageView

@@ -46,7 +46,7 @@
 
     <!-- Alert screen -->
     <string name="titulo_alerta_emergencia">Emergency Alert</string>
-    <string name="status_emergencia_ativa">⚠️ Active Emergency</string>
+    <string name="status_emergencia_ativa">Active Emergency</string>
     <string name="resumo_usuario">O+ | 72 years | Hypertensive</string>
     <string name="nome_padrao">Name: Igor Santos</string>
     <string name="tipo_sanguineo_padrao">Blood Type: O+</string>
@@ -70,7 +70,7 @@
     <string name="editar">Edit</string>
     <string name="voltar">Back</string>
     <string name="salvar">Save</string>
-    <string name="cancelar">Cancel</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Messages -->
     <string name="msg_informacoes_salvas">Information saved successfully!</string>
@@ -110,7 +110,7 @@
     <!-- Biometric -->
     <string name="biometric_title">Biometric Authentication</string>
     <string name="biometric_subtitle">Use your fingerprint or face to continue</string>
-    <string name="biometric_description">Confirm your identity to access the app</string>
+    <string name="biometric_description">Confirm your identity to access the app, your tokens are protected by hardware-backed encryption</string>
     <string name="biometric_negative_button">Use password</string>
     <string name="biometric_enable_title">Enable biometric login?</string>
     <string name="biometric_enable_message">Next time you can log in using your fingerprint or face recognition</string>
@@ -121,6 +121,7 @@
     <string name="biometric_failed">Biometric not recognized. Try again</string>
     <string name="biometric_not_available">Biometric not available on this device</string>
     <string name="biometric_not_enrolled">No biometric enrolled. Set up in device settings</string>
+    <string name="biometric_security_update">Security update required for biometric authentication</string>
 
     <!-- Seções -->
     <string name="section_health_info">Informações de Saúde</string>
@@ -155,6 +156,12 @@
     <string name="logout_confirm">Yes</string>
     <string name="logout_cancel">Cancel</string>
     <string name="logout_success">Successfully signed out</string>
+    <string name="logout_in_progress">Signing out...</string>
+    <string name="logout_anyway">Sign Out Anyway</string>
+    <string name="logout_error_title">Logout Error</string>
+    <string name="logout_token_error">Could not retrieve %s for secure logout.\n\nDo you want to sign out locally?</string>
+    <string name="logout_backend_error_title">Server Communication Error</string>
+    <string name="logout_backend_error">Failed to notify server after 3 attempts:\n%s\n\nYour session may remain active on the server. Do you want to sign out locally?</string>
 
     <!-- Errors -->
     <string name="error_session_expired">Session expired. Please login again.</string>
@@ -171,4 +178,71 @@
     <string name="error_passwords_different">Passwords don\'t match</string>
     <string name="error_birthdate_required">Date of birth is required</string>
     <string name="error_password_min_length">Password must be at least 6 characters</string>
+
+    <!-- User Data -->
+    <string name="error_loading_user_data">Error loading user data</string>
+    <string name="loading_data">Loading data...</string>
+    <string name="no_reminders">No reminders yet</string>
+    <string name="reminders_today">Today: %d reminders</string>
+    <string name="total_reminders">Total: %d reminders</string>
+
+    <!-- Empty State -->
+    <string name="empty_reminders_title">No reminders yet</string>
+    <string name="empty_reminders_subtitle">Create your first reminder to keep track of your medications, appointments and health routines</string>
+    <string name="add_first_reminder">Add First Reminder</string>
+    <string name="empty_reminders_tip">Never forget your medications and appointments again!</string>
+
+    <!-- Reminder Form -->
+    <string name="reminder_new">New Reminder</string>
+    <string name="reminder_edit">Edit Reminder</string>
+    <string name="reminder_title">Title</string>
+    <string name="reminder_description">Description (optional)</string>
+    <string name="reminder_category">Category</string>
+    <string name="reminder_select_category">Select a category</string>
+    <string name="reminder_frequency">Frequency</string>
+    <string name="reminder_select_frequency">Select frequency</string>
+    <string name="reminder_start_date">Start Date</string>
+    <string name="reminder_end_date">End Date</string>
+    <string name="reminder_select_date">Select date</string>
+    <string name="reminder_time">Reminder Time</string>
+    <string name="reminder_select_time">Select time</string>
+    <string name="reminder_create">Create Reminder</string>
+    <string name="reminder_update">Update Reminder</string>
+    <string name="reminder_creating">Creating reminder...</string>
+    <string name="reminder_updating">Updating reminder...</string>
+    <string name="reminder_created_success">Reminder created successfully!</string>
+    <string name="reminder_updated_success">Reminder updated successfully!</string>
+    <string name="reminder_deleted_success">Reminder deleted successfully!</string>
+    <string name="reminder_error">Error creating reminder</string>
+    <string name="reminder_update_error">Error updating reminder</string>
+    <string name="reminder_delete_error">Error deleting reminder</string>
+
+    <!-- Reminder Options -->
+    <string name="reminder_option_edit">Edit</string>
+    <string name="reminder_option_delete">Delete</string>
+    <string name="reminder_option_cancel">Cancel</string>
+    <string name="reminder_delete_confirm_title">Delete reminder?</string>
+    <string name="reminder_delete_confirm_message">This action cannot be undone</string>
+    <string name="reminder_delete_confirm_yes">Delete</string>
+    <string name="reminder_delete_confirm_no">Cancel</string>
+
+    <!-- Validation Errors -->
+    <string name="error_title_required">Title is required</string>
+    <string name="error_category_required">Select a category</string>
+    <string name="error_frequency_required">Select a frequency</string>
+    <string name="error_start_date_required">Select a start date</string>
+    <string name="error_reminder_time_required">Select a reminder time</string>
+
+    <!-- Frequencies -->
+    <string name="frequency_once">Once</string>
+    <string name="frequency_daily">Daily</string>
+    <string name="frequency_weekly">Weekly</string>
+    <string name="frequency_monthly">Monthly</string>
+    <string name="frequency_yearly">Yearly</string>
+
+    <!-- Toolbar -->
+    <string name="profile_picture">Profile Picture</string>
+    <string name="profile_complete">Profile Complete</string>
+    <string name="search_reminders">Search reminders...</string>
 </resources>
+

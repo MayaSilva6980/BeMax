@@ -1,17 +1,27 @@
 package com.example.bemax.network.api;
 
+import com.example.bemax.model.domain.Category;
+import com.example.bemax.model.domain.Reminder;
 import com.example.bemax.model.dto.ApiResponse;
 import com.example.bemax.model.dto.FirebaseLoginRequest;
 import com.example.bemax.model.dto.LoginRequest;
 import com.example.bemax.model.dto.LoginResponse;
+import com.example.bemax.model.dto.MeResponse;
 import com.example.bemax.model.dto.RefreshTokenRequest;
 import com.example.bemax.model.dto.RegisterRequest;
 import com.example.bemax.model.dto.RegisterResponse;
+import com.example.bemax.model.dto.ReminderRequest;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface CallApi {
     @POST("auth/login")
@@ -22,7 +32,6 @@ public interface CallApi {
 
     @POST("auth/firebase/login")
     Call<LoginResponse> loginWithFirebase(@Body FirebaseLoginRequest request);
-
 
     @POST("auth/logout")
     Call<ApiResponse<Void>> logout(
@@ -35,4 +44,32 @@ public interface CallApi {
             @Header("Authorization") String authHeader,
             @Body RefreshTokenRequest request
     );
+
+    @GET("me")
+    Call<MeResponse> getMe(@Header("Authorization") String authHeader);
+
+    @POST("reminders")
+    Call<Reminder> createReminder(
+            @Header("Authorization") String authHeader,
+            @Body ReminderRequest request
+    );
+
+    @PUT("reminders/{id}")
+    Call<Reminder> updateReminder(
+            @Header("Authorization") String authHeader,
+            @Path("id") String reminderId,
+            @Body ReminderRequest request
+    );
+
+    @DELETE("reminders/{id}")
+    Call<ApiResponse<Void>> deleteReminder(
+            @Header("Authorization") String authHeader,
+            @Path("id") String reminderId
+    );
+
+    @GET("reminders")
+    Call<List<Reminder>> getReminders(@Header("Authorization") String authHeader);
+
+    @GET("reminder-categories")
+    Call<List<Category>> getReminderCategories(@Header("Authorization") String authHeader);
 }

@@ -46,7 +46,7 @@
 
     <!-- Tela de Alerta -->
     <string name="titulo_alerta_emergencia">Alerta de Emergência</string>
-    <string name="status_emergencia_ativa">⚠️ Emergência Ativa</string>
+    <string name="status_emergencia_ativa">Emergência Ativa</string>
     <string name="resumo_usuario">O+ | 72 anos | Hipertenso</string>
     <string name="nome_padrao">Nome: Igor Santos</string>
     <string name="tipo_sanguineo_padrao">Tipo Sanguíneo: O+</string>
@@ -70,7 +70,7 @@
     <string name="editar">Editar</string>
     <string name="voltar">Voltar</string>
     <string name="salvar">Salvar</string>
-    <string name="cancelar">Cancelar</string>
+    <string name="cancel">Cancelar</string>
 
     <!-- Mensagens -->
     <string name="msg_informacoes_salvas">Informações salvas com sucesso!</string>
@@ -111,7 +111,7 @@
     <!-- Biometria -->
     <string name="biometric_title">Autenticação Biométrica</string>
     <string name="biometric_subtitle">Use sua digital ou face para continuar</string>
-    <string name="biometric_description">Confirme sua identidade para acessar o app</string>
+    <string name="biometric_description">Confirme sua identidade para acessar o aplicativo. Seus tokens são protegidos por criptografia de hardware.</string>
     <string name="biometric_negative_button">Usar senha</string>
     <string name="biometric_enable_title">Ativar login biométrico?</string>
     <string name="biometric_enable_message">Nas próximas vezes você poderá fazer login usando sua digital ou reconhecimento facial</string>
@@ -122,6 +122,7 @@
     <string name="biometric_failed">Biometria não reconhecida. Tente novamente</string>
     <string name="biometric_not_available">Biometria não disponível neste dispositivo</string>
     <string name="biometric_not_enrolled">Nenhuma biometria cadastrada. Configure nas configurações do dispositivo</string>
+    <string name="biometric_security_update">É necessária uma atualização de segurança para a autenticação biométrica.</string>
 
     <!-- Seções -->
     <string name="section_health_info">Informações de Saúde</string>
@@ -157,6 +158,12 @@
     <string name="logout_confirm">Sim</string>
     <string name="logout_cancel">Cancelar</string>
     <string name="logout_success">Logout realizado com sucesso</string>
+    <string name="logout_in_progress">Saindo...</string>
+    <string name="logout_anyway">Sair Mesmo Assim</string>
+    <string name="logout_error_title">Erro no Logout</string>
+    <string name="logout_token_error">Não foi possível recuperar %s para logout seguro.\n\nDeseja sair localmente mesmo assim?</string>
+    <string name="logout_backend_error_title">Erro de Comunicação com Servidor</string>
+    <string name="logout_backend_error">Falha ao notificar servidor após 3 tentativas:\n%s\n\nSua sessão pode permanecer ativa no servidor. Deseja sair localmente mesmo assim?</string>
 
     <!-- Erros -->
     <string name="error_session_expired">Sessão expirada. Faça login novamente.</string>
@@ -173,4 +180,70 @@
     <string name="error_passwords_different">Senhas diferentes</string>
     <string name="error_birthdate_required">Data de nascimento é obrigatória</string>
     <string name="error_password_min_length">Senha deve ter no mínimo 6 caracteres</string>
+
+    <!-- Dados do Usuário -->
+    <string name="error_loading_user_data">Erro ao carregar dados do usuário</string>
+    <string name="loading_data">Carregando dados...</string>
+    <string name="no_reminders">Nenhum lembrete ainda</string>
+    <string name="reminders_today">Hoje: %d lembretes</string>
+    <string name="total_reminders">Total: %d lembretes</string>
+
+    <!-- Empty State -->
+    <string name="empty_reminders_title">Nenhum lembrete ainda</string>
+    <string name="empty_reminders_subtitle">Crie seu primeiro lembrete para acompanhar seus medicamentos, consultas e rotinas de saúde</string>
+    <string name="add_first_reminder">Adicionar Primeiro Lembrete</string>
+    <string name="empty_reminders_tip">Nunca mais esqueça seus medicamentos e consultas!</string>
+
+    <!-- Formulário de Lembrete -->
+    <string name="reminder_new">Novo Lembrete</string>
+    <string name="reminder_edit">Editar Lembrete</string>
+    <string name="reminder_title">Título</string>
+    <string name="reminder_description">Descrição (opcional)</string>
+    <string name="reminder_category">Categoria</string>
+    <string name="reminder_select_category">Selecione uma categoria</string>
+    <string name="reminder_frequency">Frequência</string>
+    <string name="reminder_select_frequency">Selecione a frequência</string>
+    <string name="reminder_start_date">Data de Início</string>
+    <string name="reminder_end_date">Data de Término</string>
+    <string name="reminder_select_date">Selecione a data</string>
+    <string name="reminder_time">Horário do Lembrete</string>
+    <string name="reminder_select_time">Selecione o horário</string>
+    <string name="reminder_create">Criar Lembrete</string>
+    <string name="reminder_update">Atualizar Lembrete</string>
+    <string name="reminder_creating">Criando lembrete...</string>
+    <string name="reminder_updating">Atualizando lembrete...</string>
+    <string name="reminder_created_success">Lembrete criado com sucesso!</string>
+    <string name="reminder_updated_success">Lembrete atualizado com sucesso!</string>
+    <string name="reminder_deleted_success">Lembrete excluído com sucesso!</string>
+    <string name="reminder_error">Erro ao criar lembrete</string>
+    <string name="reminder_update_error">Erro ao atualizar lembrete</string>
+    <string name="reminder_delete_error">Erro ao excluir lembrete</string>
+
+    <!-- Opções de Lembrete -->
+    <string name="reminder_option_edit">Editar</string>
+    <string name="reminder_option_delete">Excluir</string>
+    <string name="reminder_option_cancel">Cancelar</string>
+    <string name="reminder_delete_confirm_title">Excluir lembrete?</string>
+    <string name="reminder_delete_confirm_message">Esta ação não pode ser desfeita</string>
+    <string name="reminder_delete_confirm_yes">Excluir</string>
+    <string name="reminder_delete_confirm_no">Cancelar</string>
+
+    <!-- Erros de Validação -->
+    <string name="error_title_required">Título é obrigatório</string>
+    <string name="error_category_required">Selecione uma categoria</string>
+    <string name="error_frequency_required">Selecione uma frequência</string>
+    <string name="error_start_date_required">Selecione uma data de início</string>
+    <string name="error_reminder_time_required">Selecione um horário</string>
+
+    <!-- Frequências -->
+    <string name="frequency_once">Uma vez</string>
+    <string name="frequency_daily">Diário</string>
+    <string name="frequency_weekly">Semanal</string>
+    <string name="frequency_monthly">Mensal</string>
+    <string name="frequency_yearly">Anual</string>
+
+    <!-- Toolbar -->
+    <string name="profile_picture">Foto de Perfil</string>
+    <string name="profile_complete">Perfil Completo</string>
+    <string name="search_reminders">Buscar lembretes...</string>
 </resources>

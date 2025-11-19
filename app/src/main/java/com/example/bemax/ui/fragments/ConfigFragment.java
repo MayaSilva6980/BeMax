@@ -4,13 +4,13 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +26,9 @@ import com.example.bemax.ui.activity.MedicalInfoActivity;
 import com.example.bemax.ui.activity.PersonalInfoActivity;
 import com.example.bemax.ui.activity.LoginActivity;
 import com.example.bemax.ui.activity.MainActivity;
+import com.example.bemax.util.helper.ErrorHelper;
+import com.example.bemax.util.helper.NotificationHelper;
+import com.example.bemax.util.manager.TokenManager;
 import com.example.bemax.util.storage.SecureStorage;
 import com.example.bemax.util.helper.StringHelper;
 import com.google.android.material.button.MaterialButton;
@@ -63,19 +66,27 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 
     private AuthRepository authRepository;
     private SecureStorage secureStorage;
+    private TokenManager tokenManager;
     private MainActivity mainActivity;
     private User currentUser;
 
     public ConfigFragment(MainActivity principal) {
         mainActivity = principal;
-        authRepository = new AuthRepository();
-        secureStorage = new SecureStorage(principal);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frm_config2, container, false);
+
+        if (mainActivity == null) {
+            mainActivity = (MainActivity) requireActivity();
+        }
+        authRepository = new AuthRepository();
+        secureStorage = new SecureStorage(requireContext());
+        secureStorage.setBiometricManager(mainActivity);
+        tokenManager = TokenManager.getInstance(requireContext());
+        tokenManager.setBiometricManager(mainActivity);
 
         iniciaControles(view);
         loadUserData();
@@ -163,10 +174,10 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
         boolean biometricEnabled = secureStorage.isBiometricEnabled();
         if (biometricEnabled) {
             txtBiometricStatus.setText(R.string.biometric_enabled);
-            txtBiometricStatus.setTextColor(getResources().getColor(R.color.bemax_success));
+            txtBiometricStatus.setTextColor(requireContext().getColor(R.color.bemax_success));
         } else {
             txtBiometricStatus.setText(R.string.biometric_disabled);
-            txtBiometricStatus.setTextColor(getResources().getColor(R.color.bemax_gray_dark));
+            txtBiometricStatus.setTextColor(requireContext().getColor(R.color.bemax_gray_dark));
         }
     }
 
@@ -201,19 +212,19 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
         }
         else if (id == R.id.btnNotifications) {
             // TODO: Implementar tela de notificações
-            Toast.makeText(mainActivity, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
+            NotificationHelper.showInfo(mainActivity, "Em desenvolvimento");
         }
         else if (id == R.id.btnPrivacy) {
             // TODO: Implementar tela de privacidade
-            Toast.makeText(mainActivity, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
+            NotificationHelper.showInfo(mainActivity, "Em desenvolvimento");
         }
         else if (id == R.id.btnTerms) {
             // TODO: Abrir termos e políticas (WebView ou Intent)
-            Toast.makeText(mainActivity, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
+            NotificationHelper.showInfo(mainActivity, "Em desenvolvimento");
         }
         else if (id == R.id.btnHelp) {
             // TODO: Abrir ajuda/FAQ
-            Toast.makeText(mainActivity, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
+            NotificationHelper.showInfo(mainActivity, "Em desenvolvimento");
         }
         else if (id == R.id.btnLogout) {
             showLogoutConfirmation();
@@ -231,35 +242,153 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 
     private void performLogout() {
         btnLogout.setEnabled(false);
-
-        String accessToken = secureStorage.getAccessToken();
-        String refreshToken = secureStorage.getRefreshToken();
-
-        if (accessToken != null && !accessToken.isEmpty() &&
-                refreshToken != null && !refreshToken.isEmpty()) {
-            authRepository.logout(accessToken, refreshToken, new AuthRepository.LogoutCallback() {
-                @Override
-                public void onSuccess() {
-                    completeLogout();
-                }
+        
+        // Mostrar loading
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(() -> {
+                NotificationHelper.showInfo(mainActivity, getString(R.string.logout_in_progress));
             });
-        } else {
-            completeLogout();
         }
+
+        // TokenManager tem tokens em memória, recupera SEM biometria!
+        tokenManager.getAccessToken(new TokenManager.TokenCallback() {
+            @Override
+            public void onSuccess(String accessToken) {
+                Log.d("ConfigFragment", "Access token recuperado da memória");
+                
+                // Agora buscar refresh token (também da memória!)
+                tokenManager.getRefreshToken(new TokenManager.TokenCallback() {
+                    @Override
+                    public void onSuccess(String refreshToken) {
+                        Log.d("ConfigFragment", "Refresh token recuperado da memória");
+                        Log.d("ConfigFragment", "Tokens recuperados SEM biometria: Access=true, Refresh=true");
+                        performLogoutWithRetry(accessToken, refreshToken, 0);
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        Log.w("ConfigFragment", "Erro ao recuperar refresh token: " + error);
+                        handleLogoutTokenError("refresh token");
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.w("ConfigFragment", "Erro ao recuperar access token: " + error);
+                handleLogoutTokenError("access token");
+            }
+        });
+    }
+    
+    /**
+     * Logout com retry automático
+     */
+    private void performLogoutWithRetry(String accessToken, String refreshToken, int attemptNumber) {
+        final int MAX_RETRIES = 3;
+        final int RETRY_DELAY_MS = 2000;
+        
+        Log.d("ConfigFragment", "Tentativa de logout " + (attemptNumber + 1) + "/" + MAX_RETRIES);
+        Log.d("ConfigFragment", "Access Token: " + (accessToken != null ? accessToken.substring(0, Math.min(20, accessToken.length())) + "..." : "null"));
+        Log.d("ConfigFragment", "Refresh Token: " + (refreshToken != null ? refreshToken.substring(0, Math.min(20, refreshToken.length())) + "..." : "null"));
+        
+        authRepository.logout(accessToken, refreshToken, new AuthRepository.LogoutCallback() {
+            @Override
+            public void onSuccess() {
+                // Logout no backend bem-sucedido
+                Log.d("ConfigFragment", "Logout no backend realizado com sucesso");
+                
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        NotificationHelper.showSuccess(mainActivity, getString(R.string.logout_success));
+                        completeLogout();
+                    });
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("ConfigFragment", "Erro no logout do backend (tentativa " + (attemptNumber + 1) + "): " + error);
+                
+                if (attemptNumber < MAX_RETRIES - 1) {
+                    //Ainda tem tentativas, retry
+                    Log.d("ConfigFragment", "⏳ Aguardando " + RETRY_DELAY_MS + "ms antes de retry...");
+                    
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            NotificationHelper.showWarning(mainActivity, 
+                                "Tentando novamente... (" + (attemptNumber + 2) + "/" + MAX_RETRIES + ")");
+                        });
+                        
+                        // Retry após delay
+                        new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                            performLogoutWithRetry(accessToken, refreshToken, attemptNumber + 1);
+                        }, RETRY_DELAY_MS);
+                    }
+                } else {
+                    //Esgotou tentativas, perguntar ao usuário
+                    Log.e("ConfigFragment", "Esgotadas " + MAX_RETRIES + " tentativas de logout");
+                    handleLogoutBackendError(error);
+                }
+            }
+        });
+    }
+    
+    /**
+     * Erro ao recuperar tokens - pergunta ao usuário
+     */
+    private void handleLogoutTokenError(String tokenType) {
+        if (getActivity() == null) return;
+        
+        getActivity().runOnUiThread(() -> {
+            new AlertDialog.Builder(mainActivity)
+                    .setTitle(R.string.logout_error_title)
+                    .setMessage(getString(R.string.logout_token_error, tokenType))
+                    .setPositiveButton(R.string.logout_anyway, (dialog, which) -> {
+                        Log.w("ConfigFragment", "Usuário optou por logout local sem notificar backend");
+                        completeLogout();
+                    })
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                        btnLogout.setEnabled(true);
+                    })
+                    .setCancelable(false)
+                    .show();
+        });
+    }
+    
+    /**
+     * Erro no backend após retries - pergunta ao usuário
+     */
+    private void handleLogoutBackendError(String error) {
+        if (getActivity() == null) return;
+        
+        getActivity().runOnUiThread(() -> {
+            new AlertDialog.Builder(mainActivity)
+                    .setTitle(R.string.logout_backend_error_title)
+                    .setMessage(getString(R.string.logout_backend_error, error))
+                    .setPositiveButton(R.string.logout_anyway, (dialog, which) -> {
+                        Log.w("ConfigFragment", "Usuário optou por logout local após falhas no backend");
+                        completeLogout();
+                    })
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                        btnLogout.setEnabled(true);
+                    })
+                    .setCancelable(false)
+                    .show();
+        });
     }
 
     private void completeLogout() {
         if (getActivity() == null) return;
 
         getActivity().runOnUiThread(() -> {
-            secureStorage.clearTokens();
+            // Limpar tokens do TokenManager (memória + storage)
+            tokenManager.clearTokens();
             FirebaseAuth.getInstance().signOut();
 
             Intent intent = new Intent(mainActivity, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-
-            Toast.makeText(mainActivity, R.string.logout_success, Toast.LENGTH_SHORT).show();
 
             if (mainActivity != null) {
                 mainActivity.finish();

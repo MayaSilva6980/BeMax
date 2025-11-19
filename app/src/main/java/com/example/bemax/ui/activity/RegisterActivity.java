@@ -8,13 +8,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.bemax.R;
 import com.example.bemax.model.dto.RegisterRequest;
 import com.example.bemax.model.dto.RegisterResponse;
 import com.example.bemax.repository.RegisterRepository;
+import com.example.bemax.util.helper.ErrorHelper;
 import com.example.bemax.util.helper.InputMaskHelper;
+import com.example.bemax.util.helper.NotificationHelper;
 import com.example.bemax.ui.base.BaseActivity;
 import com.example.bemax.util.AppConstants;
 
@@ -194,9 +195,10 @@ public class RegisterActivity extends BaseActivity implements  View.OnClickListe
                     btnSalvarUsuario.setText(R.string.register_save);
                     lnlAreaProgressBar.setVisibility(View.GONE);
 
-                    Toast.makeText(RegisterActivity.this,
-                            R.string.register_success,
-                            Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showSuccess(
+                        RegisterActivity.this,
+                        getString(R.string.register_success)
+                    );
 
                     // Log debug
                     Log.d("FrmCadastro", "Cadastro realizado com sucesso!");
@@ -215,9 +217,10 @@ public class RegisterActivity extends BaseActivity implements  View.OnClickListe
                     btnSalvarUsuario.setText(R.string.register_save);
                     lnlAreaProgressBar.setVisibility(View.GONE);
 
-                    Toast.makeText(RegisterActivity.this,
-                            getString(R.string.register_error, error),
-                            Toast.LENGTH_LONG).show();
+                    ErrorHelper.handleRegistrationError(
+                        findViewById(android.R.id.content),
+                        error
+                    );
 
                     // Log debug
                     Log.e("FrmCadastro", "Erro no cadastro: " + error);

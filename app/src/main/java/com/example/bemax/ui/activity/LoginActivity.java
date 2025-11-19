@@ -9,14 +9,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.bemax.R;
-import com.example.bemax.model.domain.User;
 import com.example.bemax.model.dto.LoginResponse;
 import com.example.bemax.repository.AuthRepository;
 import com.example.bemax.ui.base.BaseActivity;
-import com.example.bemax.util.helper.BiometricHelper;
+import com.example.bemax.util.helper.ErrorHelper;
+import com.example.bemax.util.helper.NotificationHelper;
+import com.example.bemax.util.manager.TokenManager;
+import com.example.bemax.util.security.SecureBiometricManager;
 import com.example.bemax.util.storage.SecureStorage;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -29,9 +30,10 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.gson.Gson;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = "LoginActivity";
+    
     // Controles do Layout
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextSenha;
@@ -46,9 +48,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private final static int RC_SIGN_IN = 123;
     private AuthRepository authRepository;
     
-    // Biometria
-    private BiometricHelper biometricHelper;
+    // Segurança com Biometria
+    private SecureBiometricManager biometricManager;
     private SecureStorage secureStorage;
+    private TokenManager tokenManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +59,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         setContentView(R.layout.frm_login);
 
         authRepository = new AuthRepository();
-        biometricHelper = new BiometricHelper(this);
         secureStorage = new SecureStorage(this);
+        secureStorage.setBiometricManager(this); // Configurar biometria
+        biometricManager = new SecureBiometricManager(this);
+        tokenManager = TokenManager.getInstance(this);
+        tokenManager.setBiometricManager(this);
         
         iniciaControles();
         
@@ -120,104 +126,117 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             if (savedEmail != null) {
                 editTextEmail.setText(savedEmail);
 
-                Toast.makeText(this,
-                        R.string.auth_biometric_quick_login,
-                        Toast.LENGTH_LONG).show();
+                NotificationHelper.showInfo(
+                    this,
+                    getString(R.string.auth_biometric_quick_login)
+                );
                 
                 editTextEmail.postDelayed(this::authenticateWithBiometric, 500);
             }
         }
     }
 
-     // Autentica usando biometria
-     private void authenticateWithBiometric() {
-         biometricHelper.authenticate(new BiometricHelper.BiometricCallback() {
-             @Override
-             public void onSuccess() {
-                 Toast.makeText(LoginActivity.this,
-                         R.string.biometric_success,
-                         Toast.LENGTH_SHORT).show();
+    /**
+     * Autentica usando biometria para recuperar token
+     */
+    private void authenticateWithBiometric() {
+        progressBar.setVisibility(View.VISIBLE);
 
-                 // Verificar se token expirou ou está expirando
-                 if (secureStorage.isTokenExpired() || secureStorage.isTokenExpiringSoon()) {
-                     // Tentar renovar com refresh token
-                     String refreshToken = secureStorage.getRefreshToken();
-                     String oldAccessToken = secureStorage.getAccessToken();
+        // Recuperar token com biometria
+        secureStorage.getAccessToken(new SecureStorage.TokenCallback() {
+            @Override
+            public void onTokenRetrieved(String token) {
+                runOnUiThread(() -> {
+                    NotificationHelper.showSuccess(
+                        LoginActivity.this,
+                        getString(R.string.biometric_success)
+                    );
 
-                     if (refreshToken != null && !refreshToken.isEmpty()) {
-                         progressBar.setVisibility(View.VISIBLE);
+                    // Verificar se token expirou ou está expirando
+                    if (secureStorage.isTokenExpired() || secureStorage.isTokenExpiringSoon()) {
+                        // Tentar renovar com refresh token
+                        refreshTokenWithBiometric();
+                    } else {
+                        // Token válido, pode entrar direto
+                        progressBar.setVisibility(View.GONE);
+                        goToPrincipal();
+                    }
+                });
+            }
 
-                         authRepository.refreshToken(oldAccessToken, refreshToken, new AuthRepository.AuthCallback() {
-                             @Override
-                             public void onSuccess(LoginResponse response) {
-                                 runOnUiThread(() -> {
-                                     progressBar.setVisibility(View.GONE);
+            @Override
+            public void onError(String error) {
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    
+                    if (error.contains("cancelada")) {
+                        // Usuário cancelou
+                        editTextSenha.requestFocus();
+                    } else {
+                        ErrorHelper.handleBiometricError(
+                            findViewById(android.R.id.content),
+                            error
+                        );
+                    }
+                });
+            }
+        });
+    }
 
-                                     // Salvar novos tokens
-                                     secureStorage.saveAccessToken(response.getAccessToken());
-                                     if (response.getRefreshToken() != null) {
-                                         secureStorage.saveRefreshToken(response.getRefreshToken());
-                                     }
+    /**
+     * Renova o token usando refresh token (com biometria)
+     */
+    private void refreshTokenWithBiometric() {
+        secureStorage.getRefreshToken(new SecureStorage.TokenCallback() {
+            @Override
+            public void onTokenRetrieved(String refreshToken) {
+                secureStorage.getAccessToken(new SecureStorage.TokenCallback() {
+                    @Override
+                    public void onTokenRetrieved(String oldAccessToken) {
+                        // Chamar API de refresh
+                        authRepository.refreshToken(oldAccessToken, refreshToken, new AuthRepository.AuthCallback() {
+                            @Override
+                            public void onSuccess(LoginResponse response) {
+                                runOnUiThread(() -> {
+                                    // Salvar novos tokens
+                                    saveTokensWithBiometric(response, () -> {
+                                        progressBar.setVisibility(View.GONE);
+                                        goToPrincipal();
+                                    });
+                                });
+                            }
 
-                                     long expirationTimeMs = System.currentTimeMillis() + (response.getExpiresIn() * 1000);
-                                     secureStorage.saveTokenExpiration(expirationTimeMs);
+                            @Override
+                            public void onError(String error) {
+                                runOnUiThread(() -> {
+                                    progressBar.setVisibility(View.GONE);
+                                    secureStorage.clearTokens();
+                                    ErrorHelper.handleAuthError(findViewById(android.R.id.content));
+                                });
+                            }
+                        });
+                    }
 
-                                     // Salvar dados do usuário se vieram
-                                     if (response.getUser() != null) {
-                                         Gson gson = new Gson();
-                                         String userJson = gson.toJson(response.getUser());
-                                         secureStorage.saveUserData(userJson);
-                                     }
+                    @Override
+                    public void onError(String error) {
+                        runOnUiThread(() -> {
+                            progressBar.setVisibility(View.GONE);
+                            ErrorHelper.handleGenericError(findViewById(android.R.id.content), error);
+                        });
+                    }
+                });
+            }
 
-                                     goToPrincipalFromStorage();
-                                 });
-                             }
-
-                             @Override
-                             public void onError(String error) {
-                                 runOnUiThread(() -> {
-                                     progressBar.setVisibility(View.GONE);
-
-                                     // Limpar dados e forçar novo login
-                                     secureStorage.clearTokens();
-
-                                     Toast.makeText(LoginActivity.this,
-                                             "Sessão expirada. Faça login novamente.",
-                                             Toast.LENGTH_LONG).show();
-                                 });
-                             }
-                         });
-                     } else {
-                         // Não tem refresh token, forçar novo login
-                         secureStorage.clearTokens();
-                         Toast.makeText(LoginActivity.this,
-                                 "Sessão expirada. Faça login novamente.",
-                                 Toast.LENGTH_LONG).show();
-                     }
-                 } else {
-                     // Token válido, pode entrar direto
-                     goToPrincipalFromStorage();
-                 }
-             }
-
-             @Override
-             public void onError(String error) {
-                 Toast.makeText(LoginActivity.this, error, Toast.LENGTH_SHORT).show();
-             }
-
-             @Override
-             public void onFailed() {
-                 Toast.makeText(LoginActivity.this,
-                         R.string.biometric_failed,
-                         Toast.LENGTH_SHORT).show();
-             }
-
-             @Override
-             public void onUsePassword() {
-                 editTextSenha.requestFocus();
-             }
-         });
-     }
+            @Override
+            public void onError(String error) {
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    secureStorage.clearTokens();
+                    ErrorHelper.handleAuthError(findViewById(android.R.id.content));
+                });
+            }
+        });
+    }
 
     private void realizarLoginRetrofit() {
         String email = editTextEmail.getText().toString().trim();
@@ -249,40 +268,32 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onSuccess(LoginResponse response) {
                 runOnUiThread(() -> {
-                    btnContinue.setEnabled(true);
-                    btnContinue.setText(R.string.auth_continue);
-                    progressBar.setVisibility(View.GONE);
+                    NotificationHelper.showSuccess(
+                        LoginActivity.this,
+                        getString(R.string.auth_login_success)
+                    );
 
-                    Toast.makeText(LoginActivity.this,
-                            R.string.auth_login_success,
-                            Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Login realizado com sucesso!");
 
-                    Log.d("FrmLogin", "Login realizado com sucesso!");
-                    Log.d("FrmLogin", "Access Token: " + response.getAccessToken().substring(0, Math.min(20, response.getAccessToken().length())) + "...");
-
-                    // Salvar tokens de forma segura
-                    secureStorage.saveAccessToken(response.getAccessToken());
-                    if (response.getRefreshToken() != null) {
-                        secureStorage.saveRefreshToken(response.getRefreshToken());
-                    }
+                    // Salvar email e expiração
                     secureStorage.saveUserEmail(email);
-
-                    if (response.getUser() != null) {
-                        Gson gson = new Gson();
-                        String userJson = gson.toJson(response.getUser());
-                        secureStorage.saveUserData(userJson);
-                    }
-                    
                     long expirationTimeMs = System.currentTimeMillis() + (response.getExpiresIn() * 1000);
                     secureStorage.saveTokenExpiration(expirationTimeMs);
 
-                    // Perguntar se quer ativar biometria
-                    if (!secureStorage.isBiometricEnabled() && 
-                        biometricHelper.checkBiometricAvailability() == BiometricHelper.BiometricStatus.AVAILABLE) {
-                        askToEnableBiometric(response);
-                    } else {
-                        goToPrincipal(response);
-                    }
+                    // Salvar tokens com biometria
+                    saveTokensWithBiometric(response, () -> {
+                        btnContinue.setEnabled(true);
+                        btnContinue.setText(R.string.auth_continue);
+                        progressBar.setVisibility(View.GONE);
+
+                        // Perguntar se quer ativar biometria
+                        if (!secureStorage.isBiometricEnabled() && 
+                            biometricManager.checkBiometricAvailability() == SecureBiometricManager.BiometricStatus.AVAILABLE) {
+                            askToEnableBiometric(response);
+                        } else {
+                            goToPrincipal();
+                        }
+                    });
                 });
             }
 
@@ -293,14 +304,50 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     btnContinue.setText(R.string.auth_continue);
                     progressBar.setVisibility(View.GONE);
 
-                    Toast.makeText(LoginActivity.this,
-                            getString(R.string.auth_login_error, error),
-                            Toast.LENGTH_LONG).show();
+                    ErrorHelper.handleLoginError(findViewById(android.R.id.content), error);
 
-                    Log.e("FrmLogin", "Erro no login: " + error);
+                    Log.e(TAG, "Erro no login: " + error);
                 });
             }
         });
+    }
+
+    /**
+     * Salva tokens com ou sem biometria
+     */
+    private void saveTokensWithBiometric(LoginResponse response, Runnable onComplete) {
+        Log.d(TAG, "Salvando tokens no TokenManager...");
+        
+        // Usar TokenManager ao invés de SecureStorage diretamente
+        tokenManager.saveTokens(
+            response.getAccessToken(),
+            response.getRefreshToken(),
+            new TokenManager.TokenCallback() {
+                @Override
+                public void onSuccess(String token) {
+                    Log.d(TAG, "Tokens salvos com sucesso no TokenManager!");
+                    runOnUiThread(() -> {
+                        onComplete.run();
+                    });
+                }
+
+                @Override
+                public void onError(String error) {
+                    Log.e(TAG, "Erro ao salvar tokens: " + error);
+                    runOnUiThread(() -> {
+                        ErrorHelper.handleSaveTokenError(
+                            findViewById(android.R.id.content),
+                            error
+                        );
+                        
+                        // Re-habilitar botões para tentar novamente
+                        btnContinue.setEnabled(true);
+                        btnGoogle.setEnabled(true);
+                        progressBar.setVisibility(View.GONE);
+                    });
+                }
+            }
+        );
     }
 
     private void askToEnableBiometric(LoginResponse response) {
@@ -309,38 +356,36 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 .setMessage(R.string.biometric_enable_message)
                 .setPositiveButton(R.string.biometric_enable_positive, (dialog, which) -> {
                     secureStorage.setBiometricEnabled(true);
-                    Toast.makeText(this, R.string.auth_biometric_activated, Toast.LENGTH_SHORT).show();
-                    goToPrincipal(response);
+                    
+                    Log.d(TAG, "Biometria ativada, re-criptografando tokens...");
+                    
+                    // Re-salvar tokens COM criptografia biométrica
+                    // Isso é NECESSÁRIO porque tokens foram salvos SEM biometria
+                    saveTokensWithBiometric(response, () -> {
+                        runOnUiThread(() -> {
+                            Log.d(TAG, "Tokens re-criptografados com sucesso");
+                            NotificationHelper.showSuccess(
+                                LoginActivity.this,
+                                getString(R.string.auth_biometric_activated)
+                            );
+                            goToPrincipal();
+                        });
+                    });
                 })
                 .setNegativeButton(R.string.biometric_enable_negative, (dialog, which) -> {
-                    goToPrincipal(response);
+                    // Usuário não quer biometria, vai para principal
+                    goToPrincipal();
                 })
                 .setCancelable(false)
                 .show();
     }
 
-
-    private void goToPrincipalFromStorage() {
-        String accessToken = secureStorage.getAccessToken();
-        String userJson = secureStorage.getUserData();
-
+    /**
+     * Navega para MainActivity - dados do usuário serão buscados via /me
+     */
+    private void goToPrincipal() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent.putExtra("access_token", accessToken);
-
-        if (userJson != null) {
-            Gson gson = new Gson();
-            User user = gson.fromJson(userJson, User.class);
-
-            intent.putExtra("user", user);
-        }
-
-        startActivity(intent);
-        finish();
-    }
-    private void goToPrincipal(LoginResponse response) {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent.putExtra("user", response.getUser());
-        intent.putExtra("access_token", response.getAccessToken());
+        intent.putExtra("SKIP_BIOMETRIC", true); // Flag: acabou de fazer login
         startActivity(intent);
         finish();
     }
@@ -358,7 +403,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                Log.d("FrmLogin", "Google SignIn successful: " + account.getEmail());
+                Log.d(TAG, "Google SignIn successful: " + account.getEmail());
 
                 progressBar.setVisibility(View.VISIBLE);
                 btnGoogle.setEnabled(false);
@@ -366,8 +411,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 firebaseAuthWithGoogle(account.getIdToken());
             }
             catch (ApiException e) {
-                Toast.makeText(this, getString(R.string.auth_google_signin_failed, e.getMessage()), Toast.LENGTH_SHORT).show();
-                Log.e("FrmLogin", "Erro no Google SignIn", e);
+                ErrorHelper.handleGoogleSignInError(
+                    findViewById(android.R.id.content),
+                    e.getStatusCode()
+                );
+                Log.e(TAG, "Erro no Google SignIn", e);
             }
         }
     }
@@ -378,37 +426,25 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
                 FirebaseUser user = mAuth.getCurrentUser();
-                Log.d("FrmLogin", "Firebase auth successful");
+                Log.d(TAG, "Firebase auth successful");
 
                 user.getIdToken(true).addOnCompleteListener(tokenTask -> {
                     if (tokenTask.isSuccessful()) {
                         String firebaseIdToken = tokenTask.getResult().getToken();
-
-                        Log.d("FrmLogin", "Firebase ID Token obtido com sucesso");
-                        Log.d("FrmLogin", "Token (primeiros 30 chars): " +
-                                firebaseIdToken.substring(0, Math.min(30, firebaseIdToken.length())) + "...");
-
+                        Log.d(TAG, "Firebase ID Token obtido com sucesso");
                         loginWithFirebaseToken(firebaseIdToken, user);
-
                     } else {
                         progressBar.setVisibility(View.GONE);
                         btnGoogle.setEnabled(true);
-
-                        Toast.makeText(this,
-                                R.string.auth_firebase_token_error,
-                                Toast.LENGTH_SHORT).show();
-                        Log.e("FrmLogin", "Erro ao obter Firebase token", tokenTask.getException());
+                        ErrorHelper.handleFirebaseTokenError(findViewById(android.R.id.content));
+                        Log.e(TAG, "Erro ao obter Firebase token", tokenTask.getException());
                     }
                 });
-
             } else {
                 progressBar.setVisibility(View.GONE);
                 btnGoogle.setEnabled(true);
-
-                Toast.makeText(this,
-                        R.string.auth_firebase_auth_error,
-                        Toast.LENGTH_SHORT).show();
-                Log.e("FrmLogin", "Erro no Firebase Auth", task.getException());
+                ErrorHelper.handleFirebaseAuthError(findViewById(android.R.id.content));
+                Log.e(TAG, "Erro no Firebase Auth", task.getException());
             }
         });
     }
@@ -418,43 +454,35 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onSuccess(LoginResponse response) {
                 runOnUiThread(() -> {
-                    progressBar.setVisibility(View.GONE);
-                    btnGoogle.setEnabled(true);
+                    NotificationHelper.showSuccess(
+                        LoginActivity.this,
+                        getString(R.string.auth_google_login_success)
+                    );
 
-                    Toast.makeText(LoginActivity.this,
-                            R.string.auth_google_login_success,
-                            Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Backend login successful");
 
-                    Log.d("FrmLogin", "Backend login successful");
-
-                    // Salvar tokens
-                    secureStorage.saveAccessToken(response.getAccessToken());
-                    if (response.getRefreshToken() != null) {
-                        secureStorage.saveRefreshToken(response.getRefreshToken());
-                    }
+                    // Salvar email e foto
                     secureStorage.saveUserEmail(firebaseUser.getEmail());
-
-                    if (firebaseUser.getPhotoUrl() != null && response.getUser() != null) {
-                        response.getUser().setPhotoUrl(firebaseUser.getPhotoUrl().toString());
-                    }
-
-                    // Salvar dados completos do usuário
-                    if (response.getUser() != null) {
-                        Gson gson = new Gson();
-                        String userJson = gson.toJson(response.getUser());
-                        secureStorage.saveUserData(userJson);
+                    if (firebaseUser.getPhotoUrl() != null) {
+                        secureStorage.saveUserPhotoUrl(firebaseUser.getPhotoUrl().toString());
                     }
                     
                     long expirationTimeMs = System.currentTimeMillis() + (response.getExpiresIn() * 1000);
                     secureStorage.saveTokenExpiration(expirationTimeMs);
 
-                    // Perguntar sobre biometria
-                    if (!secureStorage.isBiometricEnabled() && 
-                        biometricHelper.checkBiometricAvailability() == BiometricHelper.BiometricStatus.AVAILABLE) {
-                        askToEnableBiometric(response);
-                    } else {
-                        goToPrincipal(response);
-                    }
+                    // Salvar tokens com biometria
+                    saveTokensWithBiometric(response, () -> {
+                        progressBar.setVisibility(View.GONE);
+                        btnGoogle.setEnabled(true);
+
+                        // Perguntar sobre biometria
+                        if (!secureStorage.isBiometricEnabled() && 
+                            biometricManager.checkBiometricAvailability() == SecureBiometricManager.BiometricStatus.AVAILABLE) {
+                            askToEnableBiometric(response);
+                        } else {
+                            goToPrincipal();
+                        }
+                    });
                 });
             }
 
@@ -465,9 +493,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     btnGoogle.setEnabled(true);
 
                     if (error.contains("404") || error.contains("not registered")) {
-                        Toast.makeText(LoginActivity.this,
-                                R.string.auth_complete_registration,
-                                Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showInfo(
+                            LoginActivity.this,
+                            getString(R.string.auth_complete_registration)
+                        );
 
                         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                         intent.putExtra("nome", firebaseUser.getDisplayName());
@@ -476,14 +505,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(LoginActivity.this,
-                                getString(R.string.auth_login_error, error),
-                                Toast.LENGTH_LONG).show();
+                        ErrorHelper.handleLoginError(findViewById(android.R.id.content), error);
 
-                        Log.e("FrmLogin", "Erro no login com Firebase: " + error);
+                        Log.e(TAG, "Erro no login com Firebase: " + error);
                     }
                 });
             }
         });
     }
 }
+
