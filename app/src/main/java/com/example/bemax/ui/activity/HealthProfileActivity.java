@@ -15,7 +15,7 @@ import com.example.bemax.repository.HealthProfileRepository;
 import com.example.bemax.ui.base.BaseActivity;
 import com.example.bemax.util.helper.ErrorHelper;
 import com.example.bemax.util.helper.NotificationHelper;
-import com.example.bemax.util.manager.TokenManager;
+import com.example.bemax.util.security.TokenManager;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;

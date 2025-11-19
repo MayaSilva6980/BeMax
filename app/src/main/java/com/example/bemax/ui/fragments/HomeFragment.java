@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +28,7 @@ import com.example.bemax.ui.activity.ReminderFormActivity;
 import com.example.bemax.ui.activity.MainActivity;
 import com.example.bemax.util.helper.ErrorHelper;
 import com.example.bemax.util.helper.NotificationHelper;
+import com.example.bemax.util.security.TokenManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -296,10 +296,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      * Deleta um lembrete do backend
      */
     private void deleteReminder(Reminder reminder) {
-        com.example.bemax.util.manager.TokenManager tokenManager = com.example.bemax.util.manager.TokenManager.getInstance(mainActivity);
+        TokenManager tokenManager = TokenManager.getInstance(mainActivity);
         com.example.bemax.repository.ReminderRepository reminderRepository = new com.example.bemax.repository.ReminderRepository();
 
-        tokenManager.getAccessToken(new com.example.bemax.util.manager.TokenManager.TokenCallback() {
+        tokenManager.getAccessToken(new TokenManager.TokenCallback() {
             @Override
             public void onSuccess(String token) {
                 reminderRepository.deleteReminder(token, reminder.getId(), new com.example.bemax.repository.ReminderRepository.DeleteReminderCallback() {

@@ -16,7 +16,7 @@ import com.example.bemax.repository.AuthRepository;
 import com.example.bemax.ui.base.BaseActivity;
 import com.example.bemax.util.helper.ErrorHelper;
 import com.example.bemax.util.helper.NotificationHelper;
-import com.example.bemax.util.manager.TokenManager;
+import com.example.bemax.util.security.TokenManager;
 import com.example.bemax.util.security.SecureBiometricManager;
 import com.example.bemax.util.storage.SecureStorage;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;

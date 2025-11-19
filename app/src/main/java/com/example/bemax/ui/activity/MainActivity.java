@@ -30,7 +30,7 @@ import com.example.bemax.ui.fragments.HomeFragment;
 import com.example.bemax.model.domain.User;
 import com.example.bemax.ui.base.BaseActivity;
 import com.example.bemax.util.helper.ErrorHelper;
-import com.example.bemax.util.manager.TokenManager;
+import com.example.bemax.util.security.TokenManager;
 import com.example.bemax.util.storage.SecureStorage;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;

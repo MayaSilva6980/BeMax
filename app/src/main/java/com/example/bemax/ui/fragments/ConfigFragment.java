@@ -28,7 +28,7 @@ import com.example.bemax.ui.activity.PrivacySecurityActivity;
 import com.example.bemax.ui.activity.LoginActivity;
 import com.example.bemax.ui.activity.MainActivity;
 import com.example.bemax.util.helper.NotificationHelper;
-import com.example.bemax.util.manager.TokenManager;
+import com.example.bemax.util.security.TokenManager;
 import com.example.bemax.util.storage.SecureStorage;
 import com.example.bemax.util.helper.StringHelper;
 import com.google.android.material.button.MaterialButton;

@@ -1,4 +1,4 @@
-package com.example.bemax.util.manager;
+package com.example.bemax.util.security;
 
 import android.content.Context;
 import android.util.Log;
