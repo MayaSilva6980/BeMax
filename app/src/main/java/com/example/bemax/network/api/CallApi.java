@@ -1,9 +1,13 @@
 package com.example.bemax.network.api;
 
 import com.example.bemax.model.domain.Category;
+import com.example.bemax.model.domain.EmergencyContact;
+import com.example.bemax.model.domain.HealthProfile;
 import com.example.bemax.model.domain.Reminder;
 import com.example.bemax.model.dto.ApiResponse;
+import com.example.bemax.model.dto.EmergencyContactRequest;
 import com.example.bemax.model.dto.FirebaseLoginRequest;
+import com.example.bemax.model.dto.HealthProfileRequest;
 import com.example.bemax.model.dto.LoginRequest;
 import com.example.bemax.model.dto.LoginResponse;
 import com.example.bemax.model.dto.MeResponse;
@@ -75,11 +79,34 @@ public interface CallApi {
 
     // Health Profile Endpoints
     @GET("health-profile")
-    Call<com.example.bemax.model.domain.HealthProfile> getHealthProfile(@Header("Authorization") String authHeader);
+    Call<HealthProfile> getHealthProfile(@Header("Authorization") String authHeader);
 
     @PUT("health-profile")
-    Call<com.example.bemax.model.domain.HealthProfile> updateHealthProfile(
+    Call<HealthProfile> updateHealthProfile(
             @Header("Authorization") String authHeader,
-            @Body com.example.bemax.model.dto.HealthProfileRequest request
+            @Body HealthProfileRequest request
+    );
+
+    // Emergency Contacts Endpoints
+    @GET("emergency-contacts")
+    Call<List<EmergencyContact>> getEmergencyContacts(@Header("Authorization") String authHeader);
+
+    @POST("emergency-contacts")
+    Call<EmergencyContact> createEmergencyContact(
+            @Header("Authorization") String authHeader,
+            @Body EmergencyContactRequest request
+    );
+
+    @PUT("emergency-contacts/{id}")
+    Call<com.example.bemax.model.domain.EmergencyContact> updateEmergencyContact(
+            @Header("Authorization") String authHeader,
+            @Path("id") String contactId,
+            @Body EmergencyContactRequest request
+    );
+
+    @DELETE("emergency-contacts/{id}")
+    Call<ApiResponse<Void>> deleteEmergencyContact(
+            @Header("Authorization") String authHeader,
+            @Path("id") String contactId
     );
 }

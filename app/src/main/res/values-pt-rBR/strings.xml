@@ -373,6 +373,61 @@
     <string name="alert_emit_sound">Emitir Som de Alerta</string>
 
     <!-- ============================================================ -->
+    <!-- CONTATOS DE EMERGÊNCIA -->
+    <!-- ============================================================ -->
+    <string name="emergency_contacts_title">Contatos de Emergência</string>
+    <string name="emergency_contacts_subtitle">Gerencie seus contatos de emergência</string>
+    <string name="emergency_contacts_empty_title">Nenhum contato de emergência ainda</string>
+    <string name="emergency_contacts_empty_subtitle">Adicione pessoas que devem ser contatadas em caso de emergência</string>
+    <string name="emergency_contacts_add_first">Adicionar Primeiro Contato</string>
+    <string name="emergency_contact_add">Adicionar Contato de Emergência</string>
+    <string name="emergency_contact_edit">Editar Contato</string>
+    <string name="emergency_contact_delete">Excluir Contato</string>
+    <string name="emergency_contact_delete_confirm_title">Excluir contato?</string>
+    <string name="emergency_contact_delete_confirm_message">Tem certeza que deseja excluir este contato?</string>
+    <string name="emergency_contact_primary">Contato Principal</string>
+    <string name="emergency_contact_set_primary">Definir como Principal</string>
+    <string name="emergency_contact_call">Ligar</string>
+    <string name="emergency_contact_message">Mensagem</string>
+    <string name="emergency_contact_email_action">Email</string>
+    
+    <!-- Formulário de Contato -->
+    <string name="contact_form_name">Nome do Contato</string>
+    <string name="contact_form_relationship">Parentesco</string>
+    <string name="contact_form_phone">Número de Telefone</string>
+    <string name="contact_form_email">E-mail (opcional)</string>
+    <string name="contact_form_notes">Observações (opcional)</string>
+    <string name="contact_form_save">Salvar Contato</string>
+    <string name="contact_form_creating">Criando contato…</string>
+    <string name="contact_form_updating">Atualizando contato…</string>
+    
+    <!-- Mensagens de Contato -->
+    <string name="contact_created_success">Contato criado com sucesso!</string>
+    <string name="contact_updated_success">Contato atualizado com sucesso!</string>
+    <string name="contact_deleted_success">Contato excluído com sucesso!</string>
+    <string name="contact_create_error">Erro ao criar contato</string>
+    <string name="contact_update_error">Erro ao atualizar contato</string>
+    <string name="contact_delete_error">Erro ao excluir contato</string>
+    <string name="contact_load_error">Erro ao carregar contatos</string>
+    
+    <!-- Validação de Contato -->
+    <string name="error_contact_name_required">Nome do contato é obrigatório</string>
+    <string name="error_contact_relationship_required">Parentesco é obrigatório</string>
+    <string name="error_contact_phone_required">Número de telefone é obrigatório</string>
+    <string name="error_contact_phone_invalid">Número de telefone inválido</string>
+    <string name="error_contact_email_invalid">Endereço de e-mail inválido</string>
+    
+    <!-- Tipos de Parentesco -->
+    <string name="relationship_spouse">Cônjuge</string>
+    <string name="relationship_parent">Pai/Mãe</string>
+    <string name="relationship_child">Filho(a)</string>
+    <string name="relationship_sibling">Irmão/Irmã</string>
+    <string name="relationship_friend">Amigo(a)</string>
+    <string name="relationship_doctor">Médico(a)</string>
+    <string name="relationship_caregiver">Cuidador(a)</string>
+    <string name="relationship_other">Outro</string>
+
+    <!-- ============================================================ -->
     <!-- OUTRAS TELAS -->
     <!-- ============================================================ -->
     <string name="hydration">Hidratação</string>
