@@ -4,6 +4,7 @@ import static com.example.bemax.util.helper.StringHelper.getGreeting;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +18,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bemax.R;
-import com.example.bemax.adapter.LembreteAdapter;
-import com.example.bemax.model.domain.Lembrete;
+import com.example.bemax.adapter.ReminderAdapter;
+import com.example.bemax.model.domain.HealthProfile;
+import com.example.bemax.model.domain.Reminder;
+import com.example.bemax.model.domain.Stats;
 import com.example.bemax.model.domain.User;
+import com.example.bemax.model.dto.MeResponse;
 import com.example.bemax.ui.activity.ReminderFormActivity;
 import com.example.bemax.ui.activity.MainActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG = "HomeFragment";
+    
     // controles
     private TextView lblSaudacao = null;
     private TextView lblBatimento = null;
@@ -37,10 +44,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     MainActivity mainActivity = null;
     User currentUser = null;
+    private MeResponse meData;
 
-    public HomeFragment(MainActivity principal, User user) {
+    public HomeFragment(MainActivity principal, User user, MeResponse meData) {
         mainActivity = principal;
         currentUser = user;
+        this.meData = meData;
+    }
+
+    // Sobrecarga para manter compatibilidade
+    public HomeFragment(MainActivity principal, User user) {
+        this(principal, user, null);
     }
 
     @Nullable
@@ -68,8 +82,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
      public void carregaDados() {
-         //preenche campos da tela
-
          // Atualiza saudação com nome do usuário
          if (currentUser != null && currentUser.getFullName() != null) {
              String firstName = currentUser.getFullName().split(" ")[0];
@@ -80,6 +92,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
          //preenche a lista de lembretes
          preencheListaLembretes();
+
+         if (meData != null && meData.getStats() != null) {
+             atualizarStats(meData.getStats());
+         }
+
+         if (meData != null && meData.getHealthProfile() != null) {
+             atualizarDadosSaude(meData.getHealthProfile());
+         }
+
      }
 
     @Override
@@ -90,16 +111,57 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void preencheListaLembretes() {
-        ArrayList listaLembretes = null;
-        // obter as informacoes da api
+        List<Reminder> listaLembretes = new ArrayList<>();
+        
+        // Usar dados reais se disponíveis
+        if (meData != null && meData.getReminders() != null && !meData.getReminders().isEmpty()) {
+            listaLembretes.addAll(meData.getReminders());
+            Log.d(TAG, "Carregados " + listaLembretes.size() + " lembretes do backend");
+        } else {
+            Log.d(TAG, "Nenhum lembrete disponível do backend");
+        }
 
-        listaLembretes = new ArrayList<>();
-        listaLembretes.add(new Lembrete("Medicamento - Omeprazol", "Hoje às 14:00", 1));
-        listaLembretes.add(new Lembrete("Consulta - Cardiologista", "Amanhã às 09:30", 2));
-        listaLembretes.add(new Lembrete("Exame de Sangue", "Quarta às 08:00", 3));
-
-        LembreteAdapter adapter = new LembreteAdapter(listaLembretes);
+        ReminderAdapter adapter = new ReminderAdapter(listaLembretes, reminder -> {
+            // Click no lembrete - pode implementar depois para abrir detalhes
+            Log.d(TAG, "Lembrete clicado: " + reminder.getTitle());
+        });
+        
         rcvLembretes.setLayoutManager(new LinearLayoutManager(mainActivity));
         rcvLembretes.setAdapter(adapter);
+    }
+    // NOVO MÉTODO para atualizar stats
+    private void atualizarStats(Stats stats) {
+        // Exibir estatísticas de lembretes
+        Log.d(TAG, "Total de lembretes: " + stats.getTotalReminders());
+        Log.d(TAG, "Lembretes ativos: " + stats.getActiveReminders());
+        Log.d(TAG, "Lembretes de hoje: " + stats.getTodayReminders());
+        Log.d(TAG, "Lembretes próximos: " + stats.getUpcomingReminders());
+        
+        // TODO: Adicionar TextViews na UI para exibir essas stats
+        // Por enquanto apenas logando
+    }
+
+    // NOVO MÉTODO para atualizar dados de saúde
+    private void atualizarDadosSaude(HealthProfile healthProfile) {
+        // Atualizar os cards de saúde com dados reais
+        Log.d(TAG, "=== DADOS DE SAÚDE ===");
+        Log.d(TAG, "Tipo sanguíneo: " + healthProfile.getBloodType());
+        Log.d(TAG, "Peso: " + healthProfile.getWeight() + " kg");
+        Log.d(TAG, "Altura: " + healthProfile.getHeight() + " cm");
+        
+        if (healthProfile.getAllergies() != null && !healthProfile.getAllergies().isEmpty()) {
+            Log.d(TAG, "Alergias: " + String.join(", ", healthProfile.getAllergies()));
+        }
+        
+        if (healthProfile.getMedications() != null && !healthProfile.getMedications().isEmpty()) {
+            Log.d(TAG, "Medicações: " + String.join(", ", healthProfile.getMedications()));
+        }
+        
+        if (healthProfile.getNotes() != null && !healthProfile.getNotes().isEmpty()) {
+            Log.d(TAG, "Notas: " + healthProfile.getNotes());
+        }
+        
+        // TODO: Adicionar campos na UI para exibir esses dados
+        // Por enquanto apenas logando
     }
 }

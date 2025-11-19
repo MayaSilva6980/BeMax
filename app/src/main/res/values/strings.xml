@@ -75,6 +75,11 @@
     <!-- Messages -->
     <string name="msg_informacoes_salvas">Information saved successfully!</string>
     <string name="msg_preencha_campos">Please fill in all required fields.</string>
+    <string name="error_loading_user_data">Error loading user data</string>
+    <string name="loading_data">Loading data...</string>
+    <string name="no_reminders">No reminders yet</string>
+    <string name="reminders_today">Today: %d reminders</string>
+    <string name="total_reminders">Total: %d reminders</string>
 
     <!-- Authentication -->
     <string name="email">Email</string>

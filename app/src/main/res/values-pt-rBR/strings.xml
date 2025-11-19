@@ -75,6 +75,11 @@
     <!-- Mensagens -->
     <string name="msg_informacoes_salvas">Informações salvas com sucesso!</string>
     <string name="msg_preencha_campos">Por favor, preencha todos os campos obrigatórios.</string>
+    <string name="error_loading_user_data">Erro ao carregar dados do usuário</string>
+    <string name="loading_data">Carregando dados...</string>
+    <string name="no_reminders">Nenhum lembrete ainda</string>
+    <string name="reminders_today">Hoje: %d lembretes</string>
+    <string name="total_reminders">Total: %d lembretes</string>
 
     <!-- Autenticação -->
     <string name="email">E-mail</string>

@@ -5,20 +5,23 @@ import static com.example.bemax.util.helper.StringHelper.getGreeting;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.bemax.R;
+import com.example.bemax.model.dto.MeResponse;
+import com.example.bemax.repository.UserRepository;
 import com.example.bemax.ui.fragments.AlertFragment;
 import com.example.bemax.ui.fragments.ConfigFragment;
 import com.example.bemax.ui.fragments.HomeFragment;
@@ -33,6 +36,9 @@ public class MainActivity extends BaseActivity  implements NavigationView.OnNavi
     private SecureStorage secureStorage;
     private User currentUser;
     private String accessToken;
+    private UserRepository userRepository;
+    private MeResponse meData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +46,10 @@ public class MainActivity extends BaseActivity  implements NavigationView.OnNavi
         setContentView(R.layout.frm_principal2);
 
         secureStorage = new SecureStorage(this);
+        userRepository = new UserRepository();
 
         obtemParametros();
+        loadUserData();
         iniciaControles();
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
@@ -49,7 +57,7 @@ public class MainActivity extends BaseActivity  implements NavigationView.OnNavi
         // tela inicial
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new HomeFragment(this, currentUser))
+                    .replace(R.id.fragment_container, new HomeFragment(this, currentUser, meData))
                     .commit();
         }
 
@@ -130,12 +138,63 @@ public class MainActivity extends BaseActivity  implements NavigationView.OnNavi
 
     }
 
+    private void loadUserData() {
+        if (accessToken != null && !accessToken.isEmpty()) {
+            userRepository.getMe(accessToken, new UserRepository.MeCallback() {
+                @Override
+                public void onSuccess(MeResponse response) {
+                    meData = response;
+
+                    // Atualizar o currentUser com os dados mais recentes
+                    if (response.getUser() != null) {
+                        currentUser = response.getUser();
+
+                        // Salvar dados atualizados no storage
+                        Gson gson = new Gson();
+                        secureStorage.saveUserData(gson.toJson(currentUser));
+                    }
+
+                    // Atualizar a UI se necessário
+                    runOnUiThread(() -> {
+                        iniciaControles();
+                        updateActiveFragment();
+                    });
+
+                    Log.d("MainActivity", "Dados do usuário carregados com sucesso");
+                }
+
+                @Override
+                public void onError(String error) {
+                    Log.e("MainActivity", "Erro ao carregar dados: " + error);
+                    Toast.makeText(MainActivity.this,
+                            "Erro ao carregar dados do usuário",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void updateActiveFragment() {
+        Fragment currentFragment = getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_container);
+
+        if (currentFragment instanceof HomeFragment) {
+            // Recriar o HomeFragment com dados atualizados
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new HomeFragment(this, currentUser, meData))
+                    .commit();
+        }
+    }
+
+    public MeResponse getMeData() {
+        return meData;
+    }
+
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item)
-    {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment selectedFragment = null;
         if (item.getItemId() == R.id.nav_home) {
-            selectedFragment = new HomeFragment(this, currentUser);
+            selectedFragment = new HomeFragment(this, currentUser, meData);
         } else if (item.getItemId() == R.id.nav_sos) {
             selectedFragment = new AlertFragment(this);
         } else if (item.getItemId() == R.id.nav_settings) {

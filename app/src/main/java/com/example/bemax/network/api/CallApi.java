@@ -4,12 +4,14 @@ import com.example.bemax.model.dto.ApiResponse;
 import com.example.bemax.model.dto.FirebaseLoginRequest;
 import com.example.bemax.model.dto.LoginRequest;
 import com.example.bemax.model.dto.LoginResponse;
+import com.example.bemax.model.dto.MeResponse;
 import com.example.bemax.model.dto.RefreshTokenRequest;
 import com.example.bemax.model.dto.RegisterRequest;
 import com.example.bemax.model.dto.RegisterResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
@@ -23,7 +25,6 @@ public interface CallApi {
     @POST("auth/firebase/login")
     Call<LoginResponse> loginWithFirebase(@Body FirebaseLoginRequest request);
 
-
     @POST("auth/logout")
     Call<ApiResponse<Void>> logout(
             @Header("Authorization") String token,
@@ -35,4 +36,7 @@ public interface CallApi {
             @Header("Authorization") String authHeader,
             @Body RefreshTokenRequest request
     );
+
+    @GET("me")
+    Call<MeResponse> getMe(@Header("Authorization") String authHeader);
 }

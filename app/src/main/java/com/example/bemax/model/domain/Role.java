@@ -4,14 +4,22 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Role implements Serializable {
-    @SerializedName("id")
+    private static final long serialVersionUID = 1L;
+
+    @SerializedName("ID")
     private String id;
 
-    @SerializedName("name")
-    private String name; // "ADMIN", "USER", "MODERATOR", etc.
+    @SerializedName("Name")
+    private String name;
 
-    @SerializedName("description")
+    @SerializedName("Description")
     private String description;
+
+    @SerializedName("CreatedAt")
+    private String createdAt;
+
+    @SerializedName("UpdatedAt")
+    private String updatedAt;
 
     // Getters e Setters
     public String getId() {
@@ -36,5 +44,21 @@ public class Role implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
