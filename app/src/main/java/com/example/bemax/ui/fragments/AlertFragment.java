@@ -1,5 +1,7 @@
 package com.example.bemax.ui.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +33,8 @@ public class AlertFragment extends Fragment implements View.OnClickListener
     private Button btnSomAlerta;
 
     MainActivity mainActivity = null;
-
+    private
+    String telefoneParente = "11999998888";
     public AlertFragment(MainActivity principal)
     {
         mainActivity = principal;
@@ -48,8 +51,6 @@ public class AlertFragment extends Fragment implements View.OnClickListener
         return view;
     }
 
-
-
     public void iniciaControles(View view)
     {
         txtNomeUsuario = view.findViewById(R.id.txtNomeUsuario);
@@ -61,6 +62,7 @@ public class AlertFragment extends Fragment implements View.OnClickListener
         txtContatoEmergencia = view.findViewById(R.id.txtContatoEmergencia);
 
         btnLigarEmergencia = view.findViewById(R.id.btnLigarEmergencia);
+        btnLigarEmergencia.setOnClickListener(this);
 
         loadData();
     }
@@ -68,13 +70,17 @@ public class AlertFragment extends Fragment implements View.OnClickListener
     public void loadData()
     {
         //preenche campos da tela
-
     }
 
     @Override
     public void onClick(View view)
     {
-
+        if (view.getId() == R.id.btnLigarEmergencia)
+        {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + telefoneParente));
+            this.startActivity(intent);
+        }
     }
 
 }
