@@ -7,80 +7,219 @@
     android:id="@+id/root_layout"
     android:layout_height="match_parent">
 
-    <!-- Toolbar Customizada com Elevation -->
-    <com.google.android.material.card.MaterialCardView
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="@color/white">
+        android:background="@color/surface"
+        app:elevation="0dp">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingTop="12dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
             android:paddingBottom="12dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:minHeight="72dp">
+            android:background="@color/surface">
 
+            <!-- Container do Avatar com Status Badge -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/toolbar_profile_container"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/primary"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ImageView
+                    android:id="@+id/toolbar_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_profile"
+                    android:contentDescription="@string/profile_picture" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Badge de Status Online (opcional) -->
+            <View
+                android:id="@+id/status_badge"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/bg_status_badge"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@id/toolbar_profile_container"
+                app:layout_constraintBottom_toBottomOf="@id/toolbar_profile_container" />
+
+            <!-- Informações do Usuário -->
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/user_info_container"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:orientation="vertical"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toEndOf="@id/toolbar_profile_container"
+                app:layout_constraintEnd_toStartOf="@id/actions_container"
+                app:layout_constraintTop_toTopOf="@id/toolbar_profile_container"
+                app:layout_constraintBottom_toBottomOf="@id/toolbar_profile_container">
 
-                <!-- Conteúdo da Toolbar -->
-                <LinearLayout
-                    android:layout_width="0dp"
+                <!-- Saudação -->
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginEnd="16dp">
+                    android:text="Bom dia, Maria"
+                    android:textColor="@color/on_surface"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="-0.01"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
 
-                    <TextView
-                        android:id="@+id/toolbar_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bom dia"
-                        android:textColor="@color/bemax_black"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif-medium" />
+                <!-- Subtítulo com ícone -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="2dp">
 
                     <TextView
                         android:id="@+id/toolbar_subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="BeMax"
-                        android:textColor="@color/bemax_gray_dark"
-                        android:textSize="14sp"
-                        android:layout_marginTop="2dp" />
+                        android:text="@string/profile_complete_check"
+                        android:textColor="@color/on_surface_variant"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
                 </LinearLayout>
+            </LinearLayout>
 
-                <!-- Container do Avatar com círculo de fundo -->
-                <FrameLayout
-                    android:id="@+id/toolbar_profile_container"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_avatar_circle"
+            <!-- Ações da Toolbar -->
+            <LinearLayout
+                android:id="@+id/actions_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/toolbar_profile_container"
+                app:layout_constraintBottom_toBottomOf="@id/toolbar_profile_container">
+
+                <!-- Botão de Notificações -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btn_notifications"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/surface_container"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless">
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:layout_marginEnd="8dp">
 
-                    <ImageView
-                        android:id="@+id/toolbar_profile"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_profile"
-                        android:contentDescription="Profile" />
-                </FrameLayout>
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_notifications"
+                            app:tint="@color/on_surface_variant" />
+
+                        <!-- Badge de notificações não lidas -->
+                        <TextView
+                            android:id="@+id/notification_badge"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="end|top"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/bg_notification_badge"
+                            android:gravity="center"
+                            android:text="3"
+                            android:textColor="@color/on_error"
+                            android:textSize="9sp"
+                            android:textStyle="bold"
+                            android:visibility="visible" />
+
+                    </FrameLayout>
+                </com.google.android.material.card.MaterialCardView>
+
             </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Barra de Busca (opcional, pode ser exibida/oculta) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/search_bar_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/surface_container"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_medicamento"
+                    app:tint="@color/on_surface_variant"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/search_reminders"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_info"
+                    app:tint="@color/on_surface_variant" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Divider sutil -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/outline" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Onde os fragments vão aparecer -->
     <FrameLayout

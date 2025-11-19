@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +27,8 @@ import com.example.bemax.model.domain.User;
 import com.example.bemax.model.dto.MeResponse;
 import com.example.bemax.ui.activity.ReminderFormActivity;
 import com.example.bemax.ui.activity.MainActivity;
+import com.example.bemax.util.helper.ErrorHelper;
+import com.example.bemax.util.helper.NotificationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,16 +50,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     MainActivity mainActivity = null;
     User currentUser = null;
     private MeResponse meData;
+    private List<Reminder> reminders;
 
-    public HomeFragment(MainActivity principal, User user, MeResponse meData) {
+    public HomeFragment(MainActivity principal, User user, MeResponse meData, List<Reminder> reminders) {
         mainActivity = principal;
         currentUser = user;
         this.meData = meData;
+        this.reminders = reminders != null ? reminders : new ArrayList<>();
+    }
+
+    // Sobrecarga para manter compatibilidade
+    public HomeFragment(MainActivity principal, User user, MeResponse meData) {
+        this(principal, user, meData, null);
     }
 
     // Sobrecarga para manter compatibilidade
     public HomeFragment(MainActivity principal, User user) {
-        this(principal, user, null);
+        this(principal, user, null, null);
     }
 
     @Nullable
@@ -67,6 +77,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         iniciaControles(view);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Recarregar dados ao voltar para o fragment
+        Log.d(TAG, "onResume - Recarregando dados do usuário...");
+        if (mainActivity != null) {
+            mainActivity.reloadUserData();
+        }
     }
 
     public void iniciaControles(View view) {
@@ -110,18 +130,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     /**
      * Atualiza dados do fragment quando novos dados chegam do backend
      */
-    public void updateData(User user, MeResponse newMeData) {
+    public void updateData(User user, MeResponse newMeData, List<Reminder> newReminders) {
         if (user != null) {
             this.currentUser = user;
         }
         if (newMeData != null) {
             this.meData = newMeData;
         }
+        if (newReminders != null) {
+            this.reminders = newReminders;
+        }
         
         // Recarregar UI com novos dados
         if (getView() != null) {
             carregaDados();
-            Log.d(TAG, "✅ HomeFragment atualizado com novos dados");
+            Log.d(TAG, "HomeFragment atualizado com novos dados (" + (reminders != null ? reminders.size() : 0) + " lembretes)");
         }
     }
 
@@ -133,15 +156,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void preencheListaLembretes() {
-        List<Reminder> listaLembretes = new ArrayList<>();
+        // Usar dados dos lembretes vindos do endpoint /reminders
+        List<Reminder> listaLembretes = reminders != null ? new ArrayList<>(reminders) : new ArrayList<>();
         
-        // Usar dados reais se disponíveis
-        if (meData != null && meData.getReminders() != null && !meData.getReminders().isEmpty()) {
-            listaLembretes.addAll(meData.getReminders());
-            Log.d(TAG, "Carregados " + listaLembretes.size() + " lembretes do backend");
-        } else {
-            Log.d(TAG, "Nenhum lembrete disponível do backend");
-        }
+        Log.d(TAG, "📋 Carregando " + listaLembretes.size() + " lembretes do endpoint /reminders");
 
         // Verificar se há lembretes
         if (listaLembretes.isEmpty()) {
@@ -154,9 +172,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             rcvLembretes.setVisibility(View.VISIBLE);
             emptyStateReminders.setVisibility(View.GONE);
             
-            ReminderAdapter adapter = new ReminderAdapter(listaLembretes, reminder -> {
-                // Click no lembrete - pode implementar depois para abrir detalhes
-                Log.d(TAG, "Lembrete clicado: " + reminder.getTitle());
+            ReminderAdapter adapter = new ReminderAdapter(mainActivity, listaLembretes, new ReminderAdapter.OnReminderInteractionListener() {
+                @Override
+                public void onReminderClick(Reminder reminder) {
+                    // Click no card - pode abrir detalhes
+                    Log.d(TAG, "Lembrete clicado: " + reminder.getTitle());
+                }
+
+                @Override
+                public void onEditClick(Reminder reminder) {
+                    Log.d(TAG, "Editando lembrete: " + reminder.getTitle());
+                    openEditReminder(reminder);
+                }
+
+                @Override
+                public void onDeleteClick(Reminder reminder) {
+                    Log.d(TAG, "Solicitando exclusão de: " + reminder.getTitle());
+                    confirmDeleteReminder(reminder);
+                }
             });
             
             rcvLembretes.setLayoutManager(new LinearLayoutManager(mainActivity));
@@ -197,5 +230,69 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         
         // TODO: Adicionar campos na UI para exibir esses dados
         // Por enquanto apenas logando
+    }
+
+    /**
+     * Abre a activity de edição de lembrete
+     */
+    private void openEditReminder(Reminder reminder) {
+        Intent intent = new Intent(mainActivity, com.example.bemax.ui.activity.ReminderFormActivity.class);
+        intent.putExtra("MODE", "EDIT");
+        intent.putExtra("REMINDER", reminder);
+        startActivity(intent);
+    }
+
+    /**
+     * Mostra diálogo de confirmação para deletar lembrete
+     */
+    private void confirmDeleteReminder(Reminder reminder) {
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(mainActivity)
+                .setTitle(R.string.reminder_delete_confirm_title)
+                .setMessage(R.string.reminder_delete_confirm_message)
+                .setPositiveButton(R.string.reminder_delete_confirm_yes, (dialog, which) -> {
+                    deleteReminder(reminder);
+                })
+                .setNegativeButton(R.string.reminder_delete_confirm_no, null)
+                .show();
+    }
+
+    /**
+     * Deleta um lembrete do backend
+     */
+    private void deleteReminder(Reminder reminder) {
+        com.example.bemax.util.manager.TokenManager tokenManager = com.example.bemax.util.manager.TokenManager.getInstance(mainActivity);
+        com.example.bemax.repository.ReminderRepository reminderRepository = new com.example.bemax.repository.ReminderRepository();
+
+        tokenManager.getAccessToken(new com.example.bemax.util.manager.TokenManager.TokenCallback() {
+            @Override
+            public void onSuccess(String token) {
+                reminderRepository.deleteReminder(token, reminder.getId(), new com.example.bemax.repository.ReminderRepository.DeleteReminderCallback() {
+                    @Override
+                    public void onSuccess() {
+                        mainActivity.runOnUiThread(() -> {
+                            NotificationHelper.showSuccess(mainActivity, "Lembrete excluído com sucesso");
+                            // Recarregar dados
+                            if (mainActivity != null) {
+                                mainActivity.reloadUserData();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        mainActivity.runOnUiThread(() -> {
+                            NotificationHelper.showError(mainActivity, "Erro ao excluir lembrete: " + error);
+                        });
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                mainActivity.runOnUiThread(() -> {
+                    ErrorHelper.handleAuthError(getView());
+                });
+            }
+        });
     }
 }

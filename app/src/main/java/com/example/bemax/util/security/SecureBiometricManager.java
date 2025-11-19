@@ -24,24 +24,24 @@ import javax.crypto.spec.GCMParameterSpec;
 
 /**
  *  SecureBiometricManager - Biometria 100% Segura
- * 
+ *
  * Implementa autenticação biométrica usando:
  * 1. Android Keystore (chaves protegidas por hardware)
  * 2. BiometricPrompt com CryptoObject
  * 3. Criptografia AES-256-GCM
- * 
+ *
  * Padrão recomendado pelo Google:
  * https://developer.android.com/training/sign-in/biometric-auth
  */
 public class SecureBiometricManager {
     private static final String TAG = "SecureBiometricManager";
-    
+
     // Configurações do Keystore
     private static final String ANDROID_KEYSTORE = "AndroidKeyStore";
     private static final String KEY_ALIAS = "BeMaxBiometricKey";
     private static final String TRANSFORMATION = "AES/GCM/NoPadding";
     private static final int GCM_TAG_LENGTH = 128;
-    
+
     private final FragmentActivity activity;
     private final Context context;
     private BiometricPrompt biometricPrompt;
@@ -56,7 +56,7 @@ public class SecureBiometricManager {
      */
     public BiometricStatus checkBiometricAvailability() {
         BiometricManager biometricManager = BiometricManager.from(context);
-        
+
         // Requer BIOMETRIC_STRONG (impressão digital, face, íris)
         int canAuthenticate = biometricManager.canAuthenticate(
                 BiometricManager.Authenticators.BIOMETRIC_STRONG
@@ -66,23 +66,23 @@ public class SecureBiometricManager {
             case BiometricManager.BIOMETRIC_SUCCESS:
                 Log.d(TAG, "Biometria STRONG disponível");
                 return BiometricStatus.AVAILABLE;
-                
+
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
                 Log.e(TAG, "Sem hardware biométrico");
                 return BiometricStatus.NO_HARDWARE;
-                
+
             case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
                 Log.e(TAG, "Hardware biométrico indisponível");
                 return BiometricStatus.UNAVAILABLE;
-                
+
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
                 Log.e(TAG, "Nenhuma biometria cadastrada");
                 return BiometricStatus.NOT_ENROLLED;
-                
+
             case BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED:
                 Log.e(TAG, "Atualização de segurança necessária");
                 return BiometricStatus.SECURITY_UPDATE_REQUIRED;
-                
+
             default:
                 return BiometricStatus.UNKNOWN;
         }
@@ -105,7 +105,7 @@ public class SecureBiometricManager {
 
         // Criar nova chave
         KeyGenerator keyGenerator = KeyGenerator.getInstance(
-                KeyProperties.KEY_ALGORITHM_AES, 
+                KeyProperties.KEY_ALGORITHM_AES,
                 ANDROID_KEYSTORE
         );
 
@@ -125,7 +125,7 @@ public class SecureBiometricManager {
 
         keyGenerator.init(keySpec);
         SecretKey key = keyGenerator.generateKey();
-        
+
         Log.d(TAG, "Nova chave biométrica criada no Keystore com sucesso");
         return key;
     }
@@ -148,15 +148,15 @@ public class SecureBiometricManager {
                 public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                     try {
                         Cipher authenticatedCipher = result.getCryptoObject().getCipher();
-                        
+
                         // Criptografar dados
                         byte[] encryptedBytes = authenticatedCipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
                         byte[] iv = authenticatedCipher.getIV();
 
                         // Combinar IV + dados criptografados
-                        String encryptedData = Base64.encodeToString(iv, Base64.NO_WRAP) + 
-                                               ":" + 
-                                               Base64.encodeToString(encryptedBytes, Base64.NO_WRAP);
+                        String encryptedData = Base64.encodeToString(iv, Base64.NO_WRAP) +
+                                ":" +
+                                Base64.encodeToString(encryptedBytes, Base64.NO_WRAP);
 
                         Log.d(TAG, "Dados criptografados com biometria");
                         callback.onEncryptSuccess(encryptedData);
@@ -214,7 +214,7 @@ public class SecureBiometricManager {
                 public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                     try {
                         Cipher authenticatedCipher = result.getCryptoObject().getCipher();
-                        
+
                         // Descriptografar dados
                         byte[] decryptedBytes = authenticatedCipher.doFinal(encryptedBytes);
                         String decryptedData = new String(decryptedBytes, StandardCharsets.UTF_8);
@@ -231,9 +231,9 @@ public class SecureBiometricManager {
                 @Override
                 public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                     Log.e(TAG, "Erro na autenticação: " + errorCode);
-                    
+
                     if (errorCode == BiometricPrompt.ERROR_USER_CANCELED ||
-                        errorCode == BiometricPrompt.ERROR_CANCELED) {
+                            errorCode == BiometricPrompt.ERROR_CANCELED) {
                         callback.onCancel();
                     } else {
                         callback.onError(errString.toString());
@@ -256,9 +256,9 @@ public class SecureBiometricManager {
     /**
      * Autentica usando biometria com CryptoObject
      */
-    private void authenticate(BiometricPrompt.CryptoObject cryptoObject, 
-                             BiometricPrompt.AuthenticationCallback authCallback) {
-        
+    private void authenticate(BiometricPrompt.CryptoObject cryptoObject,
+                              BiometricPrompt.AuthenticationCallback authCallback) {
+
         biometricPrompt = new BiometricPrompt(activity,
                 ContextCompat.getMainExecutor(context),
                 authCallback);

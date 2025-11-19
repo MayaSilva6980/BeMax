@@ -47,27 +47,34 @@
     <color name="outline_variant">#CECECE</color>           <!-- Borda variante -->
 
     <!-- ERROR COLORS - Estados de erro -->
-    <color name="error">#C80605</color>                     <!-- Vermelho de erro -->
-    <color name="error_container">#FFDAD6</color>           <!-- Container de erro -->
+    <color name="error">#F23D4F</color>                     <!-- Vermelho de erro -->
+    <color name="error_container">#FFECEE</color>           <!-- Container de erro -->
     <color name="on_error">#FFFFFF</color>                  <!-- Texto sobre erro -->
-    <color name="on_error_container">#410002</color>        <!-- Texto sobre container de erro -->
+    <color name="on_error_container">#8B1A26</color>        <!-- Texto sobre container de erro -->
 
     <!-- SUCCESS COLORS - Estados de sucesso -->
-    <color name="success">#00B759</color>                   <!-- Verde de sucesso -->
-    <color name="success_container">#C8F5DC</color>         <!-- Container de sucesso -->
+    <color name="success">#00A650</color>                   <!-- Verde de sucesso -->
+    <color name="success_container">#E7F6EC</color>         <!-- Container de sucesso -->
     <color name="on_success">#FFFFFF</color>                <!-- Texto sobre sucesso -->
-    <color name="on_success_container">#002114</color>      <!-- Texto sobre container de sucesso -->
+    <color name="on_success_container">#004D25</color>      <!-- Texto sobre container de sucesso -->
 
     <!-- WARNING COLORS - Estados de alerta -->
-    <color name="warning">#FFB300</color>                   <!-- Amarelo de alerta -->
-    <color name="warning_container">#FFEFC6</color>         <!-- Container de alerta -->
-    <color name="on_warning">#2B2109</color>                <!-- Texto sobre alerta -->
-    <color name="on_warning_container">#271900</color>      <!-- Texto sobre container de alerta -->
+    <color name="warning">#F7D358</color>                   <!-- Amarelo de alerta -->
+    <color name="warning_container">#FFF9E6</color>         <!-- Container de alerta -->
+    <color name="on_warning">#3F3F3F</color>                <!-- Texto sobre alerta -->
+    <color name="on_warning_container">#6B5600</color>      <!-- Texto sobre container de alerta -->
 
     <!-- INFO COLORS - Estados informativos -->
-    <color name="info">#0288D1</color>                      <!-- Azul informativo -->
-    <color name="info_container">#B3E5FC</color>            <!-- Container informativo -->
+    <color name="info">#009EE3</color>                      <!-- Azul informativo -->
+    <color name="info_container">#E6F7FF</color>            <!-- Container informativo -->
     <color name="on_info">#FFFFFF</color>                   <!-- Texto sobre info -->
+    <color name="on_info_container">#004A70</color>         <!-- Texto sobre container de info -->
+
+    <!-- STATUS COLORS - Aliases para Snackbar -->
+    <color name="status_success">@color/success</color>
+    <color name="status_error">@color/error</color>
+    <color name="status_warning">@color/warning</color>
+    <color name="status_info">@color/info</color>
 
     <!-- NEUTRAL COLORS - Escala de cinzas -->
     <color name="neutral_0">#FFFFFF</color>                 <!-- Branco puro -->

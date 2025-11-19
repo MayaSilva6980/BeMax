@@ -9,12 +9,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.bemax.R;
 import com.example.bemax.model.dto.LoginResponse;
 import com.example.bemax.repository.AuthRepository;
 import com.example.bemax.ui.base.BaseActivity;
+import com.example.bemax.util.helper.ErrorHelper;
+import com.example.bemax.util.helper.NotificationHelper;
+import com.example.bemax.util.manager.TokenManager;
 import com.example.bemax.util.security.SecureBiometricManager;
 import com.example.bemax.util.storage.SecureStorage;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -49,6 +51,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     // Segurança com Biometria
     private SecureBiometricManager biometricManager;
     private SecureStorage secureStorage;
+    private TokenManager tokenManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         secureStorage = new SecureStorage(this);
         secureStorage.setBiometricManager(this); // Configurar biometria
         biometricManager = new SecureBiometricManager(this);
+        tokenManager = TokenManager.getInstance(this);
+        tokenManager.setBiometricManager(this);
         
         iniciaControles();
         
@@ -121,9 +126,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             if (savedEmail != null) {
                 editTextEmail.setText(savedEmail);
 
-                Toast.makeText(this,
-                        R.string.auth_biometric_quick_login,
-                        Toast.LENGTH_LONG).show();
+                NotificationHelper.showInfo(
+                    this,
+                    getString(R.string.auth_biometric_quick_login)
+                );
                 
                 editTextEmail.postDelayed(this::authenticateWithBiometric, 500);
             }
@@ -141,9 +147,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onTokenRetrieved(String token) {
                 runOnUiThread(() -> {
-                    Toast.makeText(LoginActivity.this,
-                            R.string.biometric_success,
-                            Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showSuccess(
+                        LoginActivity.this,
+                        getString(R.string.biometric_success)
+                    );
 
                     // Verificar se token expirou ou está expirando
                     if (secureStorage.isTokenExpired() || secureStorage.isTokenExpiringSoon()) {
@@ -166,7 +173,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         // Usuário cancelou
                         editTextSenha.requestFocus();
                     } else {
-                        Toast.makeText(LoginActivity.this, error, Toast.LENGTH_SHORT).show();
+                        ErrorHelper.handleBiometricError(
+                            findViewById(android.R.id.content),
+                            error
+                        );
                     }
                 });
             }
@@ -201,9 +211,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 runOnUiThread(() -> {
                                     progressBar.setVisibility(View.GONE);
                                     secureStorage.clearTokens();
-                                    Toast.makeText(LoginActivity.this,
-                                            "Sessão expirada. Faça login novamente.",
-                                            Toast.LENGTH_LONG).show();
+                                    ErrorHelper.handleAuthError(findViewById(android.R.id.content));
                                 });
                             }
                         });
@@ -213,7 +221,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     public void onError(String error) {
                         runOnUiThread(() -> {
                             progressBar.setVisibility(View.GONE);
-                            Toast.makeText(LoginActivity.this, error, Toast.LENGTH_SHORT).show();
+                            ErrorHelper.handleGenericError(findViewById(android.R.id.content), error);
                         });
                     }
                 });
@@ -224,9 +232,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 runOnUiThread(() -> {
                     progressBar.setVisibility(View.GONE);
                     secureStorage.clearTokens();
-                    Toast.makeText(LoginActivity.this,
-                            "Sessão expirada. Faça login novamente.",
-                            Toast.LENGTH_LONG).show();
+                    ErrorHelper.handleAuthError(findViewById(android.R.id.content));
                 });
             }
         });
@@ -262,9 +268,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onSuccess(LoginResponse response) {
                 runOnUiThread(() -> {
-                    Toast.makeText(LoginActivity.this,
-                            R.string.auth_login_success,
-                            Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showSuccess(
+                        LoginActivity.this,
+                        getString(R.string.auth_login_success)
+                    );
 
                     Log.d(TAG, "Login realizado com sucesso!");
 
@@ -297,9 +304,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     btnContinue.setText(R.string.auth_continue);
                     progressBar.setVisibility(View.GONE);
 
-                    Toast.makeText(LoginActivity.this,
-                            getString(R.string.auth_login_error, error),
-                            Toast.LENGTH_LONG).show();
+                    ErrorHelper.handleLoginError(findViewById(android.R.id.content), error);
 
                     Log.e(TAG, "Erro no login: " + error);
                 });
@@ -311,16 +316,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      * Salva tokens com ou sem biometria
      */
     private void saveTokensWithBiometric(LoginResponse response, Runnable onComplete) {
-        Log.d(TAG, "Salvando AMBOS os tokens com UMA ÚNICA biometria...");
+        Log.d(TAG, "Salvando tokens no TokenManager...");
         
-        // NOVO: Usa saveTokens() que solicita biometria apenas 1x
-        secureStorage.saveTokens(
+        // Usar TokenManager ao invés de SecureStorage diretamente
+        tokenManager.saveTokens(
             response.getAccessToken(),
             response.getRefreshToken(),
-            new SecureStorage.TokenCallback() {
+            new TokenManager.TokenCallback() {
                 @Override
-                public void onSuccess() {
-                    Log.d(TAG, "Ambos os tokens salvos com sucesso!");
+                public void onSuccess(String token) {
+                    Log.d(TAG, "Tokens salvos com sucesso no TokenManager!");
                     runOnUiThread(() -> {
                         onComplete.run();
                     });
@@ -330,9 +335,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 public void onError(String error) {
                     Log.e(TAG, "Erro ao salvar tokens: " + error);
                     runOnUiThread(() -> {
-                        Toast.makeText(LoginActivity.this, 
-                            "Erro ao salvar sessão: " + error, 
-                            Toast.LENGTH_LONG).show();
+                        ErrorHelper.handleSaveTokenError(
+                            findViewById(android.R.id.content),
+                            error
+                        );
                         
                         // Re-habilitar botões para tentar novamente
                         btnContinue.setEnabled(true);
@@ -358,7 +364,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     saveTokensWithBiometric(response, () -> {
                         runOnUiThread(() -> {
                             Log.d(TAG, "Tokens re-criptografados com sucesso");
-                            Toast.makeText(this, R.string.auth_biometric_activated, Toast.LENGTH_SHORT).show();
+                            NotificationHelper.showSuccess(
+                                LoginActivity.this,
+                                getString(R.string.auth_biometric_activated)
+                            );
                             goToPrincipal();
                         });
                     });
@@ -402,7 +411,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 firebaseAuthWithGoogle(account.getIdToken());
             }
             catch (ApiException e) {
-                Toast.makeText(this, getString(R.string.auth_google_signin_failed, e.getMessage()), Toast.LENGTH_SHORT).show();
+                ErrorHelper.handleGoogleSignInError(
+                    findViewById(android.R.id.content),
+                    e.getStatusCode()
+                );
                 Log.e(TAG, "Erro no Google SignIn", e);
             }
         }
@@ -424,14 +436,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     } else {
                         progressBar.setVisibility(View.GONE);
                         btnGoogle.setEnabled(true);
-                        Toast.makeText(this, R.string.auth_firebase_token_error, Toast.LENGTH_SHORT).show();
+                        ErrorHelper.handleFirebaseTokenError(findViewById(android.R.id.content));
                         Log.e(TAG, "Erro ao obter Firebase token", tokenTask.getException());
                     }
                 });
             } else {
                 progressBar.setVisibility(View.GONE);
                 btnGoogle.setEnabled(true);
-                Toast.makeText(this, R.string.auth_firebase_auth_error, Toast.LENGTH_SHORT).show();
+                ErrorHelper.handleFirebaseAuthError(findViewById(android.R.id.content));
                 Log.e(TAG, "Erro no Firebase Auth", task.getException());
             }
         });
@@ -442,9 +454,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onSuccess(LoginResponse response) {
                 runOnUiThread(() -> {
-                    Toast.makeText(LoginActivity.this,
-                            R.string.auth_google_login_success,
-                            Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showSuccess(
+                        LoginActivity.this,
+                        getString(R.string.auth_google_login_success)
+                    );
 
                     Log.d(TAG, "Backend login successful");
 
@@ -480,9 +493,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     btnGoogle.setEnabled(true);
 
                     if (error.contains("404") || error.contains("not registered")) {
-                        Toast.makeText(LoginActivity.this,
-                                R.string.auth_complete_registration,
-                                Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showInfo(
+                            LoginActivity.this,
+                            getString(R.string.auth_complete_registration)
+                        );
 
                         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                         intent.putExtra("nome", firebaseUser.getDisplayName());
@@ -491,9 +505,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(LoginActivity.this,
-                                getString(R.string.auth_login_error, error),
-                                Toast.LENGTH_LONG).show();
+                        ErrorHelper.handleLoginError(findViewById(android.R.id.content), error);
 
                         Log.e(TAG, "Erro no login com Firebase: " + error);
                     }

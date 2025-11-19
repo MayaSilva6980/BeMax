@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +26,9 @@ import com.example.bemax.ui.activity.MedicalInfoActivity;
 import com.example.bemax.ui.activity.PersonalInfoActivity;
 import com.example.bemax.ui.activity.LoginActivity;
 import com.example.bemax.ui.activity.MainActivity;
+import com.example.bemax.util.helper.ErrorHelper;
+import com.example.bemax.util.helper.NotificationHelper;
+import com.example.bemax.util.manager.TokenManager;
 import com.example.bemax.util.storage.SecureStorage;
 import com.example.bemax.util.helper.StringHelper;
 import com.google.android.material.button.MaterialButton;
@@ -64,6 +66,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 
     private AuthRepository authRepository;
     private SecureStorage secureStorage;
+    private TokenManager tokenManager;
     private MainActivity mainActivity;
     private User currentUser;
 
@@ -82,6 +85,8 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
         authRepository = new AuthRepository();
         secureStorage = new SecureStorage(requireContext());
         secureStorage.setBiometricManager(mainActivity);
+        tokenManager = TokenManager.getInstance(requireContext());
+        tokenManager.setBiometricManager(mainActivity);
 
         iniciaControles(view);
         loadUserData();
@@ -207,19 +212,19 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
         }
         else if (id == R.id.btnNotifications) {
             // TODO: Implementar tela de notificações
-            Toast.makeText(mainActivity, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
+            NotificationHelper.showInfo(mainActivity, "Em desenvolvimento");
         }
         else if (id == R.id.btnPrivacy) {
             // TODO: Implementar tela de privacidade
-            Toast.makeText(mainActivity, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
+            NotificationHelper.showInfo(mainActivity, "Em desenvolvimento");
         }
         else if (id == R.id.btnTerms) {
             // TODO: Abrir termos e políticas (WebView ou Intent)
-            Toast.makeText(mainActivity, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
+            NotificationHelper.showInfo(mainActivity, "Em desenvolvimento");
         }
         else if (id == R.id.btnHelp) {
             // TODO: Abrir ajuda/FAQ
-            Toast.makeText(mainActivity, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
+            NotificationHelper.showInfo(mainActivity, "Em desenvolvimento");
         }
         else if (id == R.id.btnLogout) {
             showLogoutConfirmation();
@@ -241,27 +246,27 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
         // Mostrar loading
         if (getActivity() != null) {
             getActivity().runOnUiThread(() -> {
-                Toast.makeText(mainActivity, R.string.logout_in_progress, Toast.LENGTH_SHORT).show();
+                NotificationHelper.showInfo(mainActivity, getString(R.string.logout_in_progress));
             });
         }
 
-        // Recuperar access token PRIMEIRO (vai solicitar biometria UMA VEZ e cachear)
-        secureStorage.getAccessToken(new SecureStorage.TokenCallback() {
+        // TokenManager tem tokens em memória, recupera SEM biometria!
+        tokenManager.getAccessToken(new TokenManager.TokenCallback() {
             @Override
-            public void onTokenRetrieved(String accessToken) {
-                // Token recuperado E CACHEADO (se foi descriptografado)
-                // Agora buscar refresh token (deve vir do cache)
-                secureStorage.getRefreshToken(new SecureStorage.TokenCallback() {
+            public void onSuccess(String accessToken) {
+                Log.d("ConfigFragment", "Access token recuperado da memória");
+                
+                // Agora buscar refresh token (também da memória!)
+                tokenManager.getRefreshToken(new TokenManager.TokenCallback() {
                     @Override
-                    public void onTokenRetrieved(String refreshToken) {
-                        // Ambos tokens recuperados, fazer logout no backend com retry
-                        Log.d("ConfigFragment", "Tokens recuperados: Access=" + (accessToken != null) + ", Refresh=" + (refreshToken != null));
+                    public void onSuccess(String refreshToken) {
+                        Log.d("ConfigFragment", "Refresh token recuperado da memória");
+                        Log.d("ConfigFragment", "Tokens recuperados SEM biometria: Access=true, Refresh=true");
                         performLogoutWithRetry(accessToken, refreshToken, 0);
                     }
 
                     @Override
                     public void onError(String error) {
-                        // Erro ao recuperar refresh token
                         Log.w("ConfigFragment", "Erro ao recuperar refresh token: " + error);
                         handleLogoutTokenError("refresh token");
                     }
@@ -270,7 +275,6 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onError(String error) {
-                // Erro ao recuperar access token
                 Log.w("ConfigFragment", "Erro ao recuperar access token: " + error);
                 handleLogoutTokenError("access token");
             }
@@ -296,7 +300,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
                 
                 if (getActivity() != null) {
                     getActivity().runOnUiThread(() -> {
-                        Toast.makeText(mainActivity, R.string.logout_success, Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showSuccess(mainActivity, getString(R.string.logout_success));
                         completeLogout();
                     });
                 }
@@ -312,9 +316,8 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
                     
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
-                            Toast.makeText(mainActivity, 
-                                "Tentando novamente... (" + (attemptNumber + 2) + "/" + MAX_RETRIES + ")", 
-                                Toast.LENGTH_SHORT).show();
+                            NotificationHelper.showWarning(mainActivity, 
+                                "Tentando novamente... (" + (attemptNumber + 2) + "/" + MAX_RETRIES + ")");
                         });
                         
                         // Retry após delay
@@ -379,14 +382,13 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
         if (getActivity() == null) return;
 
         getActivity().runOnUiThread(() -> {
-            secureStorage.clearTokens();
+            // Limpar tokens do TokenManager (memória + storage)
+            tokenManager.clearTokens();
             FirebaseAuth.getInstance().signOut();
 
             Intent intent = new Intent(mainActivity, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-
-            Toast.makeText(mainActivity, R.string.logout_success, Toast.LENGTH_SHORT).show();
 
             if (mainActivity != null) {
                 mainActivity.finish();

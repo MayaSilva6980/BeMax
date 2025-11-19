@@ -21,26 +21,36 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.bemax.R;
+import com.example.bemax.model.domain.Reminder;
 import com.example.bemax.model.dto.MeResponse;
+import com.example.bemax.repository.ReminderRepository;
 import com.example.bemax.repository.UserRepository;
 import com.example.bemax.ui.fragments.AlertFragment;
 import com.example.bemax.ui.fragments.ConfigFragment;
 import com.example.bemax.ui.fragments.HomeFragment;
 import com.example.bemax.model.domain.User;
 import com.example.bemax.ui.base.BaseActivity;
+import com.example.bemax.util.helper.ErrorHelper;
+import com.example.bemax.util.manager.TokenManager;
 import com.example.bemax.util.storage.SecureStorage;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MainActivity";
 
     private SecureStorage secureStorage;
+    private TokenManager tokenManager;
     private User currentUser;
     private String accessToken;
     private UserRepository userRepository;
+    private ReminderRepository reminderRepository;
     private MeResponse meData;
+    private List<Reminder> reminders;
     private ProgressBar loadingIndicator;
 
     @Override
@@ -52,7 +62,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         
         secureStorage = new SecureStorage(this);
         secureStorage.setBiometricManager(this); // Configurar biometria
+        tokenManager = TokenManager.getInstance(this);
+        tokenManager.setBiometricManager(this);
         userRepository = new UserRepository();
+        reminderRepository = new ReminderRepository();
 
         // SEMPRE inicializar BottomNavigation primeiro
         setupBottomNavigation();
@@ -61,7 +74,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         boolean skipBiometric = getIntent().getBooleanExtra("SKIP_BIOMETRIC", false);
         
         if (skipBiometric) {
-            Log.d(TAG, "✅ Login recente - pulando biometria");
+            Log.d(TAG, "Login recente - pulando biometria");
             
             // Tentar carregar do cache primeiro (instantâneo)
             loadUserDataFromCache();
@@ -69,7 +82,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // Obter token SEM pedir biometria (acabou de salvar)
             obtainTokenWithoutBiometric();
         } else {
-            Log.d(TAG, "🔐 Reabertura do app - pode requerer biometria");
+            Log.d(TAG, "Reabertura do app - pode requerer biometria");
             
             // Tentar carregar do cache primeiro (instantâneo)
             loadUserDataFromCache();
@@ -97,12 +110,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 
                 Log.d(TAG, "Dados do cache carregados: " + currentUser.getFullName());
                 
+                // Inicializar lista vazia (será carregada do backend)
+                reminders = new ArrayList<>();
+                
                 // Inicializar UI com dados do cache
                 iniciaControles();
                 
                 // Carregar HomeFragment com dados do cache
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new HomeFragment(this, currentUser, meData))
+                        .replace(R.id.fragment_container, new HomeFragment(this, currentUser, meData, reminders))
                         .commit();
                         
             } catch (Exception e) {
@@ -119,55 +135,27 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void obtainTokenAndLoadData() {
         showLoading(true);
         
-        if (secureStorage.isBiometricEnabled()) {
-            // Requer biometria para acessar token
-            Log.d(TAG, "Biometria ativada, solicitando autenticação...");
-            
-            secureStorage.getAccessToken(new SecureStorage.TokenCallback() {
-                @Override
-                public void onTokenRetrieved(String token) {
-                    runOnUiThread(() -> {
-                        accessToken = token;
-                        Log.d(TAG, "Token recuperado com biometria com sucesso");
-                        loadUserDataFromBackend();
-                    });
-                }
-
-                @Override
-                public void onError(String error) {
-                    runOnUiThread(() -> {
-                        showLoading(false);
-                        Log.e(TAG, "Erro ao recuperar token: " + error);
-                        Toast.makeText(MainActivity.this, error, Toast.LENGTH_SHORT).show();
-                        redirectToLogin();
-                    });
-                }
-            });
-        } else {
-            // Sem biometria, busca token diretamente
-            secureStorage.getAccessToken(new SecureStorage.TokenCallback() {
-                @Override
-                public void onTokenRetrieved(String token) {
+        // TokenManager gerencia biometria automaticamente
+        tokenManager.getAccessToken(new TokenManager.TokenCallback() {
+            @Override
+            public void onSuccess(String token) {
+                runOnUiThread(() -> {
                     accessToken = token;
-                    
-                    if (accessToken == null || accessToken.isEmpty()) {
-                        Log.w(TAG, "Token não disponível");
-                        showLoading(false);
-                        redirectToLogin();
-                        return;
-                    }
-                    
+                    Log.d(TAG, "Token recuperado do TokenManager");
                     loadUserDataFromBackend();
-                }
+                });
+            }
 
-                @Override
-                public void onError(String error) {
+            @Override
+            public void onError(String error) {
+                runOnUiThread(() -> {
                     showLoading(false);
-                    Log.e(TAG, "Erro ao obter token: " + error);
+                    Log.e(TAG, "Erro ao recuperar token: " + error);
+                    ErrorHelper.handleAuthError(findViewById(android.R.id.content));
                     redirectToLogin();
-                }
-            });
-        }
+                });
+            }
+        });
     }
 
     /**
@@ -176,10 +164,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void obtainTokenWithoutBiometric() {
         showLoading(true);
         
-        // Busca token diretamente (SEM biometria, mesmo se estiver ativada)
-        secureStorage.getAccessToken(true, new SecureStorage.TokenCallback() {
+        // TokenManager retorna do cache/memória se disponível
+        tokenManager.getAccessTokenWithoutBiometric(new TokenManager.TokenCallback() {
             @Override
-            public void onTokenRetrieved(String token) {
+            public void onSuccess(String token) {
                 accessToken = token;
                 
                 if (accessToken == null || accessToken.isEmpty()) {
@@ -189,7 +177,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     return;
                 }
                 
-                Log.d(TAG, "✅ Token obtido sem biometria (login recente)");
+                Log.d(TAG, "Token obtido sem biometria (login recente)");
                 loadUserDataFromBackend();
             }
 
@@ -220,13 +208,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void iniciaControles() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
         TextView toolbarSubtitle = findViewById(R.id.toolbar_subtitle);
         ImageView toolbarProfile = findViewById(R.id.toolbar_profile);
         View toolbarProfileContainer = findViewById(R.id.toolbar_profile_container);
-
-        setSupportActionBar(toolbar);
+        View btnNotifications = findViewById(R.id.btn_notifications);
+        TextView notificationBadge = findViewById(R.id.notification_badge);
+        View statusBadge = findViewById(R.id.status_badge);
 
         // Configura o cabeçalho com dados do usuário
         if (currentUser != null) {
@@ -234,9 +222,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             toolbarTitle.setText(getGreeting(this) + ", " + firstName);
 
             if (currentUser.isProfileCompleted()) {
-                toolbarSubtitle.setText(R.string.profile_complete_check);
+                toolbarSubtitle.setText(R.string.profile_complete);
+                // Mostrar badge de status online
+                if (statusBadge != null) {
+                    statusBadge.setVisibility(View.VISIBLE);
+                }
             } else {
                 toolbarSubtitle.setText(R.string.profile_incomplete);
+                if (statusBadge != null) {
+                    statusBadge.setVisibility(View.GONE);
+                }
             }
             
             // Carregar foto do usuário se existir
@@ -251,17 +246,49 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else {
             toolbarTitle.setText(getGreeting(this));
             toolbarSubtitle.setText(R.string.profile_toolbar_title);
+            if (statusBadge != null) {
+                statusBadge.setVisibility(View.GONE);
+            }
         }
 
-        toolbarProfileContainer.setOnClickListener(v -> {
-            // Navegar para tela de perfil/configurações
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new ConfigFragment(this))
-                    .commit();
+        // Click listeners
+        if (toolbarProfileContainer != null) {
+            toolbarProfileContainer.setOnClickListener(v -> {
+                // Navegar para tela de perfil/configurações
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new ConfigFragment(this))
+                        .commit();
 
-            BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-            bottomNav.setSelectedItemId(R.id.nav_settings);
-        });
+                BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+                bottomNav.setSelectedItemId(R.id.nav_settings);
+            });
+        }
+
+        // Botão de notificações
+        if (btnNotifications != null) {
+            btnNotifications.setOnClickListener(v -> {
+                // TODO: Implementar tela de notificações
+                Toast.makeText(this, "Notificações em desenvolvimento", Toast.LENGTH_SHORT).show();
+                
+                // Limpar badge ao abrir notificações
+                if (notificationBadge != null) {
+                    notificationBadge.setVisibility(View.GONE);
+                }
+            });
+        }
+
+        // TODO: Atualizar badge de notificações dinamicamente
+        // Exemplo: definir número de notificações não lidas
+        if (notificationBadge != null) {
+            // Se houver notificações não lidas, mostrar badge
+            int unreadCount = 300; // Buscar do backend
+            if (unreadCount > 0) {
+                notificationBadge.setText(String.valueOf(unreadCount));
+                notificationBadge.setVisibility(View.VISIBLE);
+            } else {
+                notificationBadge.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -279,7 +306,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 @Override
                 public void onSuccess(MeResponse response) {
                     runOnUiThread(() -> {
-                        showLoading(false);
                         meData = response;
 
                         // Atualizar o currentUser com os dados mais recentes
@@ -306,17 +332,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                 }
                             });
                             
-                            Log.d(TAG, "Dados do backend carregados com sucesso");
+                            Log.d(TAG, "✅ Dados do /me carregados com sucesso");
                             Log.d(TAG, "  Nome: " + currentUser.getFullName());
                             Log.d(TAG, "  Email: " + currentUser.getEmail());
-                            if (meData.getReminders() != null) {
-                                Log.d(TAG, "  Lembretes: " + meData.getReminders().size());
-                            }
                         }
 
                         // Atualizar a UI
                         iniciaControles();
-                        updateActiveFragment();
+                        
+                        // Agora buscar lembretes separadamente do endpoint /reminders
+                        loadReminders();
                     });
                 }
 
@@ -329,14 +354,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         // Se já tem dados do cache, continuar usando
                         if (currentUser != null) {
                             Log.d(TAG, "Continuando com dados do cache");
-                            Toast.makeText(MainActivity.this,
-                                getString(R.string.error_loading_user_data) + " (usando cache)", 
-                                Toast.LENGTH_SHORT).show();
+                            ErrorHelper.handleGenericError(
+                                findViewById(android.R.id.content),
+                                getString(R.string.error_loading_user_data) + " (usando cache)"
+                            );
+                            // Tentar carregar lembretes mesmo assim
+                            loadReminders();
                         } else {
                             // Sem cache, mostrar erro
-                            Toast.makeText(MainActivity.this,
-                                getString(R.string.error_loading_user_data), 
-                                Toast.LENGTH_SHORT).show();
+                            ErrorHelper.handleConnectionError(findViewById(android.R.id.content));
                         }
                     });
                 }
@@ -345,6 +371,80 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             showLoading(false);
             Log.w(TAG, "AccessToken não disponível, redirecionando para login");
             redirectToLogin();
+        }
+    }
+
+    /**
+     * Busca lembretes do endpoint /reminders
+     */
+    private void loadReminders() {
+        if (accessToken != null && !accessToken.isEmpty()) {
+            Log.d(TAG, "📋 Buscando lembretes do endpoint /reminders...");
+            
+            reminderRepository.getReminders(accessToken, new ReminderRepository.GetRemindersCallback() {
+                @Override
+                public void onSuccess(List<Reminder> loadedReminders) {
+                    runOnUiThread(() -> {
+                        showLoading(false);
+                        reminders = loadedReminders != null ? loadedReminders : new ArrayList<>();
+                        
+                        Log.d(TAG, "✅ Lembretes carregados: " + reminders.size());
+                        
+                        // Atualizar fragment com os lembretes
+                        updateActiveFragment();
+                    });
+                }
+
+                @Override
+                public void onError(String error) {
+                    runOnUiThread(() -> {
+                        showLoading(false);
+                        Log.e(TAG, "❌ Erro ao carregar lembretes: " + error);
+                        
+                        // Inicializar lista vazia
+                        reminders = new ArrayList<>();
+                        
+                        // Atualizar fragment mesmo sem lembretes (mostrará empty state)
+                        updateActiveFragment();
+                        
+                        ErrorHelper.handleGenericError(
+                            findViewById(android.R.id.content),
+                            "Erro ao carregar lembretes: " + error
+                        );
+                    });
+                }
+            });
+        } else {
+            showLoading(false);
+            Log.w(TAG, "AccessToken não disponível");
+            reminders = new ArrayList<>();
+            updateActiveFragment();
+        }
+    }
+
+    /**
+     * Método público para recarregar dados do usuário (chamado pelo HomeFragment)
+     */
+    public void reloadUserData() {
+        Log.d(TAG, "Recarregando dados do usuário...");
+        // Usar token em memória (SEM biometria!)
+        if (accessToken != null && !accessToken.isEmpty()) {
+            loadUserDataFromBackend();
+        } else {
+            // Token não disponível, tentar obter do TokenManager
+            tokenManager.getAccessToken(new TokenManager.TokenCallback() {
+                @Override
+                public void onSuccess(String token) {
+                    accessToken = token;
+                    loadUserDataFromBackend();
+                }
+
+                @Override
+                public void onError(String error) {
+                    Log.e(TAG, "Erro ao obter token: " + error);
+                    ErrorHelper.handleAuthError(findViewById(android.R.id.content));
+                }
+            });
         }
     }
 
@@ -360,12 +460,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         if (currentFragment instanceof HomeFragment) {
             // Atualizar dados do fragment existente (sem recriar)
-            ((HomeFragment) currentFragment).updateData(currentUser, meData);
-            Log.d(TAG, "HomeFragment atualizado dinamicamente");
+            ((HomeFragment) currentFragment).updateData(currentUser, meData, reminders);
+            Log.d(TAG, "HomeFragment atualizado dinamicamente com " + (reminders != null ? reminders.size() : 0) + " lembretes");
         } else if (currentFragment == null) {
             // Criar novo HomeFragment se não existir
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new HomeFragment(this, currentUser, meData))
+                    .replace(R.id.fragment_container, new HomeFragment(this, currentUser, meData, reminders))
                     .commit();
             Log.d(TAG, "HomeFragment criado com novos dados");
         }
@@ -373,6 +473,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     public MeResponse getMeData() {
         return meData;
+    }
+
+    public List<Reminder> getReminders() {
+        return reminders != null ? reminders : new ArrayList<>();
     }
 
     @Override

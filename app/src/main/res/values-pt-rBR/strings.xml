@@ -192,4 +192,58 @@
     <string name="empty_reminders_title">Nenhum lembrete ainda</string>
     <string name="empty_reminders_subtitle">Crie seu primeiro lembrete para acompanhar seus medicamentos, consultas e rotinas de saúde</string>
     <string name="add_first_reminder">Adicionar Primeiro Lembrete</string>
+    <string name="empty_reminders_tip">Nunca mais esqueça seus medicamentos e consultas!</string>
+
+    <!-- Formulário de Lembrete -->
+    <string name="reminder_new">Novo Lembrete</string>
+    <string name="reminder_edit">Editar Lembrete</string>
+    <string name="reminder_title">Título</string>
+    <string name="reminder_description">Descrição (opcional)</string>
+    <string name="reminder_category">Categoria</string>
+    <string name="reminder_select_category">Selecione uma categoria</string>
+    <string name="reminder_frequency">Frequência</string>
+    <string name="reminder_select_frequency">Selecione a frequência</string>
+    <string name="reminder_start_date">Data de Início</string>
+    <string name="reminder_end_date">Data de Término</string>
+    <string name="reminder_select_date">Selecione a data</string>
+    <string name="reminder_time">Horário do Lembrete</string>
+    <string name="reminder_select_time">Selecione o horário</string>
+    <string name="reminder_create">Criar Lembrete</string>
+    <string name="reminder_update">Atualizar Lembrete</string>
+    <string name="reminder_creating">Criando lembrete...</string>
+    <string name="reminder_updating">Atualizando lembrete...</string>
+    <string name="reminder_created_success">Lembrete criado com sucesso!</string>
+    <string name="reminder_updated_success">Lembrete atualizado com sucesso!</string>
+    <string name="reminder_deleted_success">Lembrete excluído com sucesso!</string>
+    <string name="reminder_error">Erro ao criar lembrete</string>
+    <string name="reminder_update_error">Erro ao atualizar lembrete</string>
+    <string name="reminder_delete_error">Erro ao excluir lembrete</string>
+
+    <!-- Opções de Lembrete -->
+    <string name="reminder_option_edit">Editar</string>
+    <string name="reminder_option_delete">Excluir</string>
+    <string name="reminder_option_cancel">Cancelar</string>
+    <string name="reminder_delete_confirm_title">Excluir lembrete?</string>
+    <string name="reminder_delete_confirm_message">Esta ação não pode ser desfeita</string>
+    <string name="reminder_delete_confirm_yes">Excluir</string>
+    <string name="reminder_delete_confirm_no">Cancelar</string>
+
+    <!-- Erros de Validação -->
+    <string name="error_title_required">Título é obrigatório</string>
+    <string name="error_category_required">Selecione uma categoria</string>
+    <string name="error_frequency_required">Selecione uma frequência</string>
+    <string name="error_start_date_required">Selecione uma data de início</string>
+    <string name="error_reminder_time_required">Selecione um horário</string>
+
+    <!-- Frequências -->
+    <string name="frequency_once">Uma vez</string>
+    <string name="frequency_daily">Diário</string>
+    <string name="frequency_weekly">Semanal</string>
+    <string name="frequency_monthly">Mensal</string>
+    <string name="frequency_yearly">Anual</string>
+
+    <!-- Toolbar -->
+    <string name="profile_picture">Foto de Perfil</string>
+    <string name="profile_complete">Perfil Completo</string>
+    <string name="search_reminders">Buscar lembretes...</string>
 </resources>
